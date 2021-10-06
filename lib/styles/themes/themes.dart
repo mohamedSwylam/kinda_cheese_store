@@ -37,7 +37,7 @@ ThemeData darkTheme = ThemeData(
     ),
     bodyText1: TextStyle(
       height: 1.5,
-      color: Colors.black,
+      color: Colors.white,
       fontWeight: FontWeight.bold,
       fontSize: 23,
       /*shadows: [

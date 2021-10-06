@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:store_app/modules/empty_cart.dart';
+import 'package:store_app/modules/empty_wishlist.dart';
+import 'package:store_app/modules/full_wishlist.dart';
+import 'package:store_app/shared/components/components.dart';
 
 class FeedsScreen extends StatelessWidget {
   @override
@@ -9,15 +13,25 @@ class FeedsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            Icon(
-              MaterialCommunityIcons.cart,
-              color: Colors.black,
+            IconButton(
+              onPressed: (){
+                navigateTo(context, EmptyCart());
+              },
+              icon: Icon(
+                MaterialCommunityIcons.cart,
+                color: Colors.black,
+                size: 25,
+              ),
             ),
-            SizedBox(width: 10),
-            Icon(
-              Feather.heart,
-              size: 22,
-              color: Colors.red,
+            IconButton(
+              onPressed: (){
+                navigateTo(context, FullWishList());
+              },
+              icon: Icon(
+                MaterialCommunityIcons.heart,
+                size: 25,
+                color: Colors.redAccent,
+              ),
             ),
           ],
         ),
@@ -70,7 +84,7 @@ Widget buildGridView(context)=>Container(
   margin: EdgeInsets.all(15.0),
   clipBehavior: Clip.antiAliasWithSaveLayer,
   decoration: BoxDecoration(
-    color: Colors.grey[300],
+    color: Theme.of(context).backgroundColor,
     borderRadius: BorderRadius.circular(20.0),
     boxShadow: [
       BoxShadow(
@@ -86,9 +100,13 @@ Widget buildGridView(context)=>Container(
       Stack(
         alignment: AlignmentDirectional.bottomStart,
         children: [
-          Image(
-            image: NetworkImage('https://cdn.allbirds.com/image/fetch/q_auto,f_auto/w_1200,f_auto,q_auto,b_rgb:f5f5f5/https://cdn.shopify.com/s/files/1/0074/1307/1990/products/TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?v=1601054861'),
-            width: double.infinity,
+          Expanded(
+            child: Image(
+              fit: BoxFit.fill,
+              height: 180,
+              image: NetworkImage('https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/244245333_3090825961197334_3277994336406470331_n.jpg?_nc_cat=100&_nc_rgb565=1&ccb=1-5&_nc_sid=b9115d&_nc_ohc=jpT1uVx5wWAAX_KuVQ0&_nc_ht=scontent.fcai20-3.fna&oh=9ff9aba19fe5e24a36e9275759a41b3f&oe=6162D5A2'),
+              width: double.infinity,
+            ),
           ),
           Container(
             color: Colors.red,
@@ -109,7 +127,7 @@ Widget buildGridView(context)=>Container(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              'الحذاء الذهبي للناس الجامده جدا'
+              'كاجو وفسدق ولوز'
               , style: TextStyle(
 
               color: Colors.black,

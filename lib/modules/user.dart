@@ -100,11 +100,11 @@ class _UserScreenState extends State<UserScreen> {
                                 children: [
                                   Text(
                                     'مرحبا',
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
                                   ),
                                   Text(
                                     'mohamed',
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
                                   ),
                                 ],
                               ),
@@ -399,15 +399,15 @@ class _UserScreenState extends State<UserScreen> {
                                   });
                             },
                             title: Center(child: Container(
-                              width: MediaQuery.of(context).size.width * 0.9,
+                              width: MediaQuery.of(context).size.width * 0.5,
                               height: MediaQuery.of(context).size.height * 0.06,
                               child: RaisedButton(
                                 onPressed: () {},
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
-                                  side: BorderSide(color: Colors.teal),
+                                  side: BorderSide(color: Colors.redAccent),
                                 ),
-                                color: Colors.teal,
+                                color: Colors.redAccent,
                                 child: Text(
                                   'تسجيل الخروج',
                                   textAlign: TextAlign.center,

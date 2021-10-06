@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:store_app/shared/components/components.dart';
 
-class EmptyCart extends StatelessWidget {
+class EmptyWishList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            MaterialCommunityIcons.arrow_left,
-            size: 25,
-          ),
-        ) ,
-        elevation: 0.0,
+        onPressed: (){
+      Navigator.pop(context);
+    },
+    icon: Icon(
+    MaterialCommunityIcons.arrow_left,
+    size: 25,
+    color: Colors.redAccent,
+    ),
+      ) ,
+      elevation: 0.0,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -26,13 +28,13 @@ class EmptyCart extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.3,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/cart3.png'),
+                image: AssetImage('assets/images/favorite.png'),
               ),
             ),
           ),
           SizedBox(height: 20,),
           Text(
-            'سله المشتريات فارغه ',
+            'المفضله فارغه ',
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).textSelectionColor,
@@ -45,10 +47,10 @@ class EmptyCart extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Text(
-              'يبدو انك لم تقم باضافه اي مشتريات حتي الان',
+              'يبدو انك لم تقم باضافه اي تفضيلات حتي الان',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText2,
-          ),),
+            ),),
           SizedBox(
             height: 40,
           ),
@@ -63,7 +65,7 @@ class EmptyCart extends StatelessWidget {
               ),
               color: Colors.redAccent,
               child: Text(
-                'تسوق الان',
+                'اضف للمفضله الان',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).textSelectionColor,

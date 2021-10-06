@@ -14,6 +14,11 @@ Widget userListTile(
     trailing: Icon(icon),
   );
 }
+navigateTo(context, widget) =>
+    Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
+
+navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
+    context, MaterialPageRoute(builder: (context) => widget), (route) => false);
 
 Widget userTitle({ String title}) {
   return Padding(

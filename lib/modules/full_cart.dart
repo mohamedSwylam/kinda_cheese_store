@@ -77,10 +77,11 @@ Widget buildCartItem(
         children: [
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'سامسونج جلاكسي مساحه كبيره جدا جداجدا مساحه كبير',
-                  maxLines: 2,
+                  'كورن بلو متاح فوري في المحل',
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,
                   style: Theme.of(context).textTheme.headline6,
@@ -108,9 +109,6 @@ Widget buildCartItem(
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -130,6 +128,9 @@ Widget buildCartItem(
                       ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Row(
                   children: [
@@ -165,7 +166,7 @@ Widget buildCartItem(
                             child: Center(
                                 child: Text(
                               '10',
-                              style: Theme.of(context).textTheme.bodyText1,
+                              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
                             )),
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -221,8 +222,9 @@ Widget buildCartItem(
             height: 165,
             decoration: BoxDecoration(
               image: DecorationImage(
+                fit: BoxFit.fill,
                 image: NetworkImage(
-                    'https://cdn.allbirds.com/image/fetch/q_auto,f_auto/w_1200,f_auto,q_auto,b_rgb:f5f5f5/https://cdn.shopify.com/s/files/1/0074/1307/1990/products/TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?v=1601054861'),
+                    'https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/243222138_3087422321537698_2373512904707974205_n.jpg?_nc_cat=108&_nc_rgb565=1&ccb=1-5&_nc_sid=b9115d&_nc_ohc=RPI5cgQbFOAAX8y64_p&_nc_ht=scontent.fcai20-3.fna&oh=72e2521d490517eed1cf52fc22e1005b&oe=616157E9'),
               ),
             ),
           ),
@@ -243,7 +245,7 @@ Widget buildCartItem(
     );
 
 Widget bottomSheet(context) => Container(
-      height: 125,
+      height: 60,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.grey[300],
@@ -251,51 +253,55 @@ Widget bottomSheet(context) => Container(
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 25.0,left: 25,top: 10),
+            padding: const EdgeInsets.only(right: 05.0,left: 25,top: 10),
             child: Row(
               children: [
-                Text(
-                  '50.99\$',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.grey,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      '50.99\$',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Text(
+                      '  : المجموع',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.teal,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 Spacer(),
-                Text(
-                  'السعر الكلي ',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.teal,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  child: RaisedButton(
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(color: Colors.redAccent),
+                    ),
+                    color: Colors.redAccent,
+                    child: Text(
+                      'اتمام الطلب',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Theme.of(context).textSelectionColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.06,
-            child: RaisedButton(
-              onPressed: () {},
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: BorderSide(color: Colors.teal),
-              ),
-              color: Colors.teal,
-              child: Text(
-                'اتمام الطلب',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Theme.of(context).textSelectionColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
+
+
         ],
       ),
     );
