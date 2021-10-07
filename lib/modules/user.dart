@@ -477,7 +477,6 @@ class _UserScreenState extends State<UserScreen> {
       ),
     );
   }
-
   List<IconData> _userTileIcons = [
     Icons.email,
     Icons.phone,
