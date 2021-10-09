@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:store_app/layout/cubit/cubit.dart';
+import 'package:store_app/layout/cubit/states.dart';
+import 'package:store_app/models/product_model.dart';
 import 'package:store_app/modules/empty_cart.dart';
 import 'package:store_app/modules/empty_wishlist.dart';
 import 'package:store_app/modules/full_wishlist.dart';
@@ -10,78 +14,84 @@ import 'package:store_app/shared/components/components.dart';
 class FeedsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: (){
-                navigateTo(context, EmptyCart());
-              },
-              icon: Icon(
-                MaterialCommunityIcons.cart,
-                color: Colors.black,
-                size: 25,
-              ),
-            ),
-            IconButton(
-              onPressed: (){
-                navigateTo(context, FullWishList());
-              },
-              icon: Icon(
-                MaterialCommunityIcons.heart,
-                size: 25,
-                color: Colors.redAccent,
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.tealAccent,
-        elevation: 0,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.tealAccent,
-                Colors.green[100],
+    return BlocConsumer<StoreAppCubit,StoreAppStates>(
+      listener: (context,state){},
+      builder: (context,state){
+        return Scaffold(
+          appBar: AppBar(
+            title: Row(
+              children: [
+                IconButton(
+                  onPressed: (){
+                    navigateTo(context, EmptyCart());
+                  },
+                  icon: Icon(
+                    MaterialCommunityIcons.cart,
+                    color: Colors.black,
+                    size: 25,
+                  ),
+                ),
+                IconButton(
+                  onPressed: (){
+                    navigateTo(context, FullWishList());
+                  },
+                  icon: Icon(
+                    MaterialCommunityIcons.heart,
+                    size: 25,
+                    color: Colors.redAccent,
+                  ),
+                ),
               ],
             ),
+            backgroundColor: Colors.tealAccent,
+            elevation: 0,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.tealAccent,
+                    Colors.green[100],
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 11),
+                child: Text(
+                  'المنتجات',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
           ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 20.0, vertical: 11),
-            child: Text(
-              'المنتجات',
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
+          body: Container(
+            child: GridView.builder(
+              shrinkWrap: true,
+              itemCount: StoreAppCubit.get(context).products.length,
+              physics: BouncingScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 0.0,
+                crossAxisSpacing: 0.0,
+                childAspectRatio: 0.6,
+              ),
+              itemBuilder: (context, index) {
+                var list=StoreAppCubit.get(context).products;
+                return buildGridView(context,list[index]);
+              },
             ),
           ),
-        ],
-      ),
-      body: Container(
-        child: GridView.builder(
-          shrinkWrap: true,
-          itemCount: 20,
-          physics: BouncingScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 0.0,
-            crossAxisSpacing: 0.0,
-            childAspectRatio: 0.6,
-          ),
-          itemBuilder: (context, index) {
-            return buildGridView(context);
-          },
-        ),
-      ),
+        );
+      },
     );
   }
 }
-Widget buildGridView(context)=>InkWell(
+Widget buildGridView(context,Product products)=>InkWell(
   onTap: (){
     navigateTo(context, ProductDetails());
   },
@@ -133,7 +143,7 @@ Widget buildGridView(context)=>InkWell(
 
                 height: 180,
 
-                image: NetworkImage('https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/244245333_3090825961197334_3277994336406470331_n.jpg?_nc_cat=100&_nc_rgb565=1&ccb=1-5&_nc_sid=b9115d&_nc_ohc=jpT1uVx5wWAAX_KuVQ0&_nc_ht=scontent.fcai20-3.fna&oh=9ff9aba19fe5e24a36e9275759a41b3f&oe=6162D5A2'),
+                image: NetworkImage(products.imageUrl),
 
                 width: double.infinity,
 
@@ -178,9 +188,7 @@ Widget buildGridView(context)=>InkWell(
             children: [
 
               Text(
-
-                'كاجو وفسدق ولوز'
-
+                products.title
                 , style: TextStyle(
 
 
@@ -225,7 +233,7 @@ Widget buildGridView(context)=>InkWell(
 
                   Text(
 
-                    '50.99\$',
+                   '${products.price}',
 
                     style: TextStyle(
 

@@ -5,7 +5,11 @@ import 'package:backdrop/sub_header.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:store_app/layout/cubit/cubit.dart';
+import 'package:store_app/layout/cubit/states.dart';
+import 'package:store_app/models/product_model.dart';
 import 'package:store_app/modules/backlayer.dart';
 import 'package:store_app/modules/category.dart';
 
@@ -13,162 +17,169 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: BackdropScaffold(
-          headerHeight: MediaQuery.of(context).size.height * .25,
-          appBar: BackdropAppBar(
-            leading: BackdropToggleButton(
-              icon: AnimatedIcons.home_menu,
-            ),
-            actions: <Widget>[
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 11),
-                    child: Text(
-                      "الرئيسية",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.all(10),
-                    onPressed: () {},
-                    iconSize: 15,
-                    icon: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
-                      backgroundColor: Colors.grey[300],
-                      radius: 13,
-                    ),
+    return BlocConsumer<StoreAppCubit,StoreAppStates>(
+      listener: (context,state){},
+      builder: (context,state){
+        return Scaffold(
+          body: Center(
+            child: BackdropScaffold(
+              headerHeight: MediaQuery.of(context).size.height * .25,
+              appBar: BackdropAppBar(
+                leading: BackdropToggleButton(
+                  icon: AnimatedIcons.home_menu,
+                ),
+                actions: <Widget>[
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 11),
+                        child: Text(
+                          "الرئيسية",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.all(10),
+                        onPressed: () {},
+                        iconSize: 15,
+                        icon: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
+                          backgroundColor: Colors.grey[300],
+                          radius: 13,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.tealAccent,
+                        Colors.green[100],
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ],
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.tealAccent,
-                    Colors.green[100],
-                  ],
+              backLayer: BackLayer(),
+              frontLayer: Scaffold(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                body: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        height: 160.0,
+                        width: double.infinity,
+                        child: Carousel(
+                          boxFit: BoxFit.cover,
+                          autoplay: true,
+                          animationCurve: Curves.fastOutSlowIn,
+                          animationDuration: Duration(milliseconds: 1000),
+                          dotSize: 5.0,
+                          dotIncreasedColor: Colors.teal,
+                          dotBgColor: Colors.black.withOpacity(.2),
+                          dotPosition: DotPosition.bottomCenter,
+                          dotVerticalPadding: 0.0,
+                          showIndicator: true,
+                          indicatorBgPadding: 7.0,
+                          images: [
+                            AssetImage('assets/images/cover.jpg'),
+                            AssetImage('assets/images/cover.jpg'),
+                            AssetImage('assets/images/cover.jpg'),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+                        child: Text(
+                          'الاصناف',
+                          style:Theme.of(context).textTheme.bodyText1,),),
+                      SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Container(
+                          height: 150,
+                          child: ListView.separated(
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, index) =>
+                                CategoryWidget(index: index,),
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: 10,
+                            ),
+                            itemCount: 10,
+                            scrollDirection: Axis.horizontal,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+                        child: Text(
+                          'اشهر المنتجات',
+                          style:Theme.of(context).textTheme.bodyText1,),),
+                      SizedBox(height: 5,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Container(
+                          height: 370,
+                          child: ListView.separated(
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, index){
+                              var list=StoreAppCubit.get(context).products.where((element) => element.isPopular==true).toList();
+                              return buildPopularProductItem(context, list[index]);
+                            },
+                            separatorBuilder: (context, index) => SizedBox(),
+                            itemCount: StoreAppCubit.get(context).products.where((element) => element.isPopular==true).length,
+                            scrollDirection: Axis.horizontal,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+                            child: Text(
+                              '...عرض المزيد',
+                              style:TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+                            child: Text(
+                              'شوهد مؤخرا',
+                              style:Theme.of(context).textTheme.bodyText1,),),
+                        ],
+                      ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return buildWatchedRecentlyItem(context);
+                        },
+                        separatorBuilder: (context, index) => Container(
+                          height: 8,
+                        ),
+                        itemCount: 10,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-          backLayer: BackLayer(),
-          frontLayer: Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    height: 160.0,
-                    width: double.infinity,
-                    child: Carousel(
-                      boxFit: BoxFit.cover,
-                      autoplay: true,
-                      animationCurve: Curves.fastOutSlowIn,
-                      animationDuration: Duration(milliseconds: 1000),
-                      dotSize: 5.0,
-                      dotIncreasedColor: Colors.teal,
-                      dotBgColor: Colors.black.withOpacity(.2),
-                      dotPosition: DotPosition.bottomCenter,
-                      dotVerticalPadding: 0.0,
-                      showIndicator: true,
-                      indicatorBgPadding: 7.0,
-                      images: [
-                        AssetImage('assets/images/cover.jpg'),
-                        AssetImage('assets/images/cover.jpg'),
-                        AssetImage('assets/images/cover.jpg'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0,),
-                    child: Text(
-                      'الاصناف',
-                      style:Theme.of(context).textTheme.bodyText1,),),
-                  SizedBox(height: 15,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Container(
-                      height: 150,
-                      child: ListView.separated(
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) =>
-                            CategoryWidget(index: index,),
-                        separatorBuilder: (context, index) => SizedBox(
-                          width: 10,
-                        ),
-                        itemCount: 10,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0,),
-                    child: Text(
-                      'اشهر المنتجات',
-                       style:Theme.of(context).textTheme.bodyText1,),),
-                  SizedBox(height: 5,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Container(
-                      height: 370,
-                      child: ListView.separated(
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) =>
-                            buildProductItem(context),
-                        separatorBuilder: (context, index) => SizedBox(),
-                        itemCount: 10,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0,),
-                        child: Text(
-                          '...عرض المزيد',
-                          style:TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0,),
-                        child: Text(
-                          'شوهد مؤخرا',
-                          style:Theme.of(context).textTheme.bodyText1,),),
-                    ],
-                  ),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return buildWatchedRecentlyItem(context);
-                    },
-                    separatorBuilder: (context, index) => Container(
-                      height: 8,
-                    ),
-                    itemCount: 10,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -208,7 +219,7 @@ Widget buildCategoriesItem(List categories) => Container(
   ),
 );
 
-Widget buildProductItem(context)=>Container
+Widget buildPopularProductItem(context,Product products)=>Container
   (
   margin: EdgeInsets.all(15.0),
   width: 250,
@@ -229,7 +240,7 @@ Widget buildProductItem(context)=>Container
     children: [
       Expanded(
         child: Image(
-          image: NetworkImage('https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/243381478_3088274774785786_7059132073990594328_n.jpg?_nc_cat=103&_nc_rgb565=1&ccb=1-5&_nc_sid=825194&_nc_ohc=AXQ8lp-GK1UAX8g_ZlK&tn=0CxaeDgygeK3Ichd&_nc_ht=scontent.fcai20-3.fna&oh=2f0c1d1af5d49478bec1dfb85328d092&oe=6162705B'),
+          image: NetworkImage(products.imageUrl),
           width: double.infinity,
         ),
       ),
@@ -241,7 +252,7 @@ Widget buildProductItem(context)=>Container
             Row(
               children: [
                 Text(
-                  '50.99\$',
+                  '${products.price}',
                   style: TextStyle(
                     fontSize: 15.0,
                     color: Colors.grey,
@@ -251,9 +262,7 @@ Widget buildProductItem(context)=>Container
                 Container(
                   width: 150,
                   child: Text(
-                    'صوابع موتزريلا متبله'
-                    , style: TextStyle(
-
+                    products.title, style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
@@ -265,6 +274,7 @@ Widget buildProductItem(context)=>Container
                 ),
               ],
             ),
+            SizedBox(height: 10,),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -273,7 +283,7 @@ Widget buildProductItem(context)=>Container
                 Container(
                   width: 160,
                   child: Text(
-                    'صوابع مودزريلا متبله مش اي صوابع جبنه يتقال عليها صوابع جبنه مودزريلا دي زي المطاعم بالظبط الصوابع مش احب الجبن علي قلوبنا',
+                    products.description,
                     style: TextStyle(color: Colors.black,fontSize:11),
                     maxLines: 2,
                     textAlign: TextAlign.end,
