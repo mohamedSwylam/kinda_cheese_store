@@ -5,16 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
+import 'package:store_app/modules/empty_cart.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/styles/colors/colors.dart';
 
-class FullCart extends StatelessWidget {
+class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return Scaffold(
+          return StoreAppCubit.get(context).cartItem.isEmpty ?
+          Scaffold(body: EmptyCart(),):
+          Scaffold(
             appBar: AppBar(
               leading: Padding(
                 padding:

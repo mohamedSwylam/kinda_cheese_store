@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_app/layout/cubit/states.dart';
+import 'package:store_app/models/cart_model.dart';
 import 'package:store_app/models/product_model.dart';
-import 'package:store_app/modules/cart.dart';
 import 'package:store_app/modules/feeds.dart';
+import 'package:store_app/modules/cart_screen.dart';
 import 'package:store_app/modules/home.dart';
 import 'package:store_app/modules/search.dart';
 import 'package:store_app/modules/user.dart';
@@ -76,7 +78,49 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(StoreAppChangeThemeModeState());
     }
   }
+  List<Product> popularProducts = [];
 
+  void getpopularProducts() {
+    popularProducts= products.where((element) => element.isPopular).toList();
+  }
+  Map<String,CartModel> cartItem={};
+  double get totalAmount {
+    var total=0.0;
+    cartItem.forEach((key, value) {total +=value.price* value.quantity;});
+    return total;
+  }
+  void addProductToCart(
+    final String productId,
+    final String title,
+    final double price,
+    final String imageUrl,
+){
+    if(cartItem.containsKey(productId)){
+      cartItem.update(productId, (existingCartItem) => CartModel(
+        title: existingCartItem.title,
+        imageUrl: existingCartItem.imageUrl,
+        price: existingCartItem.price,
+        id: existingCartItem.id,
+        quantity: existingCartItem.quantity +1,
+      ));
+    }else{
+        cartItem.putIfAbsent(productId,() => CartModel(
+          title: title,
+          imageUrl: imageUrl,
+          price: price,
+          id: DateTime.now().toString(),
+          quantity: 1,
+        ));}
+
+  }
+  String routeValue;
+  navigateToAndPassValue(context, widget ,value) {
+    Navigator.push(context, MaterialPageRoute(builder: (context,) => widget));
+    routeValue = value;
+  }
+  Product findById(String productId){
+    return products.firstWhere((element) => element.id == productId);
+  }
   List<Product> products = [
     Product(
         id: 'Samsung1',
@@ -658,10 +702,35 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         quantity: 951,
         isPopular: true),
   ];
+  List<Map<String, Object>> categories = [
+    {
+      'categoryName': 'Phones',
+      'categoryImagesPath': 'assets/images/CatPhones.png',
+    },
+    {
+      'categoryName': 'Clothes',
+      'categoryImagesPath': 'assets/images/CatClothes.jpg',
+    },
+    {
+      'categoryName': 'Shoes',
+      'categoryImagesPath': 'assets/images/CatShoes.jpg',
+    },
+    {
+      'categoryName': 'Beauty&Health',
+      'categoryImagesPath': 'assets/images/CatBeauty.jpg',
+    },
+    {
+      'categoryName': 'Laptops',
+      'categoryImagesPath': 'assets/images/CatLaptops.png',
+    },
+    {
+      'categoryName': 'Furniture',
+      'categoryImagesPath': 'assets/images/CatFurniture.jpg',
+    },
+    {
+      'categoryName': 'Watches',
+      'categoryImagesPath': 'assets/images/CatWatches.jpg',
+    },
+  ];
 
- List<Product> popularProducts = [];
-
-  void getpopularProducts() {
-    popularProducts= products.where((element) => element.isPopular).toList();
-  }
 }

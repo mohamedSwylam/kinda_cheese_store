@@ -12,6 +12,7 @@ import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/modules/backlayer.dart';
 import 'package:store_app/modules/category.dart';
+import 'package:store_app/modules/product_details.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -113,7 +114,7 @@ class HomeScreen extends StatelessWidget {
                             separatorBuilder: (context, index) => SizedBox(
                               width: 10,
                             ),
-                            itemCount: 10,
+                            itemCount: 7,
                             scrollDirection: Axis.horizontal,
                           ),
                         ),
@@ -219,83 +220,165 @@ Widget buildCategoriesItem(List categories) => Container(
   ),
 );
 
-Widget buildPopularProductItem(context,Product products)=>Container
-  (
-  margin: EdgeInsets.all(15.0),
-  width: 250,
-  clipBehavior: Clip.antiAliasWithSaveLayer,
-  decoration: BoxDecoration(
-    color: Theme.of(context).backgroundColor,
-    borderRadius: BorderRadius.circular(20.0),
-    boxShadow: [
-      BoxShadow(
-        color: Color(0xff37475A).withOpacity(0.2),
-        blurRadius: 20.0,
-        offset: const Offset(0, 10),
-      )
-    ],
-  ),
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      Expanded(
-        child: Image(
-          image: NetworkImage(products.imageUrl),
-          width: double.infinity,
+Widget buildPopularProductItem(context,Product products)=>InkWell(
+  onTap: (){
+    StoreAppCubit.get(context).navigateToAndPassValue(context,ProductDetailsScreen(), products.id);
+  },
+  child:   Container
+    (
+
+    margin: EdgeInsets.all(15.0),
+
+    width: 250,
+
+    clipBehavior: Clip.antiAliasWithSaveLayer,
+
+    decoration: BoxDecoration(
+
+      color: Theme.of(context).backgroundColor,
+
+      borderRadius: BorderRadius.circular(20.0),
+
+      boxShadow: [
+
+        BoxShadow(
+
+          color: Color(0xff37475A).withOpacity(0.2),
+
+          blurRadius: 20.0,
+
+          offset: const Offset(0, 10),
+
+        )
+
+      ],
+
+    ),
+
+    child: Column(
+
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+      children: [
+
+        Expanded(
+
+          child: Image(
+
+            image: NetworkImage(products.imageUrl),
+
+            width: double.infinity,
+
+          ),
+
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Row(
-              children: [
-                Text(
-                  '${products.price}',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.grey,
+
+        Padding(
+
+          padding: const EdgeInsets.all(10.0),
+
+          child: Column(
+
+            crossAxisAlignment: CrossAxisAlignment.end,
+
+            children: [
+
+              Row(
+
+                children: [
+
+                  Text(
+
+                    '${products.price}',
+
+                    style: TextStyle(
+
+                      fontSize: 15.0,
+
+                      color: Colors.grey,
+
+                    ),
+
                   ),
-                ),
-                Spacer(),
-                Container(
-                  width: 150,
-                  child: Text(
-                    products.title, style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
+
+                  Spacer(),
+
+                  Container(
+
+                    width: 150,
+
+                    child: Text(
+
+                      products.title, style: TextStyle(
+
+                      color: Colors.black,
+
+                      fontWeight: FontWeight.bold,
+
+                      fontSize: 15,
+
+                    ),
+
+                      textAlign: TextAlign.end,
+
+                      maxLines: 1,
+
+                      overflow: TextOverflow.ellipsis,
+
+                    ),
+
                   ),
-                    textAlign: TextAlign.end,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+
+                ],
+
+              ),
+
+              SizedBox(height: 10,),
+
+              Row(
+
+                crossAxisAlignment: CrossAxisAlignment.end,
+
+                children: [
+
+                  InkWell(child: Icon(Icons.add_shopping_cart_outlined,size: 18,color: Colors.teal,),onTap: (){},),
+
+                  Spacer(),
+
+                  Container(
+
+                    width: 160,
+
+                    child: Text(
+
+                      products.description,
+
+                      style: TextStyle(color: Colors.black,fontSize:11),
+
+                      maxLines: 2,
+
+                      textAlign: TextAlign.end,
+
+                      overflow: TextOverflow.ellipsis,
+
+                    ),
+
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10,),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                InkWell(child: Icon(Icons.add_shopping_cart_outlined,size: 18,color: Colors.teal,),onTap: (){},),
-                Spacer(),
-                Container(
-                  width: 160,
-                  child: Text(
-                    products.description,
-                    style: TextStyle(color: Colors.black,fontSize:11),
-                    maxLines: 2,
-                    textAlign: TextAlign.end,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      )
-    ],
+
+                ],
+
+              )
+
+            ],
+
+          ),
+
+        )
+
+      ],
+
+    ),
+
   ),
 );
 Widget buildWatchedRecentlyItem(context)=>Stack(
