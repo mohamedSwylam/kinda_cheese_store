@@ -13,14 +13,14 @@ import 'empty_cart.dart';
 import 'full_wishlist.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
+  final String productId;
+  const ProductDetailsScreen({this.productId});
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        String productId=StoreAppCubit.get(context).routeValue;
         var productAttr=StoreAppCubit.get(context).findById(productId);
-        var list=StoreAppCubit.get(context).products;
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -256,9 +256,10 @@ class ProductDetailsScreen extends StatelessWidget {
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           shape: RoundedRectangleBorder(side: BorderSide.none),
                           color: Colors.redAccent.shade400,
-                          onPressed: () {
+                          onPressed: StoreAppCubit.get(context).getCartItems.containsKey(productId)? (){}:() {
+                            StoreAppCubit.get(context).addProductToCart(productId, productAttr.title, productAttr.price, productAttr.imageUrl);
                           },
-                          child: Text('Add to Cart'.toUpperCase(),
+                          child: Text(StoreAppCubit.get(context).getCartItems.containsKey(productId)? 'في العربه '.toUpperCase() :'اضف الي العربه'.toUpperCase(),
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
@@ -276,7 +277,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                'Buy now'.toUpperCase(),
+                                'اشتري الان'.toUpperCase(),
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Theme.of(context).textSelectionColor),
@@ -313,7 +314,8 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ])),
+                  ])
+              ),
             ],
           ),
         );
@@ -323,7 +325,6 @@ class ProductDetailsScreen extends StatelessWidget {
 }
 Widget buildSuggestProduct(context)=>InkWell(
   onTap: (){
-    navigateTo(context, ProductDetailsScreen());
   },
   child:   Container(
     width: 150,

@@ -78,12 +78,16 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(StoreAppChangeThemeModeState());
     }
   }
-  List<Product> popularProducts = [];
 
-  void getpopularProducts() {
-    popularProducts= products.where((element) => element.isPopular).toList();
+  List<Product> popularProducts = [];
+  Product findById(String productId){
+    return products.firstWhere((element) => element.id == productId);
   }
   Map<String,CartModel> cartItem={};
+  Map<String, CartModel> get getCartItems {
+    return {...cartItem};
+  }
+
   double get totalAmount {
     var total=0.0;
     cartItem.forEach((key, value) {total +=value.price* value.quantity;});
@@ -110,16 +114,36 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           price: price,
           id: DateTime.now().toString(),
           quantity: 1,
-        ));}
+        ));
+    }
+ emit(StoreAppAddToCartSuccessState());
+  }
+  void reduceItemByOne(final String productId,
+      final String title,
+      final double price,
+      final String imageUrl,)
+  {
+    if(cartItem.containsKey(productId)){
+      cartItem.update(productId, (existingCartItem) => CartModel(
+        title: existingCartItem.title,
+        imageUrl: existingCartItem.imageUrl,
+        price: existingCartItem.price,
+        id: existingCartItem.id,
+        quantity: existingCartItem.quantity -1,
+      ));
+  }
+    emit(StoreAppReduceCartItemByOneSuccessState());
+  }
 
+  void removeItem(final String productId,)
+  {
+    cartItem.remove(productId);
+    emit(StoreAppRemoveCartItemSuccessState());
   }
-  String routeValue;
-  navigateToAndPassValue(context, widget ,value) {
-    Navigator.push(context, MaterialPageRoute(builder: (context,) => widget));
-    routeValue = value;
-  }
-  Product findById(String productId){
-    return products.firstWhere((element) => element.id == productId);
+  void clearCart()
+  {
+    cartItem.clear();
+    emit(StoreAppClearCartSuccessState());
   }
   List<Product> products = [
     Product(

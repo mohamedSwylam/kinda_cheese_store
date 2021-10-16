@@ -93,7 +93,7 @@ class FeedsScreen extends StatelessWidget {
 }
 Widget buildGridView(context,Product products)=>InkWell(
   onTap: (){
-    StoreAppCubit.get(context).navigateToAndPassValue(context,ProductDetailsScreen(), products.id);
+    navigateTo(context, ProductDetailsScreen(productId: products.id,));
   },
   child:   Container(
 
