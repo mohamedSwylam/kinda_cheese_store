@@ -26,8 +26,8 @@ class CartScreen extends StatelessWidget {
               : Scaffold(
                   appBar: AppBar(
                     leading: IconButton(
-                      onPressed: () {
-                        StoreAppCubit.get(context).clearCart();
+                      onPressed:  (){
+                        showDialogg(context, 'تنظيف العربه', 'هل تريد حقل حذف جميع المنتجات من العربه', (){ StoreAppCubit.get(context).clearCart();});
                       },
                       icon: Icon(
                         Feather.trash,
@@ -101,7 +101,7 @@ Widget bottomSheet(context) => Container(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      '50.99\$',
+                      '${StoreAppCubit.get(context).totalAmount.toStringAsFixed(3)}\$',
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey,

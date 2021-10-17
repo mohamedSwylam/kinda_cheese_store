@@ -33,3 +33,45 @@ Widget myDivider() => Container(
   height: 1.0,
   color: Colors.grey,
 );
+Future<void> showDialogg(context,title,subtitle,Function function) async {
+  showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Padding(
+                padding:
+                const EdgeInsets.only(right: 6.0),
+                child: Image.network(
+                  'https://image.flaticon.com/icons/png/128/1828/1828304.png',
+                  height: 20,
+                  width: 20,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(title),
+              ),
+            ],
+          ),
+          content: Text(subtitle),
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+                child: Text('الغاء')),
+            TextButton(
+                onPressed: () async {
+                  function();
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'موافق',
+                  style: TextStyle(color: Colors.red),
+                ))
+          ],
+        );
+      });
+}

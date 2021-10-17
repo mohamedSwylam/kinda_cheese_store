@@ -27,6 +27,7 @@ class FullCart extends StatelessWidget {
      @required this.imageUrl});
   @override
   Widget build(BuildContext context) {
+
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -174,8 +175,8 @@ class FullCart extends StatelessWidget {
                             ),
                             Spacer(),
                             IconButton(
-                              onPressed: () {
-                                StoreAppCubit.get(context).removeItem(productId);
+                              onPressed: (){
+                                showDialogg(context, 'حذف المنتج من العربه', 'هل تريد حقل حذف المنتج من العربه', (){ StoreAppCubit.get(context).removeItem(productId);});
                               },
                               icon: Icon(
                                 Feather.trash,

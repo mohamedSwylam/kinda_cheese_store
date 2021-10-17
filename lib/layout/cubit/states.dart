@@ -15,3 +15,9 @@ class StoreAppReduceCartItemByOneSuccessState extends StoreAppStates {}
 class StoreAppClearCartSuccessState extends StoreAppStates {}
 
 class StoreAppRemoveCartItemSuccessState extends StoreAppStates {}
+
+class StoreAppClearWishListSuccessState extends StoreAppStates {}
+
+class StoreAppRemoveWishListItemSuccessState extends StoreAppStates {}
+
+class StoreAppAddItemToWishListSuccessState extends StoreAppStates {}

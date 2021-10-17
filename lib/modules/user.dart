@@ -5,6 +5,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
+import 'package:store_app/modules/cart_screen.dart';
+import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
 
 class UserScreen extends StatefulWidget {
@@ -128,7 +130,9 @@ class _UserScreenState extends State<UserScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              navigateTo(context, WishListScreen());
+                            },
                             child: Column(
                               children: [
                                 Icon(MaterialCommunityIcons.heart,size: 60,color: Colors.teal,),
@@ -143,7 +147,9 @@ class _UserScreenState extends State<UserScreen> {
                             ),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              navigateTo(context, CartScreen()); 
+                            },
                             child: Column(
                               children: [
                                 Icon(MaterialCommunityIcons.cart,size: 60,color: Colors.teal,),

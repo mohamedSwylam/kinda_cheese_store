@@ -9,6 +9,7 @@ import 'package:store_app/modules/empty_cart.dart';
 import 'package:store_app/modules/empty_wishlist.dart';
 import 'package:store_app/modules/full_wishlist.dart';
 import 'package:store_app/modules/product_details.dart';
+import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
 
 class FeedsScreen extends StatelessWidget {
@@ -33,7 +34,7 @@ class FeedsScreen extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: (){
-                    navigateTo(context, FullWishList());
+                    navigateTo(context, WishListScreen());
                   },
                   icon: Icon(
                     MaterialCommunityIcons.heart,

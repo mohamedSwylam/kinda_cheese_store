@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/models/cart_model.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/models/wishlist_model.dart';
 import 'package:store_app/modules/feeds.dart';
 import 'package:store_app/modules/cart_screen.dart';
 import 'package:store_app/modules/home.dart';
@@ -144,6 +145,41 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   {
     cartItem.clear();
     emit(StoreAppClearCartSuccessState());
+  }
+  /////////////////////////
+  Map<String,WishListModel> wishListItem={};
+  Map<String, WishListModel> get getWishListItem {
+    return {...wishListItem};
+  }
+
+  void addOrRemoveFromWishList(
+      final String productId,
+      final String title,
+      final double price,
+      final String imageUrl,
+      ){
+    if(wishListItem.containsKey(productId)){
+      removeItemFromWishList(productId);
+    }
+    else{
+      wishListItem.putIfAbsent(productId,() => WishListModel(
+        title: title,
+        imageUrl: imageUrl,
+        price: price,
+        id: DateTime.now().toString(),
+      ));
+    }
+      emit(StoreAppAddItemToWishListSuccessState());
+  }
+  void removeItemFromWishList(final String productId,)
+  {
+    wishListItem.remove(productId);
+    emit(StoreAppRemoveWishListItemSuccessState());
+  }
+  void clearWishList()
+  {
+    wishListItem.clear();
+    emit(StoreAppClearWishListSuccessState());
   }
   List<Product> products = [
     Product(

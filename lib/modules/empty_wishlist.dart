@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:store_app/modules/feeds.dart';
 import 'package:store_app/shared/components/components.dart';
 
 class EmptyWishList extends StatelessWidget {
@@ -58,7 +59,9 @@ class EmptyWishList extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.8,
             height: MediaQuery.of(context).size.height * 0.06,
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                navigateTo(context, FeedsScreen());
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
                 side: BorderSide(color: Colors.red),

@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/modules/feeds.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/styles/colors/colors.dart';
 import 'package:store_app/styles/themes/themes.dart';
@@ -65,7 +66,7 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  navigateTo(context, FullWishList());
+                  //navigateTo(context, FullWishList());
                 },
                 icon: Icon(
                   MaterialCommunityIcons.heart,
@@ -273,7 +274,8 @@ class ProductDetailsScreen extends StatelessWidget {
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           shape: RoundedRectangleBorder(side: BorderSide.none),
                           color: Theme.of(context).backgroundColor,
-                          onPressed: () {},
+                          onPressed: () {
+                          },
                           child: Row(
                             children: [
                               Text(
@@ -304,11 +306,13 @@ class ProductDetailsScreen extends StatelessWidget {
                         height: 50,
                         child: InkWell(
                           splashColor: ColorsConsts.favColor,
-                          onTap: () {},
+                          onTap: StoreAppCubit.get(context).getWishListItem.containsKey(productId)? (){}:() {
+                            StoreAppCubit.get(context).addOrRemoveFromWishList(productId, productAttr.title, productAttr.price, productAttr.imageUrl);
+                          },
                           child: Center(
                             child: Icon(
-                              Ionicons.ios_heart_empty,
-                              color: ColorsConsts.white,
+                              StoreAppCubit.get(context).getWishListItem.containsKey(productId)? Icons.favorite : Icons.favorite_border,
+                              color: StoreAppCubit.get(context).getWishListItem.containsKey(productId)? Colors.redAccent : ColorsConsts.white,
                             ),
                           ),
                         ),

@@ -283,9 +283,43 @@ Widget buildPopularProductItem(context, Product products) => InkWell(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-              child: Image(
-                image: NetworkImage(products.imageUrl),
-                width: double.infinity,
+              child: Stack(
+                children: [
+                  Image(
+                    image: NetworkImage(products.imageUrl),
+                    width: double.infinity,
+                  ),
+                  Positioned(
+                    right: 10,
+                    top: 8,
+                    child: Icon(
+                      Entypo.star,
+                      color: Colors.grey.shade800,
+                    ),
+                  ),
+                  Positioned(
+                    right: 10,
+                    top: 8,
+                    child: Icon(
+                      Entypo.star_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Positioned(
+                    right: 2,
+                    bottom: 32.0,
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      color: Theme.of(context).backgroundColor,
+                      child: Text(
+                        '\$ ${products.price}',
+                        style: TextStyle(
+                          color: Theme.of(context).textSelectionColor,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
             Padding(
@@ -295,13 +329,6 @@ Widget buildPopularProductItem(context, Product products) => InkWell(
                 children: [
                   Row(
                     children: [
-                      Text(
-                        '${products.price}',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          color: Colors.grey,
-                        ),
-                      ),
                       Spacer(),
                       Container(
                         width: 150,
