@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:store_app/modules/feeds.dart';
 import 'package:store_app/modules/home.dart';
-import 'package:store_app/modules/search.dart';
 import 'package:store_app/modules/user.dart';
 
 import 'cubit/cubit.dart';

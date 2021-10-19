@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +6,9 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/modules/cart_screen.dart';
 import 'package:store_app/modules/feeds.dart';
+import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/styles/colors/colors.dart';
 import 'package:store_app/styles/themes/themes.dart';
@@ -47,31 +50,48 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
             ),
             title: Text(
-              'التفاصيل',
+              'تفاصيل المنتج',
               style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
                   fontWeight: FontWeight.bold),
             ),
             actions: [
-              IconButton(
-                onPressed: () {
-                  navigateTo(context, EmptyCart());
-                },
-                icon: Icon(
-                  MaterialCommunityIcons.cart,
-                  color: Colors.black,
-                  size: 25,
+              Badge(
+                badgeColor: Colors.teal,
+                animationType: BadgeAnimationType.slide,
+                toAnimate: true,
+                position: BadgePosition.topEnd(top: 0,end: 0),
+                badgeContent: Text(StoreAppCubit.get(context).getCartItems.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                child: IconButton(
+                  onPressed: () {
+                    navigateTo(context, CartScreen());
+                  },
+                  icon: Icon(
+                    MaterialCommunityIcons.cart,
+                    size: 25,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  //navigateTo(context, FullWishList());
-                },
-                icon: Icon(
-                  MaterialCommunityIcons.heart,
-                  size: 25,
-                  color: Colors.redAccent,
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: Badge(
+                  badgeColor: Colors.teal,
+                  animationType: BadgeAnimationType.slide,
+                  toAnimate: true,
+                  position: BadgePosition.topEnd(top: 0,end: 0),
+                  badgeContent: Text(StoreAppCubit.get(context).getWishListItem.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                  child: IconButton(
+                    onPressed: () {
+                      navigateTo(context, WishListScreen());
+                    },
+                    icon: Icon(
+                      Icons.favorite_border,
+                      size: 25,
+                      color: Colors.redAccent,
+                    ),
+                  ),
                 ),
               ),
             ],

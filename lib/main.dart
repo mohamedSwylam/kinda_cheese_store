@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/layout/store_layout.dart';
+import 'package:store_app/modules/landingPage/landing_page.dart';
 import 'package:store_app/shared/bloc_observer.dart';
 import 'package:store_app/styles/themes/themes.dart';
 
+import 'modules/landingPage/cubit/cubit.dart';
 import 'network/local/cache_helper.dart';
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             theme: lightTheme,
             themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-            home: StoreLayout(),
+            home: LandingPage(),
           );
         },
       ),

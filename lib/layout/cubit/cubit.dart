@@ -7,7 +7,7 @@ import 'package:store_app/models/wishlist_model.dart';
 import 'package:store_app/modules/feeds.dart';
 import 'package:store_app/modules/cart_screen.dart';
 import 'package:store_app/modules/home.dart';
-import 'package:store_app/modules/search.dart';
+import 'package:store_app/modules/search/search_screen.dart';
 import 'package:store_app/modules/user.dart';
 import 'package:store_app/network/local/cache_helper.dart';
 
@@ -181,6 +181,15 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     wishListItem.clear();
     emit(StoreAppClearWishListSuccessState());
   }
+  List <Product> searchList=[];
+  List<Product> searchQuery (String searchText) {
+    searchList = products.where((element) =>
+        element.title.toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
+    emit(StoreAppSearchQuerySuccessState());
+    return searchList;
+  }
+
   List<Product> products = [
     Product(
         id: 'Samsung1',

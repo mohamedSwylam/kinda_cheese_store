@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData(
+  fontFamily: 'Almarai',
   primarySwatch: Colors.teal,
   appBarTheme: AppBarTheme(
     elevation: 0.0,
   ),
   primaryColor:  Colors.black ,
-  accentColor: Colors.deepPurple,
+  accentColor: Colors.teal,
   backgroundColor:  Colors.grey.shade700 ,
   scaffoldBackgroundColor: Colors.black,
   indicatorColor:  Color(0xff0E1D36) ,
@@ -57,10 +58,11 @@ ThemeData darkTheme = ThemeData(
   ),
 );
 ThemeData lightTheme = ThemeData(
+  fontFamily: 'Almarai',
   scaffoldBackgroundColor: Colors.grey.shade300,
-  primarySwatch: Colors.purple,
+  primarySwatch: Colors.teal,
   primaryColor: Colors.grey.shade300,
-  accentColor: Colors.deepPurple,
+  accentColor: Colors.teal,
   backgroundColor: Colors.white,
   indicatorColor:  Color(0xffCBDCF8),
   buttonColor:  Color(0xffF1F5FB),

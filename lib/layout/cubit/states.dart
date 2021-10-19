@@ -21,3 +21,5 @@ class StoreAppClearWishListSuccessState extends StoreAppStates {}
 class StoreAppRemoveWishListItemSuccessState extends StoreAppStates {}
 
 class StoreAppAddItemToWishListSuccessState extends StoreAppStates {}
+
+class StoreAppSearchQuerySuccessState extends StoreAppStates {}

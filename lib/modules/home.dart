@@ -302,7 +302,7 @@ Widget buildPopularProductItem(context, Product products) => InkWell(
                     top: 8,
                     child: Icon(
                       Entypo.star_outlined,
-                      color: Colors.white,
+                      color:  StoreAppCubit.get(context).getWishListItem.containsKey(products.id)? Colors.redAccent:Colors.white,
                     ),
                   ),
                   Positioned(

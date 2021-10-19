@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,9 @@ import 'package:store_app/modules/product_details.dart';
 import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
 
+import 'cart_screen.dart';
+import 'feeds_dialog.dart';
+
 class FeedsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,24 +26,41 @@ class FeedsScreen extends StatelessWidget {
           appBar: AppBar(
             title: Row(
               children: [
-                IconButton(
-                  onPressed: (){
-                    navigateTo(context, EmptyCart());
-                  },
-                  icon: Icon(
-                    MaterialCommunityIcons.cart,
-                    color: Colors.black,
-                    size: 25,
+                Badge(
+                  badgeColor: Colors.teal,
+                  animationType: BadgeAnimationType.slide,
+                  toAnimate: true,
+                  position: BadgePosition.topEnd(top: 0,end: 0),
+                  badgeContent: Text(StoreAppCubit.get(context).getCartItems.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                  child: IconButton(
+                    onPressed: () {
+                      navigateTo(context, CartScreen());
+                    },
+                    icon: Icon(
+                      MaterialCommunityIcons.cart,
+                      size: 25,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-                IconButton(
-                  onPressed: (){
-                    navigateTo(context, WishListScreen());
-                  },
-                  icon: Icon(
-                    MaterialCommunityIcons.heart,
-                    size: 25,
-                    color: Colors.redAccent,
+                Padding (
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: Badge(
+                    badgeColor: Colors.teal,
+                    animationType: BadgeAnimationType.slide,
+                    toAnimate: true,
+                    position: BadgePosition.topEnd(top: 0,end: 0),
+                    badgeContent: Text(StoreAppCubit.get(context).getWishListItem.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                    child: IconButton(
+                      onPressed: () {
+                        navigateTo(context, WishListScreen());
+                      },
+                      icon: Icon(
+                        Icons.favorite_border,
+                        size: 25,
+                        color: Colors.redAccent,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -228,7 +249,14 @@ Widget buildGridView(context,Product products)=>InkWell(
 
                 children: [
 
-                  InkWell(child: Icon(Icons.more_horiz_rounded,size: 18,),onTap: (){},),
+                  InkWell(child: Icon(Icons.more_horiz_rounded,size: 18,),onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => FeedsDialog(
+                        productId: products.id,
+                      ),
+                    );
+                  },),
 
                   Spacer(),
 
