@@ -40,6 +40,17 @@ dependencies:
   carousel_slider: ^4.0.0
   flutter_swiper: ^1.1.6
   cached_network_image: ^3.1.0
+  #firbase
+  firebase_core: ^1.0.3
+  firebase_auth: ^3.0.1
+  cloud_firestore: ^2.4.0
+  firebase_storage: ^8.0.3
+  firebase_messaging: ^10.0.5
+  fluttertoast: ^8.0.7
+  wave: ^0.2.0
+  image_picker: ^0.7.4
+  google_sign_in: ^4.5.9
+
 
 
 dev_dependencies:

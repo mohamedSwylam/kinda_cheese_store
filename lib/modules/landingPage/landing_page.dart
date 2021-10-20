@@ -2,6 +2,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:store_app/modules/Login_screen/login_screen.dart';
+import 'package:store_app/modules/sign_up_screen/sign_up_screen.dart';
+import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/styles/colors/colors.dart';
 
 class LandingPage extends StatefulWidget {
@@ -104,6 +107,7 @@ class _LandingPageState extends State<LandingPage>
                               ),
                             )),
                         onPressed: () {
+                          navigateTo(context, LoginScreen());
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -137,7 +141,9 @@ class _LandingPageState extends State<LandingPage>
                                 BorderSide(color: ColorsConsts.backgroundColor),
                               ),
                             )),
-                        onPressed: () {},
+                        onPressed: () {
+                          navigateTo(context, SignUpScreen());
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
