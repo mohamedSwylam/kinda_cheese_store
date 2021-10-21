@@ -105,7 +105,7 @@ class FullWishList extends StatelessWidget {
                         color: Colors.white,
                       ),
                       onPressed:(){
-                        showDialogg(context, 'حذف المنتج من المفضله', 'هل تريد حقل حذف المنتج من التفضيلات', (){ StoreAppCubit.get(context).removeItemFromWishList(productId);});
+                        showDialogg(context, 'حذف المنتج من المفضله', 'هل تريد حقا حذف المنتج من التفضيلات', (){ StoreAppCubit.get(context).removeItemFromWishList(productId);});
                       }
                     ),
                   ),

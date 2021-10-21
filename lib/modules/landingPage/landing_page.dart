@@ -1,7 +1,10 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:store_app/layout/store_layout.dart';
 import 'package:store_app/modules/Login_screen/login_screen.dart';
 import 'package:store_app/modules/sign_up_screen/sign_up_screen.dart';
 import 'package:store_app/shared/components/components.dart';
@@ -47,7 +50,58 @@ class _LandingPageState extends State<LandingPage>
     _animationController.dispose();
     super.dispose();
   }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<void> _googleSignIn() async {
+    final googleSignIn = GoogleSignIn();
+    final googleAccount = await googleSignIn.signIn();
+    if (googleAccount != null) {
+      final googleAuth = await googleAccount.authentication;
+      if (googleAuth.accessToken != null && googleAuth.idToken != null) {
+        try {
+          final authResult = await _auth.signInWithCredential(
+              GoogleAuthProvider.credential(
+                  idToken: googleAuth.idToken,
+                  accessToken: googleAuth.accessToken));
+          navigateTo(context, StoreLayout());
+        } catch (error) {
+          authErrorHandle(error.message, context);
+        }
+      }
+    }
+  }
+  Future<void> authErrorHandle(String subtitle, BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 6.0),
+                  child: Image.network(
+                    'https://image.flaticon.com/icons/png/128/564/564619.png',
+                    height: 20,
+                    width: 20,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Error occured'),
+                ),
+              ],
+            ),
+            content: Text(subtitle),
+            actions: [
 
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Ok'))
+            ],
+          );
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,7 +263,9 @@ class _LandingPageState extends State<LandingPage>
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _googleSignIn();
+                    },
                     color: Colors.redAccent,
                     iconSize: 45,
                     icon: Icon(

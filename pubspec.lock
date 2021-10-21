@@ -7,7 +7,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.1"
+    version: "2.8.1"
   backdrop:
     dependency: "direct main"
     description:
@@ -84,7 +84,7 @@ packages:
       name: charcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.1"
   clock:
     dependency: transitive
     description:
@@ -414,7 +414,7 @@ packages:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "1.7.0"
   nested:
     dependency: transitive
     description:
@@ -629,7 +629,14 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.2"
+  titled_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: titled_navigation_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.0"
   transformer_page_view:
     dependency: transitive
     description:

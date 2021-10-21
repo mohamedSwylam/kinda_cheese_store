@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:store_app/layout/store_layout.dart';
 import 'package:store_app/modules/sign_up_screen/sign_up_screen.dart';
 import 'package:store_app/network/local/cache_helper.dart';
 import 'package:store_app/shared/components/components.dart';
@@ -27,7 +28,7 @@ class LoginScreen extends StatelessWidget {
           showToast(text: state.error, state: ToastStates.ERROR);
         }
         if(state is LoginSuccessState){
-          CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {navigateAndFinish(context, HomeScreen());});
+          CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {navigateAndFinish(context, StoreLayout());});
         }
       },
       builder: (context, state) {

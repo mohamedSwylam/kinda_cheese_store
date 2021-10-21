@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/modules/cart_screen.dart';
 import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
+import 'package:store_app/shared/constants/constant.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -23,6 +25,7 @@ class _UserScreenState extends State<UserScreen> {
     return BlocConsumer<StoreAppCubit,StoreAppStates>(
       listener: (context,state){},
       builder: (context,state){
+        final FirebaseAuth _auth = FirebaseAuth.instance;
         return Scaffold(
           appBar: AppBar(
             leading: Padding(
@@ -346,84 +349,32 @@ class _UserScreenState extends State<UserScreen> {
                       SizedBox(
                         height: 40,
                       ),
-                      /*ListTileSwitch(
-                        value: false,
-                        leading: Icon(Ionicons.md_moon),
-                        onChanged: (value) {
-                          setState(() {
-// themeChange.darkTheme = value;
-                          });
-                        },
-                        visualDensity: VisualDensity.comfortable,
-                        switchType: SwitchType.cupertino,
-                        switchActiveColor: Colors.indigo,
-                        title: Text('Dark theme'),
-                      ),*/
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
                           splashColor: Theme.of(context).splashColor,
-                          child: ListTile(
-                            onTap: () async {
-// Navigator.canPop(context)? Navigator.pop(context):null;
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext ctx) {
-                                    return AlertDialog(
-                                      title: Row(
-                                        children: [
-                                          Padding(
-                                            padding:
-                                            const EdgeInsets.only(right: 6.0),
-                                            child: Image.network(
-                                              'https://image.flaticon.com/icons/png/128/1828/1828304.png',
-                                              height: 20,
-                                              width: 20,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('Sign out'),
-                                          ),
-                                        ],
-                                      ),
-                                      content: Text('Do you wanna Sign out?'),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () async {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text('Cancel')),
-                                        TextButton(
-                                            onPressed: () async {},
-                                            child: Text(
-                                              'Ok',
-                                              style: TextStyle(color: Colors.red),
-                                            ))
-                                      ],
-                                    );
-                                  });
-                            },
-                            title: Center(child: Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              height: MediaQuery.of(context).size.height * 0.06,
-                              child: RaisedButton(
-                                onPressed: () {},
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  side: BorderSide(color: Colors.redAccent),
-                                ),
-                                color: Colors.redAccent,
-                                child: Text(
-                                  'تسجيل الخروج',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Theme.of(context).textSelectionColor,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w600),
-                                ),
+                          child: Center(child: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            child: RaisedButton(
+                              onPressed: () {
+                                showDialogg(context, 'تسجيل الخروج', 'هل تريد حقا تسجيل الخروج', (){signOut(context);});
+                              },
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                side: BorderSide(color: Colors.redAccent),
                               ),
-                            )),
+                              color: Colors.redAccent,
+                              child: Text(
+                                'تسجيل الخروج',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Theme.of(context).textSelectionColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
                           ),
                         ),
                       ),
