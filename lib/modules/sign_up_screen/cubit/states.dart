@@ -27,5 +27,13 @@ class SignUpPickedProfileImageSuccessState extends SignUpStates {}
 class SignUpPickedProfileImageErrorState extends SignUpStates {}
 
 class UploadProfileImageLoadingState extends SignUpStates {}
+
 class UploadPickedProfileImageSuccessState extends SignUpStates {}
+
 class UploadPickedProfileImageErrorState extends SignUpStates {}
+
+class SignUpPickedProfileImageCameraSuccessState extends SignUpStates {}
+
+
+class SignUpRemoveProfileImageSuccessState extends SignUpStates {}
+

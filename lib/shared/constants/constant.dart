@@ -26,8 +26,3 @@ class MyColors {
   static Color endColor2 = Color(0xFFA0C2A9);
 }
 String uId='';
-void signOut(context)=> CacheHelper.removeData(key: 'uId').then((value) {
-  if(value){
-    navigateAndFinish(context, LandingPage());
-  }
-});

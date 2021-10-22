@@ -8,16 +8,7 @@ class EmptyWishList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
-        leading: IconButton(
-        onPressed: (){
-      Navigator.pop(context);
-    },
-    icon: Icon(
-    MaterialCommunityIcons.arrow_left,
-    size: 25,
-    color: Colors.redAccent,
-    ),
-      ) ,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0.0,
       ),
       body: Column(

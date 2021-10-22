@@ -15,75 +15,58 @@ class SignUpCubit extends Cubit<SignUpStates> {
   SignUpCubit() : super(SignUpInitialState());
 
   static SignUpCubit get(context) => BlocProvider.of(context);
-  File profileImage;
-  var picker = ImagePicker();
-  Future<void> getProfileImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      profileImage = File(pickedFile.path);
-      uploadProfileImage();
-      emit(SignUpPickedProfileImageSuccessState());
-    } else {
-      print('No image selected.');
-      emit(SignUpPickedProfileImageErrorState());
-    }
-  }
-  void uploadProfileImage() {
-    emit(UploadProfileImageLoadingState());
-    firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('users/${Uri.file(profileImage.path).pathSegments.last}')
-        .putFile(profileImage)
-        .then((value) {
-      value.ref.getDownloadURL().then((value) {
-        emit(UploadPickedProfileImageSuccessState());
-        print(value);
-      }).catchError((error) {
-        emit(UploadPickedProfileImageErrorState());
-      });
-    }).catchError((error) {
-      emit(UploadPickedProfileImageErrorState());
-    });
-  }
+
 
   void userSignUp({
-    @required String name,
     @required String password,
-    @required String phone,
     @required String email,
+    @required String name,
+    @required String phone,
+    @required String address,
+    @required String joinedAt,
+    @required String createdAt,
+    @required String profileImage,
   }) {
     emit(SignUpLoadingState());
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password,)
         .then((value) {
+      createUser(
+        uId: value.user.uid,
+        name: name,
+        address: address,
+        email: email,
+        phone: phone,
+        joinedAt: joinedAt,
+        createdAt: createdAt,
+        profileImage: profileImage,
+      );
       print(value.user.email);
       print(value.user.uid);
       emit(SignUpSuccessState());
-    /*  createUser(
-        name: name,
-        uId: value.user.uid,
-        phone: phone,
-        email: email,
-      );*/
     }).catchError((error) {
       emit(SignUpErrorState(error.toString()));
     });
   }
-
   void createUser({
     String name,
     String uId,
     String phone,
     String email,
-    String password,
+    String address,
+    String joinedAt,
+    String createdAt,
+    String profileImage,
   }) {
     UserModel model = UserModel(
       name: name,
       phone: phone,
       email: email,
       uId: uId,
-      password: password,
-    //  profileImage: 'https://www.iconsdb.com/icons/preview/light-gray/user-2-xxl.png',
+      profileImage: profileImage,
+      address: address,
+      createdAt: createdAt,
+      joinedAt: joinedAt,
     );
     FirebaseFirestore.instance
         .collection('users')
@@ -105,5 +88,52 @@ class SignUpCubit extends Cubit<SignUpStates> {
         ? Icons.visibility_outlined
         : Icons.visibility_off_outlined;
     emit(SignUpPasswordVisibilityState());
+  }
+  File profileImage;
+  String url;
+  var picker = ImagePicker();
+  Future<void> getProfileImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      profileImage = File(pickedFile.path);
+      uploadProfileImage();
+      emit(SignUpPickedProfileImageSuccessState());
+    } else {
+      print('No image selected.');
+      emit(SignUpPickedProfileImageErrorState());
+    }
+  }
+  void uploadProfileImage() {
+    emit(UploadProfileImageLoadingState());
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('users/${Uri.file(profileImage.path).pathSegments.last}')
+        .putFile(profileImage)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        emit(UploadPickedProfileImageSuccessState());
+        url=value;
+        print(value);
+      }).catchError((error) {
+        emit(UploadPickedProfileImageErrorState());
+      });
+    }).catchError((error) {
+      emit(UploadPickedProfileImageErrorState());
+    });
+  }
+  void pickImageCamera() async {
+    final picker = ImagePicker();
+    final pickedImage =
+    await picker.getImage(source: ImageSource.camera, imageQuality: 10);
+    final pickedImageFile = File(pickedImage.path);
+    profileImage = pickedImageFile;
+    uploadProfileImage();
+    emit(SignUpPickedProfileImageCameraSuccessState());
+  }
+
+  void remove() {
+    url = 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+    uploadProfileImage();
+emit(SignUpRemoveProfileImageSuccessState());
   }
 }

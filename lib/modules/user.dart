@@ -11,21 +11,16 @@ import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/shared/constants/constant.dart';
 
-class UserScreen extends StatefulWidget {
-  @override
-  _UserScreenState createState() => _UserScreenState();
-}
-
-class _UserScreenState extends State<UserScreen> {
+class UserScreen extends StatelessWidget {
   ScrollController _scrollController;
   var top = 0.0;
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit,StoreAppStates>(
       listener: (context,state){},
       builder: (context,state){
         final FirebaseAuth _auth = FirebaseAuth.instance;
+        var userModel=StoreAppCubit.get(context).userModel;
         return Scaffold(
           appBar: AppBar(
             leading: Padding(
@@ -90,7 +85,7 @@ class _UserScreenState extends State<UserScreen> {
                                   padding: const EdgeInsets.only(bottom: 12.0),
                                   child: CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                        'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
+                                      '${userModel.profileImage}'),
                                     radius: 35,
                                     backgroundColor: Colors.grey[300],
                                   ),
@@ -100,18 +95,24 @@ class _UserScreenState extends State<UserScreen> {
                             Spacer(),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'مرحبا',
-                                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
-                                  ),
-                                  Text(
-                                    'mohamed',
-                                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
-                                  ),
-                                ],
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'مرحبا',
+                                      style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
+                                    ),
+                                    Text(
+                                      '${userModel.name}',
+                                      maxLines: 1,
+                                      textAlign: TextAlign.end,
+                                      overflow: TextOverflow.clip,
+                                      style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                                width: 200,
                               ),
                             ),
                           ],
@@ -209,7 +210,7 @@ class _UserScreenState extends State<UserScreen> {
                                       style: Theme.of(context).textTheme.subtitle1,
                                     ),
                                     Text(
-                                      'mohamedswylam@gmail.com',
+                                      '${userModel.email}',
                                       style: Theme.of(context).textTheme.caption,
                                     ),
                                   ],
@@ -239,7 +240,7 @@ class _UserScreenState extends State<UserScreen> {
                                       style: Theme.of(context).textTheme.subtitle1,
                                     ),
                                     Text(
-                                      '01098570050',
+                                      '${userModel.phone}',
                                       style: Theme.of(context).textTheme.caption,
                                     ),
                                   ],
@@ -265,11 +266,11 @@ class _UserScreenState extends State<UserScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'عنوان الشحن',
+                                      'عنوان المستخدم',
                                       style: Theme.of(context).textTheme.subtitle1,
                                     ),
                                     Text(
-                                      'سبك الاحد اشمون منوفيه',
+                                      '${userModel.address}',
                                       style: Theme.of(context).textTheme.caption,
                                     ),
                                   ],
@@ -299,7 +300,7 @@ class _UserScreenState extends State<UserScreen> {
                                       style: Theme.of(context).textTheme.subtitle1,
                                     ),
                                     Text(
-                                      '20.2.2021',
+                                        '${userModel.joinedAt}',
                                       style: Theme.of(context).textTheme.caption,
                                     ),
                                   ],
@@ -358,7 +359,7 @@ class _UserScreenState extends State<UserScreen> {
                             height: MediaQuery.of(context).size.height * 0.07,
                             child: RaisedButton(
                               onPressed: () {
-                                showDialogg(context, 'تسجيل الخروج', 'هل تريد حقا تسجيل الخروج', (){signOut(context);});
+                                showDialogg(context, 'تسجيل الخروج', 'هل تريد حقا تسجيل الخروج', (){StoreAppCubit.get(context).signOut(context);});
                               },
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),

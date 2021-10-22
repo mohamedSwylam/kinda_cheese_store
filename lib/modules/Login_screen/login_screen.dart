@@ -24,11 +24,13 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {
-         if(state is LoginErrorState){
+        if (state is LoginErrorState) {
           showToast(text: state.error, state: ToastStates.ERROR);
         }
-        if(state is LoginSuccessState){
-          CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {navigateAndFinish(context, StoreLayout());});
+        if (state is LoginSuccessState) {
+          CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
+            navigateAndFinish(context, StoreLayout());
+          });
         }
       },
       builder: (context, state) {
@@ -43,8 +45,8 @@ class LoginScreen extends StatelessWidget {
                     child: WaveWidget(
                       config: CustomConfig(
                         gradients: [
-                          [Colors.teal,Colors.teal],
-                          [Colors.tealAccent,Colors.green[100]],
+                          [Colors.teal, Colors.teal],
+                          [Colors.tealAccent, Colors.green[100]],
                         ],
                         durations: [19440, 10800],
                         heightPercentages: [0.20, 0.25],
@@ -65,7 +67,9 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 50,),
+                      SizedBox(
+                        height: 50,
+                      ),
                       Center(
                         child: Container(
                           height: 100,
@@ -75,7 +79,9 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Center(
                         child: Text(
                           'كنده تشيز',
@@ -93,9 +99,9 @@ class LoginScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: defaultFormField(
-                          type: TextInputType.emailAddress,
-                          controller: emailController,
-                          onSubmit: (){},
+                            type: TextInputType.emailAddress,
+                            controller: emailController,
+                            onSubmit: () {},
                             prefix: Icons.email,
                             validate: (String value) {
                               if (value.isEmpty || !value.contains('@')) {
@@ -103,38 +109,41 @@ class LoginScreen extends StatelessWidget {
                               }
                               return null;
                             },
-                          context: context,
-                          labelText: 'ادخل البريد الالكتروني'
-                        ),
+                            context: context,
+                            labelText: 'ادخل البريد الالكتروني'),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: defaultFormField(
                             type: TextInputType.visiblePassword,
                             controller: passwordController,
-                            onSubmit: (){},
+                            onSubmit: () {},
                             prefix: Icons.lock,
                             validate: (String value) {
-                              if (value.isEmpty || value.length <7) {
+                              if (value.isEmpty || value.length < 7) {
                                 return 'كلمه المرور غير صالحه';
                               }
                               return null;
                             },
                             isPassword: LoginCubit.get(context).isPasswordShown,
                             suffixPressed: () {
-                              LoginCubit.get(context).changePasswordVisibility();
+                              LoginCubit.get(context)
+                                  .changePasswordVisibility();
                             },
                             suffix: LoginCubit.get(context).suffix,
                             context: context,
-                            labelText: 'ادخل كلمه المرور'
-                        ),
+                            labelText: 'ادخل كلمه المرور'),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Container(
-                          alignment: Alignment.bottomRight,
+                            alignment: Alignment.bottomRight,
                             child: TextButton(
                               onPressed: () {},
                               child: Text(
@@ -155,21 +164,24 @@ class LoginScreen extends StatelessWidget {
                                     style: ButtonStyle(
                                         shape: MaterialStateProperty.all<
                                             RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30.0),
-                                            side: BorderSide(
-                                                color: ColorsConsts.backgroundColor),
-                                          ),
-                                        )),
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                        side: BorderSide(
+                                            color:
+                                                ColorsConsts.backgroundColor),
+                                      ),
+                                    )),
                                     onPressed: () {
-                                      if(formKey.currentState.validate()){
+                                      if (formKey.currentState.validate()) {
                                         LoginCubit.get(context).userLogin(
                                             password: passwordController.text,
                                             email: emailController.text);
                                       }
                                     },
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'دخول',

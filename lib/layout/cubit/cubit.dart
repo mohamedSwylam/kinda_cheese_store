@@ -1,19 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/models/cart_model.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/models/user_model.dart';
 import 'package:store_app/models/wishlist_model.dart';
 import 'package:store_app/modules/feeds.dart';
 import 'package:store_app/modules/cart_screen.dart';
 import 'package:store_app/modules/home.dart';
+import 'package:store_app/modules/landingPage/landing_page.dart';
 import 'package:store_app/modules/search/search_screen.dart';
 import 'package:store_app/modules/user.dart';
 import 'package:store_app/network/local/cache_helper.dart';
+import 'package:store_app/shared/components/components.dart';
+import 'package:store_app/shared/constants/constant.dart';
 
 class StoreAppCubit extends Cubit<StoreAppStates> {
   StoreAppCubit() : super(StoreAppInitialState());
-
   static StoreAppCubit get(context) => BlocProvider.of(context);
   int selectedIndex =0;
   var pages = [
@@ -189,7 +194,25 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     emit(StoreAppSearchQuerySuccessState());
     return searchList;
   }
-
+  UserModel userModel;
+  void getUserData() {
+    emit(GetUserLoadingStates());
+    FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
+      userModel =  UserModel.fromJson(value.data());
+      emit(GetUserSuccessStates());
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetUserErrorStates());
+    });
+  }
+  void signOut(context)=> CacheHelper.removeData(key: 'uId').then((value) {
+    if(value){
+         FirebaseAuth.instance.signOut().then(
+                (value) =>
+                    navigateAndFinish(context, LandingPage()));
+      emit(SignOutSuccessState());
+    }
+  });
   List<Product> products = [
     Product(
         id: 'Samsung1',
