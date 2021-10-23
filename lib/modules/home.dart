@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/models/product_model.dart';
@@ -98,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 25,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -110,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 15,
+                        height: 25,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -130,7 +131,60 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 25,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: Row(
+                          children: [
+                            FlatButton(
+                              onPressed: () {
+                              },
+                              child: Text(
+                                '...عرض المزيد',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 15,
+                                    color: Colors.red),
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              'اشهر الماركات',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Container(
+                        height: 210,
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        child: Swiper(
+                          itemCount: StoreAppCubit.get(context).brandImages.length,
+                          autoplay: true,
+                          viewportFraction: 0.8,
+                          scale: 0.9,
+                          onTap: (index) {
+                          },
+                          itemBuilder: (BuildContext ctx, int index) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                color: Colors.blueGrey,
+                                child: Image.asset(
+                                  StoreAppCubit.get(context).brandImages[index],
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -142,7 +196,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 5,
+                        height: 25,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -167,33 +221,32 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 5,
+                        height: 25,
                       ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                            ),
-                            child: Text(
-                              '...عرض المزيد',
-                              style: TextStyle(
-                                fontSize: 15,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                        child: Row(
+                          children: [
+                            FlatButton(
+                              onPressed: () {
+                              },
+                              child: Text(
+                                '...عرض المزيد',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 15,
+                                    color: Colors.red),
                               ),
                             ),
-                          ),
-                          Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                            ),
-                            child: Text(
+                            Spacer(),
+                            Text(
                               'شوهد مؤخرا',
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+                      SizedBox(height: 25,),
                       ListView.separated(
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),

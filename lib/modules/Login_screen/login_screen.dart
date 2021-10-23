@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/store_layout.dart';
 import 'package:store_app/modules/sign_up_screen/sign_up_screen.dart';
 import 'package:store_app/network/local/cache_helper.dart';
@@ -31,6 +32,7 @@ class LoginScreen extends StatelessWidget {
           CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
             navigateAndFinish(context, StoreLayout());
           });
+          StoreAppCubit.get(context).selectedHome();
         }
       },
       builder: (context, state) {
@@ -176,7 +178,8 @@ class LoginScreen extends StatelessWidget {
                                       if (formKey.currentState.validate()) {
                                         LoginCubit.get(context).userLogin(
                                             password: passwordController.text,
-                                            email: emailController.text);
+                                            email: emailController.text,
+                                        );
                                       }
                                     },
                                     child: Row(

@@ -51,6 +51,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       selectedIndex = 2;
       emit(StoreAppBottomBarSearchState());
   }
+  void selectedHome() {
+    selectedIndex = 0;
+    emit(StoreAppBottomBarHomeState());
+  }
 
   bool isDark = false;
 
@@ -84,6 +88,15 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(StoreAppChangeThemeModeState());
     }
   }
+  List brandImages = [
+    'assets/images/addidas.jpg',
+    'assets/images/apple.jpg',
+    'assets/images/Dell.jpg',
+    'assets/images/h&m.jpg',
+    'assets/images/nike.jpg',
+    'assets/images/samsung.jpg',
+    'assets/images/Huawei.jpg',
+  ];
 
   List<Product> popularProducts = [];
   Product findById(String productId){
@@ -209,8 +222,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     if(value){
          FirebaseAuth.instance.signOut().then(
                 (value) =>
-                    navigateAndFinish(context, LandingPage()));
-      emit(SignOutSuccessState());
+         navigateAndFinish(context, LandingPage()));
+         emit(SignOutSuccessState());
     }
   });
   List<Product> products = [

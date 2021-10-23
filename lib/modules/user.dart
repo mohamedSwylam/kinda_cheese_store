@@ -1,3 +1,4 @@
+import 'package:conditional_builder/conditional_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,388 +7,434 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
+import 'package:store_app/modules/Login_screen/cubit/cubit.dart';
+import 'package:store_app/modules/Login_screen/cubit/states.dart';
 import 'package:store_app/modules/cart_screen.dart';
 import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/shared/constants/constant.dart';
 
-class UserScreen extends StatelessWidget {
+class UserScreen extends StatefulWidget {
+  @override
+  State<UserScreen> createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
   ScrollController _scrollController;
+
   var top = 0.0;
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<StoreAppCubit,StoreAppStates>(
-      listener: (context,state){},
-      builder: (context,state){
+    return BlocConsumer<StoreAppCubit, StoreAppStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
         final FirebaseAuth _auth = FirebaseAuth.instance;
-        var userModel=StoreAppCubit.get(context).userModel;
-        return Scaffold(
-          appBar: AppBar(
-            leading: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-              child: Icon(
-                MaterialCommunityIcons.cart,
-                color: Colors.black,
+        return ConditionalBuilder(
+          condition: state is ! GetUserLoadingStates,
+          builder: (context)=>Scaffold(
+            appBar: AppBar(
+              leading: Padding(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+                child: Icon(
+                  MaterialCommunityIcons.cart,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            backgroundColor: Colors.tealAccent,
-            elevation: 0,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
+              backgroundColor: Colors.tealAccent,
+              elevation: 0,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
                     colors: [
                       Colors.tealAccent,
                       Colors.green[100],
                     ],
-
-                    ),
-              ),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 11),
-                child: Text(
-                  'الحساب',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
-            ],
-          ),
-          body: CustomScrollView(
-            controller: _scrollController,
-            slivers: <Widget>[
-              SliverAppBar(
-                elevation: 0,
-                expandedHeight: 100,
-                toolbarHeight: 70,
-                flexibleSpace: LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      top = constraints.biggest.height;
-                      return Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                                Colors.tealAccent,
-                                Colors.green[100],
-                              ],
-                          ),
+              actions: [
+                Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 11),
+                  child: Text(
+                    'الحساب',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            body: CustomScrollView(
+              controller: _scrollController,
+              slivers: <Widget>[
+                SliverAppBar(
+                  elevation: 0,
+                  expandedHeight: 100,
+                  toolbarHeight: 70,
+                  flexibleSpace: LayoutBuilder(builder:
+                      (BuildContext context, BoxConstraints constraints) {
+                    top = constraints.biggest.height;
+                    return Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.tealAccent,
+                            Colors.green[100],
+                          ],
                         ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: InkWell(
-                                onTap: () {},
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 12.0),
-                                  child: CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      '${userModel.profileImage}'),
-                                    radius: 35,
-                                    backgroundColor: Colors.grey[300],
-                                  ),
+                      ),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: InkWell(
+                              onTap: () {},
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 12.0),
+                                child: CircleAvatar(
+                                  backgroundImage:
+                                  NetworkImage('${ LoginCubit.get(context).profileImage}'),
+                                  radius: 35,
+                                  backgroundColor: Colors.grey[300],
                                 ),
                               ),
                             ),
-                            Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'مرحبا',
-                                      style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
-                                    ),
-                                    Text(
-                                      '${userModel.name}',
-                                      maxLines: 1,
-                                      textAlign: TextAlign.end,
-                                      overflow: TextOverflow.clip,
-                                      style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                                width: 200,
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'مرحبا',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(color: Colors.black),
+                                  ),
+                                  Text(
+                                    '${ LoginCubit.get(context).name}',
+                                    maxLines: 1,
+                                    textAlign: TextAlign.end,
+                                    overflow: TextOverflow.clip,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                              width: 200,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                navigateTo(context, WishListScreen());
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    MaterialCommunityIcons.heart,
+                                    size: 60,
+                                    color: Colors.teal,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'المفضله',
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                navigateTo(context, CartScreen());
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    MaterialCommunityIcons.cart,
+                                    size: 60,
+                                    color: Colors.teal,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'العربه',
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  )
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    MaterialCommunityIcons.basket,
+                                    size: 60,
+                                    color: Colors.teal,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'طلباتي',
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  )
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      );
-                    }),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              navigateTo(context, WishListScreen());
-                            },
-                            child: Column(
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Divider(
+                          thickness: 3,
+                          color: Colors.grey,
+                        ),
+                        userTitle(title: 'معلومات المستخدم'),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Icon(MaterialCommunityIcons.heart,size: 60,color: Colors.teal,),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'البريد الالكتروني',
+                                        style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                      ),
+                                      Text(
+                                        '${ LoginCubit.get(context).email}',
+                                        style:
+                                        Theme.of(context).textTheme.caption,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 SizedBox(
-                                  height: 10,
+                                  width: 20,
                                 ),
-                                Text(
-                                  'المفضله',
-                                  style:Theme.of(context).textTheme.bodyText1,
-                                ),
+                                Icon(Icons.email),
                               ],
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              navigateTo(context, CartScreen()); 
-                            },
-                            child: Column(
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Icon(MaterialCommunityIcons.cart,size: 60,color: Colors.teal,),
-                                SizedBox(
-                                  height: 10,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'رقم الهاتف',
+                                        style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                      ),
+                                      Text(
+                                        '${ LoginCubit.get(context).phone}',
+                                        style:
+                                        Theme.of(context).textTheme.caption,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  'العربه',
-                                  style:Theme.of(context).textTheme.bodyText1,
-                                )
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Icon(Icons.phone),
                               ],
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: Column(
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Icon(MaterialCommunityIcons.basket,size: 60,color: Colors.teal,),
-                                SizedBox(
-                                  height: 10,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'عنوان المستخدم',
+                                        style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                      ),
+                                      Text(
+                                        '${ LoginCubit.get(context).address}',
+                                        style:
+                                        Theme.of(context).textTheme.caption,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  'طلباتي',
-                                  style:Theme.of(context).textTheme.bodyText1,
-                                )
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Icon(Icons.local_shipping),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Divider(
-                        thickness: 3,
-                        color: Colors.grey,
-                      ),
-                      userTitle(title: 'معلومات المستخدم'),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'البريد الالكتروني',
-                                      style: Theme.of(context).textTheme.subtitle1,
-                                    ),
-                                    Text(
-                                      '${userModel.email}',
-                                      style: Theme.of(context).textTheme.caption,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Icon(Icons.email),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'رقم الهاتف',
-                                      style: Theme.of(context).textTheme.subtitle1,
-                                    ),
-                                    Text(
-                                      '${userModel.phone}',
-                                      style: Theme.of(context).textTheme.caption,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Icon(Icons.phone),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'عنوان المستخدم',
-                                      style: Theme.of(context).textTheme.subtitle1,
-                                    ),
-                                    Text(
-                                      '${userModel.address}',
-                                      style: Theme.of(context).textTheme.caption,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Icon(Icons.local_shipping),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'تاريخ الانضمام',
-                                      style: Theme.of(context).textTheme.subtitle1,
-                                    ),
-                                    Text(
-                                        '${userModel.joinedAt}',
-                                      style: Theme.of(context).textTheme.caption,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Icon(Icons.watch_later),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Divider(
-                        thickness: 3,
-                        color: Colors.grey,
-                      ),
-                      userTitle(title: 'الاعدادات'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              WeatherIcons.wi_day_sunny,
+                            SizedBox(
+                              height: 20,
                             ),
-                            onPressed: () {
-                              StoreAppCubit.get(context).changeThemeModeToLight();
-                            },
-                            alignment: AlignmentDirectional.center,
-                            iconSize: 50,
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              WeatherIcons.wi_solar_eclipse,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'تاريخ الانضمام',
+                                        style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                      ),
+                                      Text(
+                                        '${ LoginCubit.get(context).joinedAt}',
+                                        style:
+                                        Theme.of(context).textTheme.caption,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Icon(Icons.watch_later),
+                              ],
                             ),
-                            alignment: AlignmentDirectional.center,
-                            iconSize: 50,
-                            onPressed: () {
-                              StoreAppCubit.get(context).changeThemeModeToDark();
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          splashColor: Theme.of(context).splashColor,
-                          child: Center(child: Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            child: RaisedButton(
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Divider(
+                          thickness: 3,
+                          color: Colors.grey,
+                        ),
+                        userTitle(title: 'الاعدادات'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                WeatherIcons.wi_day_sunny,
+                              ),
                               onPressed: () {
-                                showDialogg(context, 'تسجيل الخروج', 'هل تريد حقا تسجيل الخروج', (){StoreAppCubit.get(context).signOut(context);});
+                                StoreAppCubit.get(context)
+                                    .changeThemeModeToLight();
                               },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                                side: BorderSide(color: Colors.redAccent),
+                              alignment: AlignmentDirectional.center,
+                              iconSize: 50,
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                WeatherIcons.wi_solar_eclipse,
                               ),
-                              color: Colors.redAccent,
-                              child: Text(
-                                'تسجيل الخروج',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Theme.of(context).textSelectionColor,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600),
+                              alignment: AlignmentDirectional.center,
+                              iconSize: 50,
+                              onPressed: () {
+                                StoreAppCubit.get(context)
+                                    .changeThemeModeToDark();
+                              },
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            splashColor: Theme.of(context).splashColor,
+                            child: Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height: MediaQuery.of(context).size.height * 0.07,
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    showDialogg(context, 'تسجيل الخروج',
+                                        'هل تريد حقا تسجيل الخروج', () {
+                                          StoreAppCubit.get(context).signOut(context);
+                                        });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    side: BorderSide(color: Colors.redAccent),
+                                  ),
+                                  color: Colors.redAccent,
+                                  child: Text(
+                                    'تسجيل الخروج',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color:
+                                        Theme.of(context).textSelectionColor,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                    ],
+                        SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
+          fallback: (context)=>Center(child: CircularProgressIndicator()),
         );
       },
     );
@@ -435,6 +482,7 @@ class UserScreen extends StatelessWidget {
       ),
     );
   }
+
   List<IconData> _userTileIcons = [
     Icons.email,
     Icons.phone,

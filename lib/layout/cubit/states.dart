@@ -6,6 +6,8 @@ class StoreAppBottomBarChangeState extends StoreAppStates {}
 
 class StoreAppBottomBarSearchState extends StoreAppStates {}
 
+class StoreAppBottomBarHomeState extends StoreAppStates {}
+
 class StoreAppChangeThemeModeState extends StoreAppStates {}
 
 class StoreAppAddToCartSuccessState extends StoreAppStates {}
