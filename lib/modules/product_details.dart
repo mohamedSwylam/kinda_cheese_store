@@ -8,6 +8,7 @@ import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/modules/cart_screen.dart';
 import 'package:store_app/modules/feeds.dart';
+import 'package:store_app/modules/feeds_dialog.dart';
 import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/styles/colors/colors.dart';
@@ -18,13 +19,15 @@ import 'full_wishlist.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
+
   const ProductDetailsScreen({this.productId});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var productAttr=StoreAppCubit.get(context).findById(productId);
+        var productAttr = StoreAppCubit.get(context).findById(productId);
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -61,8 +64,11 @@ class ProductDetailsScreen extends StatelessWidget {
                 badgeColor: Colors.teal,
                 animationType: BadgeAnimationType.slide,
                 toAnimate: true,
-                position: BadgePosition.topEnd(top: 0,end: 0),
-                badgeContent: Text(StoreAppCubit.get(context).getCartItems.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                position: BadgePosition.topEnd(top: 0, end: 0),
+                badgeContent: Text(
+                  StoreAppCubit.get(context).getCartItems.length.toString(),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
                 child: IconButton(
                   onPressed: () {
                     navigateTo(context, CartScreen());
@@ -80,8 +86,14 @@ class ProductDetailsScreen extends StatelessWidget {
                   badgeColor: Colors.teal,
                   animationType: BadgeAnimationType.slide,
                   toAnimate: true,
-                  position: BadgePosition.topEnd(top: 0,end: 0),
-                  badgeContent: Text(StoreAppCubit.get(context).getWishListItem.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                  position: BadgePosition.topEnd(top: 0, end: 0),
+                  badgeContent: Text(
+                    StoreAppCubit.get(context)
+                        .getWishListItem
+                        .length
+                        .toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
                   child: IconButton(
                     onPressed: () {
                       navigateTo(context, WishListScreen());
@@ -99,26 +111,31 @@ class ProductDetailsScreen extends StatelessWidget {
           body: Stack(
             children: [
               Container(
-                foregroundDecoration: BoxDecoration(color: Colors.black12,),
+                foregroundDecoration: BoxDecoration(
+                  color: Colors.black12,
+                ),
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height*0.45,
+                height: MediaQuery.of(context).size.height * 0.45,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                      '${productAttr.imageUrl}',),
+                      '${productAttr.imageUrl}',
+                    ),
                   ),
                 ),
               ),
               SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 240.0,bottom: 20.0,),
+                  padding: const EdgeInsets.only(
+                    top: 240.0,
+                    bottom: 20.0,
+                  ),
                   child: Column(
                     children: [
                       Row(
                         children: [
                           IconButton(
-                            onPressed: (){
-                            },
+                            onPressed: () {},
                             icon: Icon(
                               MaterialCommunityIcons.content_save,
                               color: Colors.grey,
@@ -126,8 +143,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: (){
-                            },
+                            onPressed: () {},
                             icon: Icon(
                               MaterialCommunityIcons.share_variant,
                               size: 25,
@@ -143,15 +159,22 @@ class ProductDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Text(
                                 '${productAttr.title}',
-                                style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 30),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    .copyWith(fontSize: 30),
                               ),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Text(
                                 '${productAttr.price}',
                                 style: TextStyle(
@@ -159,11 +182,16 @@ class ProductDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             myDivider(),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Text(
                                 '${productAttr.description}',
                                 maxLines: 3,
@@ -173,11 +201,16 @@ class ProductDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             myDivider(),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -187,16 +220,20 @@ class ProductDetailsScreen extends StatelessWidget {
                                       color: Colors.grey,
                                     ),
                                   ),
-                                  SizedBox(width:40,),
+                                  SizedBox(
+                                    width: 40,
+                                  ),
                                   Text(
                                     'الصنف ',
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                   ),
                                 ],
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -206,15 +243,20 @@ class ProductDetailsScreen extends StatelessWidget {
                                       color: Colors.grey,
                                     ),
                                   ),
-                                  SizedBox(width:40,),
+                                  SizedBox(
+                                    width: 40,
+                                  ),
                                   Text(
                                     'النوع ',
-                                    style: Theme.of(context).textTheme.bodyText1,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             myDivider(),
                             Container(
                               color: Colors.white,
@@ -223,11 +265,16 @@ class ProductDetailsScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  SizedBox(height: 10,),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   Text(
                                     'بدون تقييم حتي الان',
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(color: Colors.black),
                                   ),
                                   Text(
                                     'كن اول من يقيم',
@@ -241,20 +288,29 @@ class ProductDetailsScreen extends StatelessWidget {
                               ),
                             ),
                             myDivider(),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Text(
                                 'المنتجات المقترحه',
-                                style:Theme.of(context).textTheme.bodyText1,),
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
                             ),
                             Container(
-                              height: 370,
+                              height: 360,
                               child: ListView.separated(
                                 physics: BouncingScrollPhysics(),
-                                itemBuilder: (context, index) =>
-                                    buildSuggestProduct(context),
-                                separatorBuilder: (context, index) => SizedBox(),
+                                itemBuilder: (context, index) {
+                                  var list =
+                                      StoreAppCubit.get(context).products;
+                                  return buildSuggestProduct(
+                                      context, list[index]);
+                                },
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(),
                                 itemCount: 10,
                                 scrollDirection: Axis.horizontal,
                               ),
@@ -262,6 +318,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      SizedBox(height: 40,)
                     ],
                   ),
                 ),
@@ -274,13 +331,27 @@ class ProductDetailsScreen extends StatelessWidget {
                       child: Container(
                         height: 50,
                         child: RaisedButton(
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           shape: RoundedRectangleBorder(side: BorderSide.none),
                           color: Colors.redAccent.shade400,
-                          onPressed: StoreAppCubit.get(context).getCartItems.containsKey(productId)? (){}:() {
-                            StoreAppCubit.get(context).addProductToCart(productId, productAttr.title, productAttr.price, productAttr.imageUrl);
-                          },
-                          child: Text(StoreAppCubit.get(context).getCartItems.containsKey(productId)? 'في العربه '.toUpperCase() :'اضف الي العربه'.toUpperCase(),
+                          onPressed: StoreAppCubit.get(context)
+                                  .getCartItems
+                                  .containsKey(productId)
+                              ? () {}
+                              : () {
+                                  StoreAppCubit.get(context).addProductToCart(
+                                      productId,
+                                      productAttr.title,
+                                      productAttr.price,
+                                      productAttr.imageUrl);
+                                },
+                          child: Text(
+                            StoreAppCubit.get(context)
+                                    .getCartItems
+                                    .containsKey(productId)
+                                ? 'في العربه '.toUpperCase()
+                                : 'اضف الي العربه'.toUpperCase(),
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
@@ -291,21 +362,22 @@ class ProductDetailsScreen extends StatelessWidget {
                       child: Container(
                         height: 50,
                         child: RaisedButton(
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           shape: RoundedRectangleBorder(side: BorderSide.none),
                           color: Theme.of(context).backgroundColor,
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                           child: Row(
                             children: [
                               Text(
                                 'اشتري الان'.toUpperCase(),
                                 style: TextStyle(
                                     fontSize: 14,
-                                    color: Theme.of(context).textSelectionColor),
+                                    color:
+                                        Theme.of(context).textSelectionColor),
                               ),
                               SizedBox(
-                                width: 5,
+                                width:18,
                               ),
                               Icon(
                                 Icons.payment,
@@ -326,20 +398,36 @@ class ProductDetailsScreen extends StatelessWidget {
                         height: 50,
                         child: InkWell(
                           splashColor: ColorsConsts.favColor,
-                          onTap: StoreAppCubit.get(context).getWishListItem.containsKey(productId)? (){}:() {
-                            StoreAppCubit.get(context).addOrRemoveFromWishList(productId, productAttr.title, productAttr.price, productAttr.imageUrl);
-                          },
+                          onTap: StoreAppCubit.get(context)
+                                  .getWishListItem
+                                  .containsKey(productId)
+                              ? () {}
+                              : () {
+                                  StoreAppCubit.get(context)
+                                      .addOrRemoveFromWishList(
+                                          productId,
+                                          productAttr.title,
+                                          productAttr.price,
+                                          productAttr.imageUrl);
+                                },
                           child: Center(
                             child: Icon(
-                              StoreAppCubit.get(context).getWishListItem.containsKey(productId)? Icons.favorite : Icons.favorite_border,
-                              color: StoreAppCubit.get(context).getWishListItem.containsKey(productId)? Colors.redAccent : ColorsConsts.white,
+                              StoreAppCubit.get(context)
+                                      .getWishListItem
+                                      .containsKey(productId)
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: StoreAppCubit.get(context)
+                                      .getWishListItem
+                                      .containsKey(productId)
+                                  ? Colors.redAccent
+                                  : ColorsConsts.white,
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ])
-              ),
+                  ])),
             ],
           ),
         );
@@ -347,174 +435,114 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 }
-Widget buildSuggestProduct(context)=>InkWell(
-  onTap: (){
-  },
-  child:   Container(
-    width: 150,
-    margin: EdgeInsets.all(15.0),
 
-    clipBehavior: Clip.antiAliasWithSaveLayer,
-
-    decoration: BoxDecoration(
-
-      color: Theme.of(context).backgroundColor,
-
-      borderRadius: BorderRadius.circular(20.0),
-
-      boxShadow: [
-
-        BoxShadow(
-
-          color: Color(0xff37475A).withOpacity(0.2),
-
-          blurRadius: 20.0,
-
-          offset: const Offset(0, 10),
-
-        )
-
-      ],
-
-    ),
-
-    child: Column(
-
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-      children: [
-
-        Stack(
-
-          alignment: AlignmentDirectional.bottomStart,
-
-          children: [
-
-            Expanded(
-
-              child: Image(
-
-                fit: BoxFit.fill,
-
-                height: 180,
-
-                image: NetworkImage('https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/244245333_3090825961197334_3277994336406470331_n.jpg?_nc_cat=100&_nc_rgb565=1&ccb=1-5&_nc_sid=b9115d&_nc_ohc=jpT1uVx5wWAAX_KuVQ0&_nc_ht=scontent.fcai20-3.fna&oh=9ff9aba19fe5e24a36e9275759a41b3f&oe=6162D5A2'),
-
-                width: double.infinity,
-
-              ),
-
-            ),
-
-            Container(
-
-              color: Colors.red,
-
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
-
-              child: Text(
-
-                'جديد',
-
-                style: TextStyle(
-
-                  fontSize: 8.0,
-
-                  color: Colors.white,
-
-                ),
-
-              ),
-
-            ),
-
+Widget buildSuggestProduct(context, Product products) => InkWell(
+      onTap: () {
+        navigateTo(
+            context,
+            ProductDetailsScreen(
+              productId: products.id,
+            ));
+      },
+      child: Container(
+        width: 180,
+        height: 250,
+        margin: EdgeInsets.all(15.0),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+          color: Theme.of(context).backgroundColor,
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xff37475A).withOpacity(0.2),
+              blurRadius: 20.0,
+              offset: const Offset(0, 10),
+            )
           ],
-
         ),
-
-        Padding(
-
-          padding: const EdgeInsets.all(10.0),
-
-          child: Column(
-
-            crossAxisAlignment: CrossAxisAlignment.end,
-
-            children: [
-
-              Text(
-
-                'كاجو وفسدق ولوز'
-
-                , style: TextStyle(
-
-
-
-                color: Colors.black,
-
-                fontWeight: FontWeight.bold,
-
-                fontSize: 15,
-
-              ),
-
-                textAlign: TextAlign.end,
-
-                maxLines: 1,
-
-                overflow: TextOverflow.ellipsis,
-
-              ),
-
-              Text(
-
-                "*******",
-
-                style: TextStyle(
-
-                  color: Colors.orangeAccent,
-
-                  fontSize: 20,
-
-                ),
-
-              ),
-
-              Row(
-
-                children: [
-
-                  InkWell(child: Icon(Icons.more_horiz_rounded,size: 18,),onTap: (){},),
-
-                  Spacer(),
-
-                  Text(
-
-                    '50.99\$',
-
-                    style: TextStyle(
-
-                      fontSize: 15.0,
-
-                      color: Colors.grey,
-
-                    ),
-
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Expanded(
+                  child: Image(
+                    fit: BoxFit.fill,
+                    height: 180,
+                    image: NetworkImage(products.imageUrl),
+                    width: double.infinity,
                   ),
-
+                ),
+                Container(
+                  color: Colors.red,
+                  padding: EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Text(
+                    'جديد',
+                    style: TextStyle(
+                      fontSize: 8.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    products.title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                    textAlign: TextAlign.end,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "*******",
+                    style: TextStyle(
+                      color: Colors.orangeAccent,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      InkWell(
+                        child: Icon(
+                          Icons.more_horiz_rounded,
+                          size: 18,
+                        ),
+                        onTap: () async {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => FeedsDialog(
+                              productId: products.id,
+                            ),
+                          );
+                        },
+                      ),
+                      Spacer(),
+                      Text(
+                        '${products.price}',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-
-              )
-
-            ],
-
-          ),
-
-        )
-
-      ],
-
-    ),
-
-  ),
-);
+              ),
+            ),
+          ],
+        ),
+      ),
+    );

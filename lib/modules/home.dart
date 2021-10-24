@@ -10,9 +10,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
+import 'package:store_app/models/brand_model.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/modules/backlayer.dart';
+import 'package:store_app/modules/brandScreens/Brand_screen.dart';
 import 'package:store_app/modules/category.dart';
+import 'package:store_app/modules/categoties_feed_screen.dart';
 import 'package:store_app/modules/product_details.dart';
 import 'package:store_app/shared/components/components.dart';
 
@@ -119,9 +122,10 @@ class HomeScreen extends StatelessWidget {
                           height: 150,
                           child: ListView.separated(
                             physics: BouncingScrollPhysics(),
-                            itemBuilder: (context, index) => CategoryWidget(
-                              index: index,
-                            ),
+                            itemBuilder: (context, index){
+                              var list = StoreAppCubit.get(context).categories;
+                             return StoreAppCubit.get(context).buildCategoryItem(context, list[index]);
+                            },
                             separatorBuilder: (context, index) => SizedBox(
                               width: 10,
                             ),
@@ -163,23 +167,13 @@ class HomeScreen extends StatelessWidget {
                         height: 210,
                         width: MediaQuery.of(context).size.width * 0.95,
                         child: Swiper(
-                          itemCount: StoreAppCubit.get(context).brandImages.length,
+                          itemCount: 7,
                           autoplay: true,
                           viewportFraction: 0.8,
                           scale: 0.9,
-                          onTap: (index) {
-                          },
                           itemBuilder: (BuildContext ctx, int index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                color: Colors.blueGrey,
-                                child: Image.asset(
-                                  StoreAppCubit.get(context).brandImages[index],
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            );
+                            var list = StoreAppCubit.get(context).brands;
+                            return StoreAppCubit.get(context).buildPopularBrandsItem(list[index],context,);
                           },
                         ),
                       ),
@@ -187,12 +181,26 @@ class HomeScreen extends StatelessWidget {
                         height: 25,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0,
-                        ),
-                        child: Text(
-                          'اشهر المنتجات',
-                          style: Theme.of(context).textTheme.bodyText1,
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: Row(
+                          children: [
+                            FlatButton(
+                              onPressed: () {
+                              },
+                              child: Text(
+                                '...عرض المزيد',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 15,
+                                    color: Colors.red),
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              'اشهر المنتجات',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -269,45 +277,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-Widget buildCategoriesItem(List categories) => Container(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xff37475A).withOpacity(0.2),
-            blurRadius: 20.0,
-            offset: const Offset(0, 10),
-          )
-        ],
-      ),
-      child: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: [
-          Image(
-            image: AssetImage('{categories}'),
-            height: 150,
-            width: 150,
-            fit: BoxFit.cover,
-          ),
-          Container(
-              height: 30,
-              width: 150,
-              color: Colors.black.withOpacity(0.8),
-              child: Text(
-                'موبيلات',
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              )),
-        ],
-      ),
-    );
 
 Widget buildPopularProductItem(context, Product products) => InkWell(
       onTap: () {
@@ -440,6 +409,7 @@ Widget buildPopularProductItem(context, Product products) => InkWell(
       ),
     );
 
+
 Widget buildWatchedRecentlyItem(context) => Stack(
       children: [
         Container(
@@ -568,3 +538,6 @@ Widget buildWatchedRecentlyItem(context) => Stack(
         ),
       ],
     );
+
+
+

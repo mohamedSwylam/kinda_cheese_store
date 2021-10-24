@@ -1,9 +1,5 @@
-  import 'package:flutter/material.dart';
-  class CategoryWidget extends StatelessWidget {
-    final int index;
-    CategoryWidget({Key key, this.index}) : super(key: key);
-    List <Map<String,Object>> categories= [
-     /* {
+
+  /* {
         'categoryName':'الجبن',
         'categoryImage':'assets/images/cheese.jpg',
       },
@@ -43,72 +39,3 @@
         'categoryName':'المكسرات',
         'categoryImage':'assets/images/mksrat.gif',
       },*/
-      {
-        'categoryName': 'Phones',
-        'categoryImage': 'assets/images/CatPhones.png',
-      },
-      {
-        'categoryName': 'Clothes',
-        'categoryImage': 'assets/images/CatClothes.jpg',
-      },
-      {
-        'categoryName': 'Shoes',
-        'categoryImage': 'assets/images/CatShoes.jpg',
-      },
-      {
-        'categoryName': 'Beauty&Health',
-        'categoryImage': 'assets/images/CatBeauty.jpg',
-      },
-      {
-        'categoryName': 'Laptops',
-        'categoryImage': 'assets/images/CatLaptops.png',
-      },
-      {
-        'categoryName': 'Furniture',
-        'categoryImage': 'assets/images/CatFurniture.jpg',
-      },
-      {
-        'categoryName': 'Watches',
-        'categoryImage': 'assets/images/CatWatches.jpg',
-      },
-    ];
-
-    @override
-    Widget build(BuildContext context) {
-      return Container(
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(20.0),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xff37475A).withOpacity(0.2),
-              blurRadius: 20.0,
-              offset: const Offset(0, 10),
-            )
-          ],
-        ),
-        child:   Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: [
-            Image(
-              image: AssetImage(categories[index]['categoryImage']),
-              height: 150,
-              width: 150,
-              fit: BoxFit.cover,
-            ),
-            Container(
-                height: 30,
-                width: 150,
-                color: Colors.black.withOpacity(0.8),
-                child: Text(
-                  categories[index]['categoryName'],
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
-                )),
-          ],
-        ),
-      );
-    }
-  }

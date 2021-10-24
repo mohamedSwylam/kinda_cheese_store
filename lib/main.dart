@@ -11,6 +11,7 @@ import 'package:store_app/shared/bloc_observer.dart';
 import 'package:store_app/shared/constants/constant.dart';
 import 'package:store_app/styles/themes/themes.dart';
 
+import 'modules/brandScreens/Brand_screen.dart';
 import 'modules/Login_screen/cubit/states.dart';
 import 'modules/Login_screen/login_screen.dart';
 import 'modules/sign_up_screen/cubit/cubit.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark)..getUserData(),
+          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark),
         ),
         BlocProvider(
           create: (BuildContext context) => SignUpCubit(),
