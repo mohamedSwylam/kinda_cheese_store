@@ -118,6 +118,7 @@ class _UserScreenState extends State<UserScreen> {
                                         .bodyText1
                                         .copyWith(color: Colors.black),
                                   ),
+                                  SizedBox(height: 10,),
                                   Text(
                                     '${ LoginCubit.get(context).name}',
                                     maxLines: 1,
@@ -145,9 +146,6 @@ class _UserScreenState extends State<UserScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        SizedBox(
-                          height: 15,
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -157,13 +155,20 @@ class _UserScreenState extends State<UserScreen> {
                               },
                               child: Column(
                                 children: [
-                                  Icon(
-                                    MaterialCommunityIcons.heart,
-                                    size: 60,
-                                    color: Colors.teal,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 12.0),
+                                      child: Container(
+                                        width: 100,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          image:DecorationImage(
+                                            image:   AssetImage('assets/images/wishlist.png')
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   Text(
                                     'المفضله',
@@ -178,13 +183,20 @@ class _UserScreenState extends State<UserScreen> {
                               },
                               child: Column(
                                 children: [
-                                  Icon(
-                                    MaterialCommunityIcons.cart,
-                                    size: 60,
-                                    color: Colors.teal,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 12.0),
+                                      child: Container(
+                                        width: 100,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          image:DecorationImage(
+                                              image:   AssetImage('assets/images/cart.png')
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   Text(
                                     'العربه',
@@ -197,14 +209,21 @@ class _UserScreenState extends State<UserScreen> {
                               onTap: () {},
                               child: Column(
                                 children: [
-                                  Icon(
-                                    MaterialCommunityIcons.basket,
-                                    size: 60,
-                                    color: Colors.teal,
+                                  InkWell(
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 12.0),
+                                    child: Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        image:DecorationImage(
+                                            image:   AssetImage('assets/images/order.png')
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
+                                ),
                                   Text(
                                     'طلباتي',
                                     style: Theme.of(context).textTheme.bodyText1,

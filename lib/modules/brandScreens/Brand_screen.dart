@@ -74,19 +74,19 @@ class _BrandScreenState extends State<BrandScreen> {
                             ),
                             destinations: [
                               StoreAppCubit.get(context)
-                                  .buildRotatedTextRailDestination('Addidas',
+                                  .buildRotatedTextRailDestination('redmi',
                                       StoreAppCubit.get(context).padding),
                               StoreAppCubit.get(context)
                                   .buildRotatedTextRailDestination("Apple",
                                       StoreAppCubit.get(context).padding),
                               StoreAppCubit.get(context)
-                                  .buildRotatedTextRailDestination("Dell",
+                                  .buildRotatedTextRailDestination("lenovo",
                                       StoreAppCubit.get(context).padding),
                               StoreAppCubit.get(context)
-                                  .buildRotatedTextRailDestination("H&M",
+                                  .buildRotatedTextRailDestination("oppo",
                                       StoreAppCubit.get(context).padding),
                               StoreAppCubit.get(context)
-                                  .buildRotatedTextRailDestination("Nike",
+                                  .buildRotatedTextRailDestination("realme",
                                       StoreAppCubit.get(context).padding),
                               StoreAppCubit.get(context)
                                   .buildRotatedTextRailDestination("Samsung",
@@ -94,6 +94,24 @@ class _BrandScreenState extends State<BrandScreen> {
                               StoreAppCubit.get(context)
                                   .buildRotatedTextRailDestination("Huawei",
                                       StoreAppCubit.get(context).padding),
+                              StoreAppCubit.get(context)
+                                  .buildRotatedTextRailDestination("nokia",
+                                  StoreAppCubit.get(context).padding),
+                              StoreAppCubit.get(context)
+                                  .buildRotatedTextRailDestination("sony",
+                                  StoreAppCubit.get(context).padding),
+                              StoreAppCubit.get(context)
+                                  .buildRotatedTextRailDestination("vivo",
+                                  StoreAppCubit.get(context).padding),
+                              StoreAppCubit.get(context)
+                                  .buildRotatedTextRailDestination("tecno",
+                                  StoreAppCubit.get(context).padding),
+                              StoreAppCubit.get(context)
+                                  .buildRotatedTextRailDestination("infnix",
+                                  StoreAppCubit.get(context).padding),
+                              StoreAppCubit.get(context)
+                                  .buildRotatedTextRailDestination("itel",
+                                  StoreAppCubit.get(context).padding),
                               StoreAppCubit.get(context)
                                   .buildRotatedTextRailDestination("All",
                                       StoreAppCubit.get(context).padding),

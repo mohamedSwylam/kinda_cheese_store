@@ -27,7 +27,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<SignUpCubit, SignUpStates>(
       listener: (context, state) {
-        if (state is CreateUserSuccessState) {
+        if (state is SignUpSuccessState) {
           navigateTo(context, LoginScreen());
         }
       },

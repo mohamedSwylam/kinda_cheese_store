@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
                         height: 160.0,
                         width: double.infinity,
                         child: Carousel(
-                          boxFit: BoxFit.cover,
+                          boxFit: BoxFit.fill,
                           autoplay: true,
                           animationCurve: Curves.fastOutSlowIn,
                           animationDuration: Duration(milliseconds: 1000),
@@ -130,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                             separatorBuilder: (context, index) => SizedBox(
                               width: 10,
                             ),
-                            itemCount: 7,
+                            itemCount:  StoreAppCubit.get(context).categories.length,
                             scrollDirection: Axis.horizontal,
                           ),
                         ),
@@ -168,7 +168,7 @@ class HomeScreen extends StatelessWidget {
                         height: 210,
                         width: MediaQuery.of(context).size.width * 0.95,
                         child: Swiper(
-                          itemCount: 7,
+                          itemCount: StoreAppCubit.get(context).brands.length,
                           autoplay: true,
                           viewportFraction: 0.8,
                           scale: 0.9,
@@ -232,7 +232,7 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(
                         height: 25,
                       ),
-                      Padding(
+                      /*Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         child: Row(
                           children: [
@@ -266,7 +266,7 @@ class HomeScreen extends StatelessWidget {
                           height: 8,
                         ),
                         itemCount: 10,
-                      ),
+                      ),*/
                     ],
                   ),
                 ),

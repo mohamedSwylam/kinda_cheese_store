@@ -32,6 +32,12 @@ class GetUserSuccessStates extends StoreAppStates {}
 
 class GetUserErrorStates extends StoreAppStates {}
 
+class GetProductLoadingStates extends StoreAppStates {}
+
+class GetProductSuccessStates extends StoreAppStates {}
+
+class GetProductErrorStates extends StoreAppStates {}
+
 class SignOutSuccessState extends StoreAppStates {}
 
 //brandScreen

@@ -98,127 +98,195 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(StoreAppChangeThemeModeState());
     }
   }
+
   ////////////////////////////////categoryScreen
-  List <CategoryModel> categories= [
-      CategoryModel(categoryName:'Phones', categoryImage:'assets/images/CatPhones.png'),
-      CategoryModel(categoryName:'Clothes', categoryImage:'assets/images/CatClothes.jpg'),
-      CategoryModel(categoryName:'Shoes', categoryImage:'assets/images/CatShoes.jpg'),
-      CategoryModel(categoryName:'Beauty&Health', categoryImage:'assets/images/CatBeauty.jpg'),
-      CategoryModel(categoryName:'Laptops', categoryImage:'assets/images/CatLaptops.png'),
-      CategoryModel(categoryName:'Furniture', categoryImage:'assets/images/CatFurniture.jpg'),
-      CategoryModel(categoryName:'Watches', categoryImage:'assets/images/CatWatches.jpg'),
+  List<CategoryModel> categories = [
+    CategoryModel(
+        categoryName: 'هواتف ذكيه',
+        categoryImage: 'assets/images/CatPhones.png'),
+    CategoryModel(
+        categoryName: 'سماعات بلوتوث',
+        categoryImage: 'assets/images/headphone.jpg'),
+    CategoryModel(
+        categoryName: 'الشواحن', categoryImage: 'assets/images/charger.jpg'),
+    CategoryModel(
+        categoryName: 'مستعمل', categoryImage: 'assets/images/mobil.jpg'),
+    CategoryModel(
+        categoryName: 'موبيلات', categoryImage: 'assets/images/mobilat.jpg'),
+    CategoryModel(
+        categoryName: 'كابلات', categoryImage: 'assets/images/cable.jpg'),
+    CategoryModel(
+        categoryName: 'ساعات ذكيه',
+        categoryImage: 'assets/images/CatWatches.jpg'),
+    CategoryModel(
+        categoryName: 'بطاقات ذاكره',
+        categoryImage: 'assets/images/memory.png'),
+    CategoryModel(
+        categoryName: 'حافظات', categoryImage: 'assets/images/cover.jpeg'),
+    CategoryModel(
+        categoryName: 'لاصقات شاشه',
+        categoryImage: 'assets/images/screen.jpeg'),
+    CategoryModel(
+        categoryName: 'تابلت', categoryImage: 'assets/images/tablet.jpg'),
+    CategoryModel(
+        categoryName: 'باور بانك', categoryImage: 'assets/images/power.jpg'),
+    CategoryModel(
+        categoryName: 'الكمبيوتر', categoryImage: 'assets/images/computer.jpg'),
   ];
+
   Widget buildCategoryItem(context, CategoryModel category) => InkWell(
-    onTap: (){
-      navigateTo(context, CategoriesFeedScreen(categoryName: category.categoryName,));
-    },
-    child: Container(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xff37475A).withOpacity(0.2),
-            blurRadius: 20.0,
-            offset: const Offset(0, 10),
-          )
-        ],
-      ),
-      child:   Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: [
-          Image(
-            image: AssetImage(category.categoryImage),
-            height: 150,
-            width: 150,
-            fit: BoxFit.cover,
+        onTap: () {
+          navigateTo(
+              context,
+              CategoriesFeedScreen(
+                categoryName: category.categoryName,
+              ));
+        },
+        child: Container(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(20.0),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0xff37475A).withOpacity(0.2),
+                blurRadius: 20.0,
+                offset: const Offset(0, 10),
+              )
+            ],
           ),
-          Container(
-              height: 30,
-              width: 150,
-              color: Colors.black.withOpacity(0.8),
-              child: Center(
-                child: Text(
-                  category.categoryName,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
+          child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              Image(
+                image: AssetImage(
+                  category.categoryImage,
                 ),
-              )),
-        ],
-      ),
-    ),
-  );
-  // BrandScreen
-  Widget buildPopularBrandsItem(BrandModel brand,context) => InkWell(
-    onTap: (){
-      selectedBrandIndex=brand.id;
-      if (brand.id == 0) {
-        brandName = 'Addidas';
-        brandList= findByBrand(brandName);
-      }
-      if (brand.id == 1) {
-        brandName = 'Apple';
-        brandList= findByBrand(brandName);
-      }
-      if (brand.id == 2) {
-        brandName = 'Dell';
-        brandList= findByBrand(brandName);
-      }
-      if (brand.id == 3) {
-        brandName = 'H&M';
-        brandList= findByBrand(brandName);
-      }
-      if (brand.id == 4) {
-        brandName = 'Nike';
-        brandList= findByBrand(brandName);
-      }
-      if (brand.id == 5) {
-        brandName = 'Samsung';
-        brandList= findByBrand(brandName);
-      }
-      if (brand.id == 6) {
-        brandName = 'Huawei';
-        brandList= findByBrand(brandName);
-      }
-      navigateTo(context, BrandScreen());
-      emit(OnTapBrandItemState());
-    },
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        color: Colors.blueGrey,
-        child: Image.asset(brand.brandImage,
-          fit: BoxFit.fill,
+                fit: BoxFit.fill,
+                height: 150,
+                width: 150,
+              ),
+              Container(
+                  height: 30,
+                  width: 150,
+                  color: Colors.black.withOpacity(0.8),
+                  child: Center(
+                    child: Text(
+                      category.categoryName,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )),
+            ],
+          ),
         ),
-      ),
-    ),
-  );
+      );
+
+  // BrandScreen
+  Widget buildPopularBrandsItem(BrandModel brand, context) => InkWell(
+        onTap: () {
+          selectedBrandIndex = brand.id;
+          if (brand.id == 0) {
+            brandName = 'redmi';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 1) {
+            brandName = 'Apple';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 2) {
+            brandName = 'lenovo';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 3) {
+            brandName = 'oppo';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 4) {
+            brandName = 'realme';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 5) {
+            brandName = 'Samsung';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 6) {
+            brandName = 'Huawei';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 7) {
+            brandName = 'nokia';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 8) {
+            brandName = 'nokia';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 9) {
+            brandName = 'sony';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 10) {
+            brandName = 'vivo';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 11) {
+            brandName = 'tecno';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 12) {
+            brandName = 'infnix';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 13) {
+            brandName = 'itel';
+            brandList = findByBrand(brandName);
+          }
+          if (brand.id == 14) {
+            brandList = products;
+          }
+          navigateTo(context, BrandScreen());
+          emit(OnTapBrandItemState());
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            color: Colors.blueGrey,
+            child: Image.asset(
+              brand.brandImage,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+      );
   List<BrandModel> brands = [
     BrandModel(
-      brand: 'Addidas',
-      brandImage: 'assets/images/addidas.jpg',
+      brand: 'redmi',
+      brandImage: 'assets/images/redmi.png',
       id: 0,
     ),
     BrandModel(
       brand: 'Apple',
       brandImage: 'assets/images/apple.jpg',
-      id:1,
+      id: 1,
     ),
     BrandModel(
-      brand: 'Dell',
-      brandImage: 'assets/images/Dell.jpg',
+      brand: 'lenovo',
+      brandImage: 'assets/images/lenovo.png',
       id: 2,
     ),
     BrandModel(
-      brand: 'H&M',
-      brandImage: 'assets/images/h&m.jpg',
+      brand: 'oppo',
+      brandImage: 'assets/images/oppo.png',
       id: 3,
     ),
     BrandModel(
-      brand: 'Nike',
-      brandImage: 'assets/images/nike.jpg',
+      brand: 'realme',
+      brandImage: 'assets/images/realme.png',
       id: 4,
     ),
     BrandModel(
@@ -231,45 +299,101 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       brandImage: 'assets/images/Huawei.jpg',
       id: 6,
     ),
+    BrandModel(
+      brand: 'nokia',
+      brandImage: 'assets/images/nokia.jpg',
+      id: 7,
+    ),
+    BrandModel(
+      brand: 'sony',
+      brandImage: 'assets/images/sony.jpg',
+      id: 8,
+    ),
+    BrandModel(
+      brand: 'vivo',
+      brandImage: 'assets/images/vivo.jpg',
+      id: 9,
+    ),
+    BrandModel(
+      brand: 'tecno',
+      brandImage: 'assets/images/tecno.png',
+      id: 10,
+    ),
+    BrandModel(
+      brand: 'infnix',
+      brandImage: 'assets/images/infinix.jpg',
+      id: 11,
+    ),
+    BrandModel(
+      brand: 'itel',
+      brandImage: 'assets/images/itel.jpg',
+      id: 12,
+    ),
   ];
   int selectedBrandIndex = 0;
   String brandName;
-  var brandList= [];
+  var brandList = [];
+
   void changeIndex(int index) {
     selectedBrandIndex = index;
     if (selectedBrandIndex == 0) {
-      brandName = 'Addidas';
-      brandList= findByBrand(brandName);
+      brandName = 'redmi';
+      brandList = findByBrand(brandName);
     }
     if (selectedBrandIndex == 1) {
       brandName = 'Apple';
-      brandList= findByBrand(brandName);
+      brandList = findByBrand(brandName);
     }
     if (selectedBrandIndex == 2) {
-      brandName = 'Dell';
-      brandList= findByBrand(brandName);
+      brandName = 'lenovo';
+      brandList = findByBrand(brandName);
     }
     if (selectedBrandIndex == 3) {
-      brandName = 'H&M';
-      brandList= findByBrand(brandName);
+      brandName = 'oppo';
+      brandList = findByBrand(brandName);
     }
     if (selectedBrandIndex == 4) {
-      brandName = 'Nike';
-      brandList= findByBrand(brandName);
+      brandName = 'realme';
+      brandList = findByBrand(brandName);
     }
     if (selectedBrandIndex == 5) {
       brandName = 'Samsung';
-      brandList= findByBrand(brandName);
+      brandList = findByBrand(brandName);
     }
     if (selectedBrandIndex == 6) {
       brandName = 'Huawei';
-      brandList= findByBrand(brandName);
+      brandList = findByBrand(brandName);
     }
     if (selectedBrandIndex == 7) {
-      brandList= products;
+      brandName = 'nokia';
+      brandList = findByBrand(brandName);
+    }
+    if (selectedBrandIndex == 8) {
+      brandName = 'sony';
+      brandList = findByBrand(brandName);
+    }
+    if (selectedBrandIndex == 9) {
+      brandName = 'vivo';
+      brandList = findByBrand(brandName);
+    }
+    if (selectedBrandIndex == 10) {
+      brandName = 'tecno';
+      brandList = findByBrand(brandName);
+    }
+    if (selectedBrandIndex == 11) {
+      brandName = 'infnix';
+      brandList = findByBrand(brandName);
+    }
+    if (selectedBrandIndex == 12) {
+      brandName = 'itel';
+      brandList = findByBrand(brandName);
+    }
+    if (selectedBrandIndex == 13) {
+      brandList = products;
     }
     emit(ChangeIndexState());
   }
+
   final padding = 8.0;
 
   NavigationRailDestination buildRotatedTextRailDestination(
@@ -450,6 +574,38 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     });
   }
 
+  List<Product> products = [];
+
+  void getProduct() async {
+    emit(GetProductLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('products')
+        .get()
+        .then((QuerySnapshot productsSnapshot) {
+      products = [];
+      productsSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        products.insert(
+          0,
+          Product(
+              id: element.get('id'),
+              title: element.get('title'),
+              description: element.get('description'),
+              price: double.parse(
+                element.get('price'),
+              ),
+              imageUrl: element.get('imageUrl'),
+              brand: element.get('brand'),
+              productCategoryName: element.get('productCategoryName'),
+              isPopular: true),
+        );
+      });
+      emit(GetProductSuccessStates());
+    }).catchError((error) {
+      emit(GetProductErrorStates());
+    });
+  }
+
   void signOut(context) => CacheHelper.removeData(key: 'uId').then((value) {
         if (value) {
           FirebaseAuth.instance
@@ -458,7 +614,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           emit(SignOutSuccessState());
         }
       });
-  List<Product> products = [
+/*List<Product> products = [
     Product(
         id: 'Samsung1',
         title: 'Samsung Galaxy S9',
@@ -469,7 +625,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/81%2Bh9mpyQmL._AC_SL1500_.jpg',
         brand: 'Samsung',
         productCategoryName: 'Phones',
-        quantity: 65,
         isPopular: false),
     Product(
         id: 'Samsung Galaxy A10s',
@@ -481,7 +636,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/51ME-ADMjRL._AC_SL1000_.jpg',
         brand: 'Samsung ',
         productCategoryName: 'Phones',
-        quantity: 1002,
         isPopular: false),
     Product(
         id: 'Samsung Galaxy A51',
@@ -493,7 +647,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61HFJwSDQ4L._AC_SL1000_.jpg',
         brand: 'Samsung',
         productCategoryName: 'Phones',
-        quantity: 6423,
         isPopular: true),
     Product(
         id: 'Huawei P40 Pro',
@@ -505,7 +658,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/6186cnZIdoL._AC_SL1000_.jpg',
         brand: 'Huawei',
         productCategoryName: 'Phones',
-        quantity: 3,
         isPopular: true),
     Product(
         id: 'iPhone 12 Pro',
@@ -516,7 +668,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         imageUrl: 'https://m.media-amazon.com/images/I/71cSV-RTBSL.jpg',
         brand: 'Apple',
         productCategoryName: 'Phones',
-        quantity: 3,
         isPopular: true),
     Product(
         id: 'iPhone 12 Pro Max ',
@@ -528,7 +679,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://m.media-amazon.com/images/I/71XXJC7V8tL._FMwebp__.jpg',
         brand: 'Apple',
         productCategoryName: 'Phones',
-        quantity: 2654,
         isPopular: false),
     Product(
         id: 'Hanes Mens ',
@@ -539,7 +689,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/91YHIgoKb4L._AC_UX425_.jpg',
         brand: 'No brand',
         productCategoryName: 'Clothes',
-        quantity: 58466,
         isPopular: true),
     Product(
         id: 'Weave Jogger',
@@ -550,7 +699,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://m.media-amazon.com/images/I/71g7tHQt-sL._AC_UL320_.jpg',
         brand: 'H&M',
         productCategoryName: 'Clothes',
-        quantity: 84894,
         isPopular: false),
     Product(
         id: 'Adeliber Dresses for Womens',
@@ -562,7 +710,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/7177o9jITiL._AC_UX466_.jpg',
         brand: 'H&M',
         productCategoryName: 'Clothes',
-        quantity: 49847,
         isPopular: true),
     Product(
         id: 'Tanjun Sneakers',
@@ -574,7 +721,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71KVPm5KJdL._AC_UX500_.jpg',
         brand: 'Nike',
         productCategoryName: 'Shoes',
-        quantity: 65489,
         isPopular: false),
     Product(
         id: 'Training Pant Female',
@@ -585,7 +731,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61jvFw72OVL._AC_UX466_.jpg',
         brand: 'Nike',
         productCategoryName: 'Clothes',
-        quantity: 89741,
         isPopular: false),
     Product(
         id: 'Trefoil Tee',
@@ -596,7 +741,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/51KMhoElQcL._AC_UX466_.jpg',
         brand: 'Addidas',
         productCategoryName: 'Clothes',
-        quantity: 8941,
         isPopular: true),
     Product(
         id: 'Long SleeveWoman',
@@ -607,7 +751,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71lKAfQDUoL._AC_UX466_.jpg',
         brand: 'Addidas',
         productCategoryName: 'Clothes',
-        quantity: 3,
         isPopular: false),
     Product(
         id: 'Eye Cream for Wrinkles',
@@ -619,7 +762,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61dwB-2X-6L._SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Beauty & health',
-        quantity: 8515,
         isPopular: false),
     Product(
         id: 'Mango Body Yogurt',
@@ -631,7 +773,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/81w9cll2RmL._SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Beauty & health',
-        quantity: 3,
         isPopular: false),
     Product(
         id: 'Food Intensive Skin',
@@ -643,7 +784,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71E6h0kl3ZL._SL1500_.jpg',
         brand: 'No Brand',
         productCategoryName: 'Beauty & health',
-        quantity: 38425,
         isPopular: true),
     Product(
         id: 'Ultra Shea Body Cream',
@@ -655,7 +795,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61RkTTLRnNL._SL1134_.jpg',
         brand: '',
         productCategoryName: 'Beauty & health',
-        quantity: 384,
         isPopular: false),
     Product(
         id: 'Soft Moisturizing Crème',
@@ -667,7 +806,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/619pgKveCdL._SL1500_.jpg',
         brand: 'No Brand',
         productCategoryName: 'Beauty & health',
-        quantity: 45,
         isPopular: true),
     Product(
         id: 'Body Cream Cocoa Butter',
@@ -678,7 +816,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61EsS5sSaCL._SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Beauty & health',
-        quantity: 98432,
         isPopular: true),
     Product(
         id: 'Skin Repair Body Lotion',
@@ -690,7 +827,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71e7ksQ-xyL._AC_SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Beauty & health',
-        quantity: 3811,
         isPopular: false),
     Product(
         id: '15 5000 Laptop',
@@ -702,7 +838,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/31ZSymDl-YL._AC_.jpg',
         brand: 'Dell',
         productCategoryName: 'Laptops',
-        quantity: 325,
         isPopular: true),
     Product(
         id: 'Business Laptop',
@@ -714,7 +849,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71W690nu%2BXL._AC_SL1500_.jpg',
         brand: 'Dell',
         productCategoryName: 'Laptops',
-        quantity: 81,
         isPopular: true),
     Product(
         id: 'Latitude 5411 14" Notebook',
@@ -726,7 +860,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/41OfZx5ex3L._AC_.jpg',
         brand: 'Dell',
         productCategoryName: 'Laptops',
-        quantity: 815,
         isPopular: false),
     Product(
         id: 'New Apple MacBook Pro with Apple',
@@ -738,7 +871,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71an9eiBxpL._AC_SL1500_.jpg',
         brand: 'Apple',
         productCategoryName: 'Laptops',
-        quantity: 885,
         isPopular: true),
     Product(
         id: 'Apple MacBook Air',
@@ -750,7 +882,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61wLbRLshAL._AC_SL1200_.jpg',
         brand: 'Apple',
         productCategoryName: 'Laptops',
-        quantity: 815,
         isPopular: true),
     Product(
         id: 'Apple MacBook Progag',
@@ -762,7 +893,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/315CQ1KmlwL._AC_.jpg',
         brand: 'Apple',
         productCategoryName: 'Laptops',
-        quantity: 815,
         isPopular: false),
     Product(
         id: 'Apple MacBook Air',
@@ -774,7 +904,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61QRQHn0jJL._AC_SL1200_.jpg',
         brand: 'Apple',
         productCategoryName: 'Laptops',
-        quantity: 4455,
         isPopular: true),
     Product(
         id: 'Apple 16 MacBook Pro',
@@ -786,7 +915,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61qNHbx9LDL._AC_SL1200_.jpg',
         brand: 'Apple',
         productCategoryName: 'Laptops',
-        quantity: 885,
         isPopular: false),
     Product(
         id: 'Sofa Setttt',
@@ -797,7 +925,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71P-p2sj6eL._AC_SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Furniture',
-        quantity: 91,
         isPopular: true),
     Product(
         id: 'Furniture Classroom with Teacher\'s',
@@ -809,7 +936,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71xytsyiHzL._AC_SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Furniture',
-        quantity: 815,
         isPopular: false),
     Product(
         id: 'Sofa Couch for Two People',
@@ -821,7 +947,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/81sBT3voCPL._AC_SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Furniture',
-        quantity: 8100,
         isPopular: true),
     Product(
         id: 'Delta Children Plastic Toddler Bed',
@@ -833,7 +958,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71Rj3InxQlL._SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Furniture',
-        quantity: 9145,
         isPopular: false),
     Product(
         id: 'Outdoor Patio ',
@@ -845,7 +969,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/81KabJxRvDL._AC_SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Furniture',
-        quantity: 25,
         isPopular: true),
     Product(
         id: 'Flash Furniture Nantucket 6 Piece',
@@ -857,7 +980,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/81khjDZg5xL._AC_SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Furniture',
-        quantity: 651,
         isPopular: false),
     Product(
         id: 'Homall 4 Pieces Patio Outdoor Furniture Sets',
@@ -869,7 +991,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/716-fllmUCL._AC_SL1500_.jpg',
         brand: 'No brand',
         productCategoryName: 'Furniture',
-        quantity: 594,
         isPopular: true),
     Product(
         id: 'Ashley Furniture Signature Design',
@@ -881,7 +1002,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71QxxtRFFkL._AC_SL1232_.jpg',
         brand: 'No brand',
         productCategoryName: 'Furniture',
-        quantity: 78,
         isPopular: false),
     Product(
         id: 'Apple Watch Series 3',
@@ -893,7 +1013,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71vCuRn4CkL._AC_SL1500_.jpg',
         brand: 'Apple',
         productCategoryName: 'Watches',
-        quantity: 156,
         isPopular: true),
     Product(
         id: 'Garmin Forerunner 45S',
@@ -905,7 +1024,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/51EWl3XsiYL._AC_SL1000_.jpg',
         brand: 'No brand',
         productCategoryName: 'Watches',
-        quantity: 142,
         isPopular: false),
     Product(
         id: 'Samsung Galaxy Watch Active 2',
@@ -917,7 +1035,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/51bSW9gjoaL._AC_SL1024_.jpg',
         brand: 'Samsung',
         productCategoryName: 'Watches',
-        quantity: 167,
         isPopular: false),
     Product(
         id: 'Garmin vivoactive 4S',
@@ -929,7 +1046,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/51r2LCE3FLL._AC_SL1000_.jpg',
         brand: 'No brand',
         productCategoryName: 'Watches',
-        quantity: 659,
         isPopular: false),
     Product(
         id: 'Patek Philippe World',
@@ -940,7 +1056,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61MVdCYfbOL._AC_UX679_.jpg',
         brand: 'No brand',
         productCategoryName: 'Watches',
-        quantity: 98,
         isPopular: false),
     Product(
         id: 'Bell & Ross Men',
@@ -952,7 +1067,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/91M50AHRTKL._AC_UX569_.jpg',
         brand: 'No brand',
         productCategoryName: 'Watches',
-        quantity: 951,
         isPopular: false),
     Product(
         id: 'New Apple Watch Series',
@@ -964,7 +1078,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71bf9IpGjtL._AC_SL1500_.jpg',
         brand: 'Apple',
         productCategoryName: 'Watches',
-        quantity: 951,
         isPopular: false),
     Product(
         id: 'New Apple Watch SE',
@@ -976,7 +1089,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71JtUMDeBBL._AC_SL1500_.jpg',
         brand: 'Apple',
         productCategoryName: 'Watches',
-        quantity: 951,
         isPopular: false),
     Product(
         id: 'YAMAY Smart Watch 2020 Ver',
@@ -988,7 +1100,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61gCtkVYb5L._AC_SL1000_.jpg',
         brand: 'Apple',
         productCategoryName: 'Watches',
-        quantity: 56,
         isPopular: true),
     Product(
         id: 'Samsung Galaxy Watch Active 23',
@@ -1000,7 +1111,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/61n1c2vnPJL._AC_SL1500_.jpg',
         brand: 'Samsung',
         productCategoryName: 'Watches',
-        quantity: 78,
         isPopular: true),
     Product(
         id: 'Samsung Galaxy Watch 3',
@@ -1012,7 +1122,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/81Iu41zFPwL._AC_SL1500_.jpg',
         brand: 'Samsung',
         productCategoryName: 'Watches',
-        quantity: 9598,
         isPopular: true),
     Product(
         id: 'Samsung Galaxy Watch Active2 ',
@@ -1024,7 +1133,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/518qjbbuGZL._AC_SL1000_.jpg',
         brand: 'Samsung',
         productCategoryName: 'Watches',
-        quantity: 951,
         isPopular: false),
     Product(
         id: 'Huawei Watch 2 Sport Smartwatch',
@@ -1036,7 +1144,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             'https://images-na.ssl-images-amazon.com/images/I/71yPa1g4gWL._AC_SL1500_.jpg',
         brand: 'Huawei',
         productCategoryName: 'Watches',
-        quantity: 951,
         isPopular: true),
-  ];
+  ];*/
 }

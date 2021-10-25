@@ -1,16 +1,47 @@
 import 'package:flutter/material.dart';
 
-class Product with ChangeNotifier{
-  final String id;
-  final String title;
-  final String description;
-  final double price;
-  final String imageUrl;
-  final String productCategoryName;
-  final String brand;
-  final bool isFavorite;
-  final bool isPopular;
-  final int quantity;
+class Product {
+   String id;
+   String title;
+   String description;
+   double price;
+   String imageUrl;
+   String productCategoryName;
+   String brand;
+   bool isPopular;
 
-  Product({this.id, this.title, this.description, this.price, this.imageUrl, this.productCategoryName, this.brand, this.isFavorite, this.isPopular, this.quantity});
+  Product(
+      {this.id,
+        this.title,
+        this.description,
+        this.price,
+        this.imageUrl,
+        this.productCategoryName,
+        this.brand,
+        this.isPopular,
+      });
+
+  Product.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    description = json['description'];
+    price = json['price'];
+    imageUrl = json['imageUrl'];
+    productCategoryName = json['productCategoryName'];
+    brand = json['brand'];
+    isPopular = json['isPopular'];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'price': price,
+      'imageUrl': imageUrl,
+      'productCategoryName': productCategoryName,
+      'brand': brand,
+      'isPopular': isPopular,
+    };
+  }
 }

@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       Center(
                         child: Text(
-                          'كنده تشيز',
+                          'متجر بركات ',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,

@@ -20,10 +20,10 @@ class _LandingPageState extends State<LandingPage>
   AnimationController _animationController;
   Animation<double> _animation;
   List<String> images = [
-    'https://food2mins.com/wp-content/uploads/2019/04/%D8%B7%D8%B1%D9%8A%D9%82%D8%A9-%D8%B9%D9%85%D9%84-%D8%A7%D9%84%D8%A8%D9%8A%D8%AA%D8%B2%D8%A7-%D8%A7%D9%84%D8%A7%D9%8A%D8%B7%D8%A7%D9%84%D9%8A%D8%A9-%D8%A8%D8%B7%D8%B1%D9%8A%D9%82%D8%A9-%D8%A7%D8%AD%D8%AA%D8%B1%D8%A7%D9%81%D9%8A%D8%A9-2.jpg',
-    'https://s3-eu-west-1.amazonaws.com/manalonline.com/upload/articles/*x*_jFpl4uxXv66e7raNO1MG.jpg',
-    'https://aldaleelnews.com/wp-content/uploads/2020/09/received_311684563455315.jpeg',
-    'https://www.supermama.me/system/App/Entities/Recipe/images/000/105/030/web-watermarked-large/%D8%B7%D8%B1%D9%8A%D9%82%D8%A9-%D8%B9%D9%85%D9%84-%D8%A8%D9%8A%D8%AA%D8%B2%D8%A7-%D8%A8%D9%85%D9%83%D9%88%D9%86%D9%8A%D9%86-%D9%81%D9%82%D8%B7.jpg',
+    'https://www.mobiles.co.uk/blog/content/images/size/w2000/2019/09/banner-3.jpg',
+    'https://www.mobiles.co.uk/blog/content/images/2019/09/design-2.jpg',
+    'https://www.mactrast.com/wp-content/uploads/2018/09/Apple-iPhone-Xs-combo-gold-banner.jpg',
+    'https://etgeekera.files.wordpress.com/2016/09/iphone-7-banner.jpg',
   ];
   @override
   void initState() {
@@ -132,11 +132,11 @@ class _LandingPageState extends State<LandingPage>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Text(
-                    '   مرحبا بكم في متجرنا كنده تشيز',
+                    '   مرحبا بكم في متجر بركات',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 26,
-                      color: Colors.black,
+                      color: Colors.grey,
                       fontWeight: FontWeight.w400,
                     ),
                   ),

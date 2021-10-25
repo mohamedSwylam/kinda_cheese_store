@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark),
+          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark)..getProduct(),
         ),
         BlocProvider(
           create: (BuildContext context) => SignUpCubit(),
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
 
-            home: startWidget,
+            home: LandingPage(),
           );
         },
       ),
