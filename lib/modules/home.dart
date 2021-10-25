@@ -95,9 +95,10 @@ class HomeScreen extends StatelessWidget {
                           showIndicator: true,
                           indicatorBgPadding: 7.0,
                           images: [
-                            AssetImage('assets/images/cover.jpg'),
-                            AssetImage('assets/images/cover.jpg'),
-                            AssetImage('assets/images/cover.jpg'),
+                            AssetImage('assets/images/banner1.jpg'),
+                            AssetImage('assets/images/banner2.jpg'),
+                            AssetImage('assets/images/banner3.jpg'),
+                            AssetImage('assets/images/banner4.jpg'),
                           ],
                         ),
                       ),

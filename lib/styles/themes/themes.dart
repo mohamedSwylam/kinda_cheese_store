@@ -37,10 +37,10 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
     bodyText1: TextStyle(
-      height: 1.5,
+      height: 1.3,
       color: Colors.white,
       fontWeight: FontWeight.bold,
-      fontSize: 23,
+      fontSize: 20,
       /*shadows: [
                       Shadow(
                         offset: Offset(0.0,15),
@@ -94,10 +94,10 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black,
     ),
     bodyText1: TextStyle(
-      height: 1.5,
+      height: 1.3,
       color: Colors.black,
       fontWeight: FontWeight.bold,
-      fontSize: 23,
+      fontSize: 20,
       /*shadows: [
                       Shadow(
                         offset: Offset(0.0,15),
