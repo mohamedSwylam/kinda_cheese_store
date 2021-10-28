@@ -119,7 +119,7 @@ Widget buildGridView(context,Product products)=>InkWell(
   },
   child:   Container(
 
-    margin: EdgeInsets.all(15.0),
+    margin: EdgeInsets.all(12.0),
 
     clipBehavior: Clip.antiAliasWithSaveLayer,
 
@@ -230,7 +230,7 @@ Widget buildGridView(context,Product products)=>InkWell(
                 overflow: TextOverflow.ellipsis,
 
               ),
-
+SizedBox(height: 10,),
               Text(
 
                 "*******",
@@ -249,7 +249,10 @@ Widget buildGridView(context,Product products)=>InkWell(
 
                 children: [
 
-                  InkWell(child: Icon(Icons.more_horiz_rounded,size: 18,),onTap: () async {
+                  InkWell(child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Icon(Icons.more_horiz_rounded,size: 22,),
+                  ),onTap: () async {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) => FeedsDialog(

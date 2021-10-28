@@ -14,6 +14,8 @@ import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/shared/constants/constant.dart';
 
+import 'orders_screen.dart';
+
 class UserScreen extends StatefulWidget {
   @override
   State<UserScreen> createState() => _UserScreenState();
@@ -210,7 +212,9 @@ class _UserScreenState extends State<UserScreen> {
                               child: Column(
                                 children: [
                                   InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    navigateTo(context, OrderScreen());
+                                  },
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 12.0),
                                     child: Container(

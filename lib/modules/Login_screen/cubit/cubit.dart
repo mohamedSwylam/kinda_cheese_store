@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_restart/flutter_restart.dart';
+import 'package:store_app/models/order_model.dart';
 import 'package:store_app/models/user_model.dart';
 import 'package:store_app/modules/Login_screen/cubit/states.dart';
 import 'package:store_app/shared/constants/constant.dart';
@@ -22,6 +23,7 @@ class LoginCubit extends Cubit<LoginStates> {
     FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email, password: password).then((value){
           getUserData();
+          getOrders();
           print(value.user.email);
           print(value.user.uid);
      emit(LoginSuccessState(value.user.uid));
@@ -67,6 +69,42 @@ class LoginCubit extends Cubit<LoginStates> {
         createdAt = userDoc.get('createdAt');
         emit(GetUserLoginSuccessStates());
     }
+  }
+  List<OrderModel> orders = [];
+  void getOrders() async {
+    emit(GetOrdersLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .where('userId', isEqualTo: uId)
+        .get()
+        .then((QuerySnapshot ordersSnapshot) {
+      orders.clear();
+      ordersSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        orders.insert(
+          0,
+          OrderModel(
+            orderId: element.get('orderId'),
+            title: element.get('title'),
+            price: element.get('price'),
+            imageUrl: element.get('imageUrl'),
+            userId: element.get('userId'),
+            userAddress: element.get('userAddress'),
+            total: element.get('total'),
+            subTotal: element.get('subTotal'),
+            anotherNumber: element.get('anotherNumber'),
+            addressDetails: element.get('addressDetails'),
+            quantity: element.get('quantity'),
+            productId: element.get('productId'),
+            username: element.get('username'),
+            userPhone: element.get('userPhone'),
+          ),
+        );
+      });
+      emit(GetOrdersSuccessStates());
+    }).catchError((error) {
+      emit(GetOrdersErrorStates());
+    });
   }
   }
 

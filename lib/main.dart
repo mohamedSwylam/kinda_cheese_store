@@ -14,6 +14,8 @@ import 'package:store_app/styles/themes/themes.dart';
 import 'modules/brandScreens/Brand_screen.dart';
 import 'modules/Login_screen/cubit/states.dart';
 import 'modules/Login_screen/login_screen.dart';
+import 'modules/full_order.dart';
+import 'modules/orders_screen.dart';
 import 'modules/sign_up_screen/cubit/cubit.dart';
 import 'network/local/cache_helper.dart';
 Future<void> main() async{
@@ -42,13 +44,13 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark)..getProduct(),
+          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark)..getProduct()
         ),
         BlocProvider(
           create: (BuildContext context) => SignUpCubit(),
         ),
         BlocProvider(
-          create: (BuildContext context) => LoginCubit()..getUserData(),
+          create: (BuildContext context) => LoginCubit()..getUserData()..getOrders(),
         ),
       ],
       child: BlocConsumer<StoreAppCubit,StoreAppStates>(
@@ -60,8 +62,7 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             theme: lightTheme,
             themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-
-            home: LandingPage(),
+            home: startWidget,
           );
         },
       ),

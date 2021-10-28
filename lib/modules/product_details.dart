@@ -160,7 +160,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
                               child: Text(
                                 '${productAttr.title}',
                                 style: Theme.of(context)
@@ -176,7 +176,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Text(
-                                '${productAttr.price}',
+                                '${productAttr.price.toStringAsFixed(0)}ج.م',
                                 style: TextStyle(
                                   color: Colors.grey,
                                 ),

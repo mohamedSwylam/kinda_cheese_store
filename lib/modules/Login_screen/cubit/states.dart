@@ -24,3 +24,9 @@ class GetUserLoginLoadingStates extends LoginStates {}
 class GetUserLoginSuccessStates extends LoginStates {}
 
 class GetUserLoginErrorStates extends LoginStates {}
+
+class GetOrdersLoadingStates extends LoginStates {}
+
+class GetOrdersSuccessStates extends LoginStates {}
+
+class GetOrdersErrorStates extends LoginStates {}

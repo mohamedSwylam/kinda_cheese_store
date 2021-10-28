@@ -42,14 +42,34 @@ class SignOutSuccessState extends StoreAppStates {}
 
 //brandScreen
 class SelectAddidasBrandState extends StoreAppStates {}
+
 class SelectAppleBrandState extends StoreAppStates {}
+
 class SelectDellBrandState extends StoreAppStates {}
+
 class SelectHmBrandState extends StoreAppStates {}
+
 class SelectNikeBrandState extends StoreAppStates {}
+
 class SelectSamsungBrandState extends StoreAppStates {}
+
 class SelectHuaweiBrandState extends StoreAppStates {}
+
 class SelectAllBrandState extends StoreAppStates {}
+
 class ChangeIndexState extends StoreAppStates {}
 
+///////////uploadOrder
+class CreateOrderSuccessState extends StoreAppStates {}
+
+class CreateOrderErrorState extends StoreAppStates {}
+
 class OnTapBrandItemState extends StoreAppStates {}
+
 class OnTapBrandItemStatee extends StoreAppStates {}
+////////////get order
+class GetOrdersLoadingStates extends StoreAppStates {}
+
+class GetOrdersSuccessStates extends StoreAppStates {}
+
+class GetOrdersErrorStates extends StoreAppStates {}

@@ -12,12 +12,14 @@ import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/models/brand_model.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/modules/Login_screen/cubit/cubit.dart';
 import 'package:store_app/modules/backlayer.dart';
 import 'package:store_app/modules/brandScreens/Brand_screen.dart';
 import 'package:store_app/modules/category.dart';
 import 'package:store_app/modules/categoties_feed_screen.dart';
 import 'package:store_app/modules/product_details.dart';
 import 'package:store_app/shared/components/components.dart';
+import 'package:store_app/shared/constants/constant.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -49,11 +51,13 @@ class HomeScreen extends StatelessWidget {
                       ),
                       IconButton(
                         padding: EdgeInsets.all(10),
-                        onPressed: () {},
+                        onPressed: () {
+                         // print(LoginCubit.get(context).uId);
+                        },
                         iconSize: 15,
                         icon: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
+                              '${LoginCubit.get(context).profileImage}'),
                           backgroundColor: Colors.grey[300],
                           radius: 13,
                         ),
@@ -370,16 +374,19 @@ Widget buildPopularProductItem(context, Product products) => InkWell(
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       InkWell(
-                        child: Icon(
-                          StoreAppCubit.get(context).getCartItems.containsKey(products.id)? MaterialCommunityIcons.check_all : MaterialCommunityIcons.cart_plus,
-                          size: 18,
-                          color: Colors.teal,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5),
+                          child: Icon(
+                            StoreAppCubit.get(context).getCartItems.containsKey(products.id)? MaterialCommunityIcons.check_all : MaterialCommunityIcons.cart_plus,
+                            size: 23,
+                            color: Colors.teal,
+                          ),
                         ),
                         onTap: () {
                           StoreAppCubit.get(context).addProductToCart(
@@ -394,7 +401,7 @@ Widget buildPopularProductItem(context, Product products) => InkWell(
                         width: 160,
                         child: Text(
                           products.description,
-                          style: TextStyle(color: Colors.black, fontSize: 11),
+                          style: TextStyle(color: Colors.grey, fontSize: 13),
                           maxLines: 2,
                           textAlign: TextAlign.end,
                           overflow: TextOverflow.ellipsis,

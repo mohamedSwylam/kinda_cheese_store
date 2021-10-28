@@ -4,10 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
+import 'package:store_app/modules/Login_screen/cubit/cubit.dart';
 import 'package:store_app/modules/empty_cart.dart';
 import 'package:store_app/modules/feeds.dart';
+import 'package:store_app/modules/wishlist_screen.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/styles/colors/colors.dart';
+
+import 'cart_screen.dart';
 
 class BackLayer extends StatelessWidget {
   @override
@@ -105,7 +109,7 @@ class BackLayer extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 12.0),
                           child: CircleAvatar(
                             backgroundImage: NetworkImage(
-                                'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
+                                '${LoginCubit.get(context).profileImage}'),
                             radius: 45,
                             backgroundColor: Colors.grey[300],
                           ),
@@ -113,17 +117,92 @@ class BackLayer extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10.0),
-                    InkWell(
-                      onTap: (){
-                        navigateAndFinish(context, EmptyCart());
-                      },
-                        child: content(context,'المفضله', MaterialCommunityIcons.heart),
-                    ),
-                    InkWell(
-                      onTap: (){
-                        navigateAndFinish(context, EmptyCart());
-                      },
-                        child: content(context,'العربه', MaterialCommunityIcons.cart),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            navigateTo(context, WishListScreen());
+                          },
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 12.0),
+                                  child: Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      image:DecorationImage(
+                                          image:   AssetImage('assets/images/wishlist.png')
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'المفضله',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                            ],
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            navigateTo(context, CartScreen());
+                          },
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 12.0),
+                                  child: Container(
+                                    width: 80,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      image:DecorationImage(
+                                          image:   AssetImage('assets/images/cart.png')
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'العربه',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            ],
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 12.0),
+                                  child: Container(
+                                    width: 80,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      image:DecorationImage(
+                                          image:   AssetImage('assets/images/order.png')
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'طلباتي',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
 
                   ],

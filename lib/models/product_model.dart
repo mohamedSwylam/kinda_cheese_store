@@ -9,6 +9,7 @@ class Product {
    String productCategoryName;
    String brand;
    bool isPopular;
+   int quantity;
 
   Product(
       {this.id,
@@ -19,6 +20,7 @@ class Product {
         this.productCategoryName,
         this.brand,
         this.isPopular,
+        this.quantity,
       });
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class Product {
     productCategoryName = json['productCategoryName'];
     brand = json['brand'];
     isPopular = json['isPopular'];
+    quantity = json['quantity'];
   }
 
   Map<String, dynamic> toMap() {
@@ -42,6 +45,7 @@ class Product {
       'productCategoryName': productCategoryName,
       'brand': brand,
       'isPopular': isPopular,
+      'quantity': quantity,
     };
   }
 }

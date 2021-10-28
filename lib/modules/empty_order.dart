@@ -9,7 +9,7 @@ class EmptyWishList extends StatelessWidget {
     return Scaffold(
       appBar:AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      elevation: 0.0,
+        elevation: 0.0,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -20,13 +20,13 @@ class EmptyWishList extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.3,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/favorite.png'),
+                image: AssetImage('assets/images/cart3.png'),
               ),
             ),
           ),
           SizedBox(height: 20,),
           Text(
-            'المفضله فارغه ',
+            'سله الطلبات فارغه',
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).textSelectionColor,
@@ -39,7 +39,7 @@ class EmptyWishList extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Text(
-              'يبدو انك لم تقم باضافه اي تفضيلات حتي الان',
+              'يبدو انك لم تقم بطلب شراء حتي الان',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText2,
             ),),

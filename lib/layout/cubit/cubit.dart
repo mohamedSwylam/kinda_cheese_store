@@ -6,9 +6,11 @@ import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/models/brand_model.dart';
 import 'package:store_app/models/cart_model.dart';
 import 'package:store_app/models/category_model.dart';
+import 'package:store_app/models/order_model.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/models/user_model.dart';
 import 'package:store_app/models/wishlist_model.dart';
+import 'package:store_app/modules/Login_screen/cubit/cubit.dart';
 import 'package:store_app/modules/brandScreens/Brand_screen.dart';
 import 'package:store_app/modules/categoties_feed_screen.dart';
 import 'package:store_app/modules/feeds.dart';
@@ -102,36 +104,36 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   ////////////////////////////////categoryScreen
   List<CategoryModel> categories = [
     CategoryModel(
-        categoryName: 'هواتف ذكيه',
+        categoryName: 'phones',
         categoryImage: 'assets/images/CatPhones.png'),
     CategoryModel(
-        categoryName: 'سماعات بلوتوث',
+        categoryName: 'headphones',
         categoryImage: 'assets/images/headphone.jpg'),
     CategoryModel(
-        categoryName: 'الشواحن', categoryImage: 'assets/images/charger.jpg'),
+        categoryName: 'charger', categoryImage: 'assets/images/charger.jpg'),
     CategoryModel(
-        categoryName: 'مستعمل', categoryImage: 'assets/images/mobil.jpg'),
+        categoryName: 'used', categoryImage: 'assets/images/mobil.jpg'),
     CategoryModel(
-        categoryName: 'موبيلات', categoryImage: 'assets/images/mobilat.jpg'),
+        categoryName: 'mobile', categoryImage: 'assets/images/mobilat.jpg'),
     CategoryModel(
-        categoryName: 'كابلات', categoryImage: 'assets/images/cable.jpg'),
+        categoryName: 'cable', categoryImage: 'assets/images/cable.jpg'),
     CategoryModel(
-        categoryName: 'ساعات ذكيه',
+        categoryName: 'watches',
         categoryImage: 'assets/images/CatWatches.jpg'),
     CategoryModel(
-        categoryName: 'بطاقات ذاكره',
+        categoryName: 'memory',
         categoryImage: 'assets/images/memory.png'),
     CategoryModel(
-        categoryName: 'حافظات', categoryImage: 'assets/images/cover.jpeg'),
+        categoryName: 'cover', categoryImage: 'assets/images/cover.jpeg'),
     CategoryModel(
-        categoryName: 'لاصقات شاشه',
+        categoryName: 'screen',
         categoryImage: 'assets/images/screen.jpeg'),
     CategoryModel(
-        categoryName: 'تابلت', categoryImage: 'assets/images/tablet.jpg'),
+        categoryName: 'tablet', categoryImage: 'assets/images/tablet.jpg'),
     CategoryModel(
-        categoryName: 'باور بانك', categoryImage: 'assets/images/power.jpg'),
+        categoryName: 'powerbank', categoryImage: 'assets/images/power.jpg'),
     CategoryModel(
-        categoryName: 'الكمبيوتر', categoryImage: 'assets/images/computer.jpg'),
+        categoryName: 'computer', categoryImage: 'assets/images/computer.jpg'),
   ];
 
   Widget buildCategoryItem(context, CategoryModel category) => InkWell(
@@ -605,7 +607,46 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetProductErrorStates());
     });
   }
+//////////////////////////// orderScreen
+  /*List<OrderModel> orders = [];
+  void getOrders(context) async {
+    emit(GetOrdersLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .where('userId', isEqualTo: LoginCubit.get(context).uId)
+        .get()
+        .then((QuerySnapshot ordersSnapshot) {
+      orders.clear();
+      ordersSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        orders.insert(
+          0,
+          OrderModel(
+              orderId: element.get('orderId'),
+              title: element.get('title'),
+              price: element.get('price'),
+              imageUrl: element.get('imageUrl'),
+              userId: element.get('userId'),
+              userAddress: element.get('userAddress'),
+              total: element.get('total'),
+              subTotal: element.get('subTotal'),
+              anotherNumber: element.get('anotherNumber'),
+              addressDetails: element.get('addressDetails'),
+              quantity: element.get('quantity'),
+              productId: element.get('productId'),
+              username: element.get('username'),
+              userPhone: element.get('userPhone'),
+          ),
+        );
+      });
+      emit(GetOrdersSuccessStates());
+    }).catchError((error) {
+      emit(GetOrdersErrorStates());
+    });
+  }*/
 
+
+  ///////////////////////////////////
   void signOut(context) => CacheHelper.removeData(key: 'uId').then((value) {
         if (value) {
           FirebaseAuth.instance
