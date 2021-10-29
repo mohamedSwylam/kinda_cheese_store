@@ -68,7 +68,7 @@ class SearchByHeader extends SliverPersistentHeaderDelegate {
                   animationType: BadgeAnimationType.slide,
                   toAnimate: true,
                   position: BadgePosition.topEnd(top: 0,end: 0),
-                  badgeContent: Text(StoreAppCubit.get(context).getCartItems.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                  badgeContent: Text(StoreAppCubit.get(context).carts.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
                   child: IconButton(
                     onPressed: () {
                       navigateTo(context, CartScreen());
@@ -87,7 +87,7 @@ class SearchByHeader extends SliverPersistentHeaderDelegate {
                     animationType: BadgeAnimationType.slide,
                     toAnimate: true,
                     position: BadgePosition.topEnd(top: 0,end: 0),
-                    badgeContent: Text(StoreAppCubit.get(context).getWishListItem.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                    badgeContent: Text(StoreAppCubit.get(context).wishList.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
                     child: IconButton(
                       onPressed: () {
                         navigateTo(context, WishListScreen());

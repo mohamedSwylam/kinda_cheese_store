@@ -31,7 +31,7 @@ class FeedsScreen extends StatelessWidget {
                   animationType: BadgeAnimationType.slide,
                   toAnimate: true,
                   position: BadgePosition.topEnd(top: 0,end: 0),
-                  badgeContent: Text(StoreAppCubit.get(context).getCartItems.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                  badgeContent: Text(StoreAppCubit.get(context).carts.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
                   child: IconButton(
                     onPressed: () {
                       navigateTo(context, CartScreen());

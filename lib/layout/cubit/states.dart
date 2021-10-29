@@ -136,3 +136,9 @@ class RemoveFromWishListLoadingStates extends StoreAppStates {}
 class RemoveFromWishListSuccessStates extends StoreAppStates {}
 
 class RemoveFromWishListErrorStates extends StoreAppStates {}
+
+class RemoveFromCartLoadingStates extends StoreAppStates {}
+
+class RemoveFromCartSuccessStates extends StoreAppStates {}
+
+class RemoveFromCartErrorStates extends StoreAppStates {}

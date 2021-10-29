@@ -218,7 +218,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     return categoryList;
   }
 
-  Map<String, CartModel> cartItem = {};
+/*  Map<String, CartModel> cartItem = {};
 
   Map<String, CartModel> get getCartItems {
     return {...cartItem};
@@ -229,36 +229,80 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       total += value.price * value.quantity;
     });
     return total;
-  }
+  }*/
  var uuid = Uuid();
-  void uploadItemToCart({
-     String productId,
-     String title,
-     double price,
-     String imageUrl,
-     String userId,
-     int quantity,
-}) {
-    final cartId=uuid.v4();
+  void addItemToCart({
+    String productId,
+    String title,
+    double price,
+    String imageUrl,
+    String userId,
+    int quantity,
+  }) {
+    final cartId = uuid.v4();
     FirebaseFirestore.instance
         .collection('carts')
-        .doc(cartId)
-        .set({
-      'productId': productId,
-      'userId': uId,
-      'cartId': cartId,
+        .doc(cartId).set({
+      'productId': productId.toString(),
+      'userId': uId.toString(),
+      'cartId': cartId.toString(),
       'title': title,
       'price': price,
       'imageUrl': imageUrl,
-      'quantity;': 1,
+      'quantity': 1,
     }).then((value) {
+      getCarts();
       emit(CreateCartItemSuccessState());
     }).catchError((error) {
       emit(CreateCartItemErrorState());
     });
   }
+  List<CartModel> carts = [];
 
-  void addProductToCart(
+  void  getCarts() async
+  {
+    emit(GetCartsLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('carts')
+        .get()
+        .then((QuerySnapshot cartSnapshot) {
+      carts = [];
+      cartSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        carts.insert(
+          0,
+          CartModel(
+            cartId: element.get('cartId'),
+            imageUrl: element.get('imageUrl'),
+            price: element.get('price'),
+            productId: element.get('productId'),
+            quantity: element.get('quantity'),
+            title: element.get('title'),
+            userId: element.get('userId'),
+          ),
+        );
+      });
+      emit(GetCartsSuccessStates());
+    }).catchError((error) {
+      emit(GetCartsErrorStates(error.toString()));
+    });
+  }
+  void removeFromCart(cartId) async {
+    emit(RemoveFromCartLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('carts')
+        .doc(cartId)
+        .delete()
+        .then((_) {
+      getCarts();
+      emit(RemoveFromCartSuccessStates());
+    }).catchError((error) {
+      emit(RemoveFromCartErrorStates());
+    });
+  }
+//////////////////
+
+  /*void addProductToCart(
       final String productId,
       final String title,
       final double price,
@@ -316,8 +360,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void clearCart() {
     cartItem.clear();
     emit(StoreAppClearCartSuccessState());
-  }
-  //////////////////////uploadWishlist
+  }*/
+  //////////////////////WishList
   void addToWishList({
     String productId,
     String title,
@@ -336,13 +380,13 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       'price': price,
       'imageUrl': imageUrl,
     }).then((value) {
+      getWishList();
       emit(UploadWishListItemSuccessState());
     }).catchError((error) {
       emit(UploadWishListItemErrorState());
     });
   }
   List<WishListModel> wishList = [];
-
   void  getWishList() async  {
     emit(GetWishListLoadingStates());
     await FirebaseFirestore.instance
@@ -383,46 +427,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveFromWishListErrorStates());
     });
   }
-  /////////////////////////
-  Map<String, WishListModel> wishListItem = {};
 
-  Map<String, WishListModel> get getWishListItem {
-    return {...wishListItem};
-  }
-
-/*  void addOrRemoveFromWishList(
-    final String productId,
-    final String title,
-    final double price,
-    final String imageUrl,
-  ) {
-    if (wishListItem.containsKey(productId)) {
-      removeItemFromWishList(productId);
-    } else {
-      wishListItem.putIfAbsent(
-          productId,
-          () => WishListModel(
-                title: title,
-                imageUrl: imageUrl,
-                price: price,
-                id: DateTime.now().toString(),
-              ));
-    }
-    emit(StoreAppAddItemToWishListSuccessState());
-  }*/
-
-  void removeItemFromWishList(
-    final String productId,
-  ) {
-    wishListItem.remove(productId);
-    emit(StoreAppRemoveWishListItemSuccessState());
-  }
-
-  void clearWishList() {
-    wishListItem.clear();
-    emit(StoreAppClearWishListSuccessState());
-  }
-
+  /////////////////////////search
   List<Product> searchList = [];
 
   List<Product> searchQuery(String searchText) {
@@ -435,9 +441,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   }
 
 
-
+/////////////////////////////product
   List<Product> products = [];
-
   void getProduct() async {
     emit(GetProductLoadingStates());
     await FirebaseFirestore.instance

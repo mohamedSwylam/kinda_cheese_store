@@ -30,7 +30,7 @@ class WishListScreen extends StatelessWidget {
             appBar: AppBar(
               leading: IconButton(
                 onPressed: (){
-                  showDialogg(context, 'تنظيف المفضله', 'هل تريد حقل حذف جميع المنتجات من تفضيلاتك', (){ StoreAppCubit.get(context).clearWishList();});
+                 // showDialogg(context, 'تنظيف المفضله', 'هل تريد حقل حذف جميع المنتجات من تفضيلاتك', (){ StoreAppCubit.get(context).clearWishList();});
                 },
                 icon: Icon(
                   Feather.trash,

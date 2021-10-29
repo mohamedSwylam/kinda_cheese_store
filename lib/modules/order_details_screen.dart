@@ -469,7 +469,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             builder: (BuildContext context) => OrderConfirmDialog(
                             ),
                           );
-                          StoreAppCubit.get(context).removeItem(productId);
+                          StoreAppCubit.get(context).removeFromCart(productId);
                         }
                       },
                       shape: RoundedRectangleBorder(

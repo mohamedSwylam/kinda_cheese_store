@@ -43,7 +43,7 @@ class OrderScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 15),
                   child: Text(
-                    'الطلبات (${StoreAppCubit.get(context).getWishListItem.length})',
+                    'الطلبات (${StoreAppCubit.get(context).orders.length})',
                     style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,

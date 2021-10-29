@@ -66,7 +66,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 toAnimate: true,
                 position: BadgePosition.topEnd(top: 0, end: 0),
                 badgeContent: Text(
-                  StoreAppCubit.get(context).getCartItems.length.toString(),
+                  StoreAppCubit.get(context).carts.length.toString(),
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
                 child: IconButton(
@@ -336,20 +336,18 @@ class ProductDetailsScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(side: BorderSide.none),
                           color: Colors.redAccent.shade400,
                           onPressed: StoreAppCubit.get(context)
-                                  .getCartItems
-                                  .containsKey(productId)
+                              .carts.any((element) => element.productId==productId)
                               ? () {}
                               : () {
-                                  StoreAppCubit.get(context).addProductToCart(
-                                      productId,
-                                      productAttr.title,
-                                      productAttr.price,
-                                      productAttr.imageUrl);
+                                  StoreAppCubit.get(context).addItemToCart(
+                                     productId:  productId,
+                                      title: productAttr.title,
+                                      price: productAttr.price,
+                                      imageUrl: productAttr.imageUrl);
                                 },
                           child: Text(
                             StoreAppCubit.get(context)
-                                    .getCartItems
-                                    .containsKey(productId)
+                                .carts.any((element) => element.productId==productId)
                                 ? 'في العربه '.toUpperCase()
                                 : 'اضف الي العربه'.toUpperCase(),
                             style: TextStyle(fontSize: 16, color: Colors.white),
@@ -410,7 +408,6 @@ class ProductDetailsScreen extends StatelessWidget {
                                imageUrl:  productAttr.imageUrl ,
                               userId: StoreAppCubit.get(context).uId,
                             );
-                            StoreAppCubit.get(context).getWishList();
                           },
                           child: Center(
                             child: Icon(

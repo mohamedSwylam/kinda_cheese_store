@@ -66,7 +66,6 @@ class FeedsDialog extends StatelessWidget {
                                 imageUrl:  productAttr.imageUrl ,
                                 userId: StoreAppCubit.get(context).uId,
                               );
-                              StoreAppCubit.get(context).getWishList();
                             },
                           ),
                         ),
@@ -82,8 +81,8 @@ class FeedsDialog extends StatelessWidget {
                           child: dialogContent(
                             context,
                             2,
-                            StoreAppCubit.get(context).getCartItems.containsKey(productId)? (){}:() {
-                              StoreAppCubit.get(context).addProductToCart(productId, productAttr.title, productAttr.price, productAttr.imageUrl);
+                              StoreAppCubit.get(context).carts.any((element) => element.productId==productId)? (){}:() {
+                              StoreAppCubit.get(context).addItemToCart(productId: productId,title:  productAttr.title, price: productAttr.price, imageUrl: productAttr.imageUrl);
                             },
                           ),
                         ),
@@ -128,11 +127,13 @@ class FeedsDialog extends StatelessWidget {
     ];
 
     List<String> texts = [
-      StoreAppCubit.get(context).getWishListItem.containsKey(productId)
+      StoreAppCubit.get(context)
+          .wishList.any((element) => element.productId==productId)
           ? 'في المفضلة'
           : 'اضف للمفضلة',
       'فتح المنتج',
-      StoreAppCubit.get(context).getCartItems.containsKey(productId) ? 'في العربه' : 'اضف للعربه',
+      StoreAppCubit.get(context)
+          .carts.any((element) => element.productId==productId) ? 'في العربه' : 'اضف للعربه',
     ];
     List<Color> colors = [
       StoreAppCubit.get(context)
@@ -140,7 +141,8 @@ class FeedsDialog extends StatelessWidget {
           ? Colors.red
           : Theme.of(context).textSelectionColor,
       Theme.of(context).textSelectionColor,
-      StoreAppCubit.get(context).getCartItems.containsKey(productId)
+      StoreAppCubit.get(context)
+          .carts.any((element) => element.productId==productId)
           ? Colors.teal
           : Theme.of(context).textSelectionColor,    ];
     return FittedBox(

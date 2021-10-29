@@ -329,7 +329,8 @@ Widget buildPopularProductItem(context, Product products) => InkWell(
                     top: 8,
                     child: Icon(
                       Entypo.star_outlined,
-                      color:  StoreAppCubit.get(context).getWishListItem.containsKey(products.id)? Colors.redAccent:Colors.white,
+                      color:   StoreAppCubit.get(context)
+                          .wishList.any((element) => element.productId== products.id) ? Colors.redAccent:Colors.white,
                     ),
                   ),
                   Positioned(
@@ -383,17 +384,18 @@ Widget buildPopularProductItem(context, Product products) => InkWell(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5),
                           child: Icon(
-                            StoreAppCubit.get(context).getCartItems.containsKey(products.id)? MaterialCommunityIcons.check_all : MaterialCommunityIcons.cart_plus,
+                            StoreAppCubit.get(context)
+                                .carts.any((element) => element.productId== products.id)? MaterialCommunityIcons.check_all : MaterialCommunityIcons.cart_plus,
                             size: 23,
                             color: Colors.teal,
                           ),
                         ),
                         onTap: () {
-                          StoreAppCubit.get(context).addProductToCart(
-                              products.id,
-                              StoreAppCubit.get(context).findById(products.id).title,
-                              StoreAppCubit.get(context).findById(products.id).price,
-                              StoreAppCubit.get(context).findById(products.id).imageUrl);
+                          StoreAppCubit.get(context).addItemToCart(
+                              productId:  products.id,
+                             title:  StoreAppCubit.get(context).findById(products.id).title,
+                             price:  StoreAppCubit.get(context).findById(products.id).price,
+                              imageUrl: StoreAppCubit.get(context).findById(products.id).imageUrl);
                         },
                       ),
                       Spacer(),
