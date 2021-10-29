@@ -127,7 +127,9 @@ class BackLayer extends StatelessWidget {
                           child: Column(
                             children: [
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  navigateTo(context, WishListScreen());
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 12.0),
                                   child: Container(

@@ -115,3 +115,24 @@ class GetUserLoginErrorStates extends StoreAppStates {}
 class CreateCartItemSuccessState extends StoreAppStates {}
 
 class CreateCartItemErrorState extends StoreAppStates {}
+
+///////////wishlist
+class UploadWishListItemSuccessState extends StoreAppStates {}
+
+class UploadWishListItemErrorState extends StoreAppStates {}
+
+class GetWishListLoadingStates extends StoreAppStates {}
+
+class GetWishListSuccessStates extends StoreAppStates {}
+
+class GetWishListErrorStates extends StoreAppStates {
+  final String error;
+
+  GetWishListErrorStates(this.error);
+}
+
+class RemoveFromWishListLoadingStates extends StoreAppStates {}
+
+class RemoveFromWishListSuccessStates extends StoreAppStates {}
+
+class RemoveFromWishListErrorStates extends StoreAppStates {}

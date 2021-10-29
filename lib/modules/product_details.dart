@@ -89,7 +89,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   position: BadgePosition.topEnd(top: 0, end: 0),
                   badgeContent: Text(
                     StoreAppCubit.get(context)
-                        .getWishListItem
+                        .wishList
                         .length
                         .toString(),
                     style: TextStyle(color: Colors.white, fontSize: 18),
@@ -398,28 +398,28 @@ class ProductDetailsScreen extends StatelessWidget {
                         height: 50,
                         child: InkWell(
                           splashColor: ColorsConsts.favColor,
-                          onTap: StoreAppCubit.get(context)
-                                  .getWishListItem
-                                  .containsKey(productId)
+                          onTap:  StoreAppCubit.get(context)
+                              .wishList.any((element) => element.productId==productId)
                               ? () {}
                               : () {
-                                  StoreAppCubit.get(context)
-                                      .addOrRemoveFromWishList(
-                                          productId,
-                                          productAttr.title,
-                                          productAttr.price,
-                                          productAttr.imageUrl);
-                                },
+                            StoreAppCubit.get(context)
+                            .addToWishList(
+                              productId: productId,
+                               title:  productAttr.title,
+                                price: productAttr.price,
+                               imageUrl:  productAttr.imageUrl ,
+                              userId: StoreAppCubit.get(context).uId,
+                            );
+                            StoreAppCubit.get(context).getWishList();
+                          },
                           child: Center(
                             child: Icon(
                               StoreAppCubit.get(context)
-                                      .getWishListItem
-                                      .containsKey(productId)
+                                  .wishList.any((element) => element.productId==productId)
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: StoreAppCubit.get(context)
-                                      .getWishListItem
-                                      .containsKey(productId)
+                                      .wishList.any((element) => element.productId==productId)
                                   ? Colors.redAccent
                                   : ColorsConsts.white,
                             ),

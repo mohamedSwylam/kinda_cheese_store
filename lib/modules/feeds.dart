@@ -50,7 +50,7 @@ class FeedsScreen extends StatelessWidget {
                     animationType: BadgeAnimationType.slide,
                     toAnimate: true,
                     position: BadgePosition.topEnd(top: 0,end: 0),
-                    badgeContent: Text(StoreAppCubit.get(context).getWishListItem.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                    badgeContent: Text(StoreAppCubit.get(context).wishList.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
                     child: IconButton(
                       onPressed: () {
                         navigateTo(context, WishListScreen());

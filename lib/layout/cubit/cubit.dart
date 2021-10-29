@@ -317,7 +317,72 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     cartItem.clear();
     emit(StoreAppClearCartSuccessState());
   }
+  //////////////////////uploadWishlist
+  void addToWishList({
+    String productId,
+    String title,
+    double price,
+    String imageUrl,
+    String userId,
+  }) {
+    final wishListId = uuid.v4();
+    FirebaseFirestore.instance
+        .collection('wishList')
+        .doc(wishListId).set({
+      'productId': productId.toString(),
+      'userId': uId.toString(),
+      'wishListId': wishListId.toString(),
+      'title': title,
+      'price': price,
+      'imageUrl': imageUrl,
+    }).then((value) {
+      emit(UploadWishListItemSuccessState());
+    }).catchError((error) {
+      emit(UploadWishListItemErrorState());
+    });
+  }
+  List<WishListModel> wishList = [];
 
+  void  getWishList() async  {
+    emit(GetWishListLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('wishList')
+        .where('userId', isEqualTo: uId)
+        .get()
+        .then((QuerySnapshot wishListSnapshot) {
+      wishList.clear();
+      wishListSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        wishList.insert(
+          0,
+          WishListModel(
+            wishListId: element.get('wishListId'),
+            imageUrl: element.get('imageUrl'),
+            price: element.get('price'),
+            productId: element.get('productId'),
+            title: element.get('title'),
+            userId: element.get('userId'),
+          ),
+        );
+      });
+      emit(GetWishListSuccessStates());
+    }).catchError((error) {
+      emit(GetWishListErrorStates(error.toString()));
+    });
+  }
+  void removeFromWishList(wishListId) async {
+    emit(RemoveFromWishListLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('wishList')
+        .doc(wishListId)
+        .delete()
+        .then((_) {
+      getWishList();
+      emit(RemoveFromWishListSuccessStates());
+    }).catchError((error) {
+      emit(RemoveFromWishListErrorStates());
+    });
+  }
   /////////////////////////
   Map<String, WishListModel> wishListItem = {};
 
@@ -325,7 +390,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     return {...wishListItem};
   }
 
-  void addOrRemoveFromWishList(
+/*  void addOrRemoveFromWishList(
     final String productId,
     final String title,
     final double price,
@@ -344,7 +409,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
               ));
     }
     emit(StoreAppAddItemToWishListSuccessState());
-  }
+  }*/
 
   void removeItemFromWishList(
     final String productId,

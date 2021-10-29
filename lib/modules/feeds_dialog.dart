@@ -56,8 +56,17 @@ class FeedsDialog extends StatelessWidget {
                           child: dialogContent(
                               context,
                               0,
-                            StoreAppCubit.get(context).getWishListItem.containsKey(productId)? (){}:() {
-                              StoreAppCubit.get(context).addOrRemoveFromWishList(productId, productAttr.title, productAttr.price, productAttr.imageUrl);
+                            StoreAppCubit.get(context)
+                                .wishList.any((element) => element.productId==productId)? (){}:() {
+                              StoreAppCubit.get(context)
+                                  .addToWishList(
+                                productId: productId,
+                                title:  productAttr.title,
+                                price: productAttr.price,
+                                imageUrl:  productAttr.imageUrl ,
+                                userId: StoreAppCubit.get(context).uId,
+                              );
+                              StoreAppCubit.get(context).getWishList();
                             },
                           ),
                         ),
@@ -110,7 +119,8 @@ class FeedsDialog extends StatelessWidget {
   }
   Widget dialogContent(BuildContext context, int index, Function function) {
     List<IconData> dialogIcons = [
-      StoreAppCubit.get(context).getWishListItem.containsKey(productId)
+      StoreAppCubit.get(context)
+          .wishList.any((element) => element.productId==productId)
           ? Icons.favorite
           : Icons.favorite_border,
       Feather.eye,
@@ -125,7 +135,8 @@ class FeedsDialog extends StatelessWidget {
       StoreAppCubit.get(context).getCartItems.containsKey(productId) ? 'في العربه' : 'اضف للعربه',
     ];
     List<Color> colors = [
-      StoreAppCubit.get(context).getWishListItem.containsKey(productId)
+      StoreAppCubit.get(context)
+          .wishList.any((element) => element.productId==productId)
           ? Colors.red
           : Theme.of(context).textSelectionColor,
       Theme.of(context).textSelectionColor,
