@@ -53,9 +53,7 @@ dependencies:
   titled_navigation_bar: ^4.1.0
   flutter_restart: ^0.0.3
   uuid: 3.0.4
-
-
-
+  url_launcher: ^6.0.12
 
 
 dev_dependencies:

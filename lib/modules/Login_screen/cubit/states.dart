@@ -1,3 +1,4 @@
+/*
 abstract class LoginStates {}
 
 class LoginInitialState extends LoginStates {}
@@ -29,4 +30,4 @@ class GetOrdersLoadingStates extends LoginStates {}
 
 class GetOrdersSuccessStates extends LoginStates {}
 
-class GetOrdersErrorStates extends LoginStates {}
+class GetOrdersErrorStates extends LoginStates {}*/

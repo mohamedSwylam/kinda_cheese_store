@@ -22,6 +22,8 @@ import 'package:store_app/modules/user.dart';
 import 'package:store_app/network/local/cache_helper.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/shared/constants/constant.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 class StoreAppCubit extends Cubit<StoreAppStates> {
   StoreAppCubit() : super(StoreAppInitialState());
@@ -100,7 +102,354 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(StoreAppChangeThemeModeState());
     }
   }
+  ///////////////loginScreen
+  void userLogin({
+    @required String password,
+    @required String email,
+  }) {
+    emit(LoginLoadingState());
+    FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email, password: password).then((value){
+      getUserData();
+      getOrders();
+      print(value.user.email);
+      print(value.user.uid);
+      emit(LoginSuccessState(value.user.uid));
+    }).catchError((error) {
+      emit(LoginErrorState(error.toString()));
+    });
+  }
 
+  IconData suffix = Icons.visibility_outlined;
+  bool isPasswordShown = true;
+  void changePasswordVisibility() {
+    isPasswordShown = !isPasswordShown;
+    suffix = isPasswordShown
+        ? Icons.visibility_outlined
+        : Icons.visibility_off_outlined;
+    emit(LoginPasswordVisibilityState());
+  }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String name;
+  String phone;
+  String email;
+  String uId;
+  String profileImage;
+  String address;
+  String joinedAt;
+  String createdAt;
+  void getUserData() async {
+    emit(GetUserLoginLoadingStates());
+    User user = _auth.currentUser;
+    uId = user.uid;
+    print('user.displayName ${user.displayName}');
+    print('user.photoURL ${user.photoURL}');
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uId).get();
+    if (userDoc == null) {
+      return;
+    } else {
+      name = userDoc.get('name');
+      email = user.email;
+      joinedAt = userDoc.get('joinedAt');
+      phone = userDoc.get('phone');
+      address = userDoc.get('address');
+      profileImage = userDoc.get('profileImage');
+      createdAt = userDoc.get('createdAt');
+      emit(GetUserLoginSuccessStates());
+    }
+  }
+  List<OrderModel> orders = [];
+  void getOrders() async {
+    emit(GetOrdersLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .where('userId', isEqualTo: uId)
+        .get()
+        .then((QuerySnapshot ordersSnapshot) {
+      orders.clear();
+      ordersSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        orders.insert(
+          0,
+          OrderModel(
+            orderId: element.get('orderId'),
+            title: element.get('title'),
+            price: element.get('price'),
+            imageUrl: element.get('imageUrl'),
+            userId: element.get('userId'),
+            userAddress: element.get('userAddress'),
+            total: element.get('total'),
+            subTotal: element.get('subTotal'),
+            anotherNumber: element.get('anotherNumber'),
+            addressDetails: element.get('addressDetails'),
+            quantity: element.get('quantity'),
+            productId: element.get('productId'),
+            username: element.get('username'),
+            userPhone: element.get('userPhone'),
+          ),
+        );
+      });
+      emit(GetOrdersSuccessStates());
+    }).catchError((error) {
+      emit(GetOrdersErrorStates());
+    });
+  }
+  /////////
+  List<Product> popularProducts = [];
+
+  Product findById(String productId) {
+    return products.firstWhere((element) => element.id == productId);
+  }
+
+  List<Product> findByCategory(String categoryName) {
+    List categoryList = products
+        .where((element) => element.productCategoryName
+            .toLowerCase()
+            .contains(categoryName.toLowerCase()))
+        .toList();
+    return categoryList;
+  }
+
+  List<Product> findByBrand(String brandName) {
+    List categoryList = products
+        .where((element) =>
+            element.brand.toLowerCase().contains(brandName.toLowerCase()))
+        .toList();
+    return categoryList;
+  }
+
+  Map<String, CartModel> cartItem = {};
+
+  Map<String, CartModel> get getCartItems {
+    return {...cartItem};
+  }
+  double get totalAmount {
+    var total = 0.0;
+    cartItem.forEach((key, value) {
+      total += value.price * value.quantity;
+    });
+    return total;
+  }
+ var uuid = Uuid();
+  void uploadItemToCart({
+     String productId,
+     String title,
+     double price,
+     String imageUrl,
+     String userId,
+     int quantity,
+}) {
+    final cartId=uuid.v4();
+    FirebaseFirestore.instance
+        .collection('carts')
+        .doc(cartId)
+        .set({
+      'productId': productId,
+      'userId': uId,
+      'cartId': cartId,
+      'title': title,
+      'price': price,
+      'imageUrl': imageUrl,
+      'quantity;': 1,
+    }).then((value) {
+      emit(CreateCartItemSuccessState());
+    }).catchError((error) {
+      emit(CreateCartItemErrorState());
+    });
+  }
+
+  void addProductToCart(
+      final String productId,
+      final String title,
+      final double price,
+      final String imageUrl,
+      ) {
+    if (cartItem.containsKey(productId)) {
+      cartItem.update(
+          productId,
+              (existingCartItem) => CartModel(
+            title: existingCartItem.title,
+            imageUrl: existingCartItem.imageUrl,
+            price: existingCartItem.price,
+            id: existingCartItem.id,
+            quantity: existingCartItem.quantity + 1,
+          ));
+    } else {
+      cartItem.putIfAbsent(
+          productId,
+              () => CartModel(
+            title: title,
+            imageUrl: imageUrl,
+            price: price,
+            id: DateTime.now().toString(),
+            quantity: 1,
+          ));
+    }
+    emit(StoreAppAddToCartSuccessState());
+  }
+  void reduceItemByOne(
+      final String productId,
+      final String title,
+      final double price,
+      final String imageUrl,
+      ) {
+    if (cartItem.containsKey(productId)) {
+      cartItem.update(
+          productId,
+              (existingCartItem) => CartModel(
+            title: existingCartItem.title,
+            imageUrl: existingCartItem.imageUrl,
+            price: existingCartItem.price,
+            id: existingCartItem.id,
+            quantity: existingCartItem.quantity - 1,
+          ));
+    }
+    emit(StoreAppReduceCartItemByOneSuccessState());
+  }
+  void removeItem(
+      final String productId,
+      ) {
+    cartItem.remove(productId);
+    emit(StoreAppRemoveCartItemSuccessState());
+  }
+
+  void clearCart() {
+    cartItem.clear();
+    emit(StoreAppClearCartSuccessState());
+  }
+
+  /////////////////////////
+  Map<String, WishListModel> wishListItem = {};
+
+  Map<String, WishListModel> get getWishListItem {
+    return {...wishListItem};
+  }
+
+  void addOrRemoveFromWishList(
+    final String productId,
+    final String title,
+    final double price,
+    final String imageUrl,
+  ) {
+    if (wishListItem.containsKey(productId)) {
+      removeItemFromWishList(productId);
+    } else {
+      wishListItem.putIfAbsent(
+          productId,
+          () => WishListModel(
+                title: title,
+                imageUrl: imageUrl,
+                price: price,
+                id: DateTime.now().toString(),
+              ));
+    }
+    emit(StoreAppAddItemToWishListSuccessState());
+  }
+
+  void removeItemFromWishList(
+    final String productId,
+  ) {
+    wishListItem.remove(productId);
+    emit(StoreAppRemoveWishListItemSuccessState());
+  }
+
+  void clearWishList() {
+    wishListItem.clear();
+    emit(StoreAppClearWishListSuccessState());
+  }
+
+  List<Product> searchList = [];
+
+  List<Product> searchQuery(String searchText) {
+    searchList = products
+        .where((element) =>
+            element.title.toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
+    emit(StoreAppSearchQuerySuccessState());
+    return searchList;
+  }
+
+
+
+  List<Product> products = [];
+
+  void getProduct() async {
+    emit(GetProductLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('products')
+        .get()
+        .then((QuerySnapshot productsSnapshot) {
+      products = [];
+      productsSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        products.insert(
+          0,
+          Product(
+              id: element.get('id'),
+              title: element.get('title'),
+              description: element.get('description'),
+              price: double.parse(
+                element.get('price'),
+              ),
+              imageUrl: element.get('imageUrl'),
+              brand: element.get('brand'),
+              productCategoryName: element.get('productCategoryName'),
+              isPopular: true),
+        );
+      });
+      emit(GetProductSuccessStates());
+    }).catchError((error) {
+      emit(GetProductErrorStates());
+    });
+  }
+//////////////////////////// orderScreen
+  /*List<OrderModel> orders = [];
+  void getOrders(context) async {
+    emit(GetOrdersLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .where('userId', isEqualTo: LoginCubit.get(context).uId)
+        .get()
+        .then((QuerySnapshot ordersSnapshot) {
+      orders.clear();
+      ordersSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        orders.insert(
+          0,
+          OrderModel(
+              orderId: element.get('orderId'),
+              title: element.get('title'),
+              price: element.get('price'),
+              imageUrl: element.get('imageUrl'),
+              userId: element.get('userId'),
+              userAddress: element.get('userAddress'),
+              total: element.get('total'),
+              subTotal: element.get('subTotal'),
+              anotherNumber: element.get('anotherNumber'),
+              addressDetails: element.get('addressDetails'),
+              quantity: element.get('quantity'),
+              productId: element.get('productId'),
+              username: element.get('username'),
+              userPhone: element.get('userPhone'),
+          ),
+        );
+      });
+      emit(GetOrdersSuccessStates());
+    }).catchError((error) {
+      emit(GetOrdersErrorStates());
+    });
+  }*/
+
+
+  ///////////////////////////////////Signout
+  void signOut(context) => CacheHelper.removeData(key: 'uId').then((value) {
+        if (value) {
+          FirebaseAuth.instance
+              .signOut()
+              .then((value) => navigateAndFinish(context, LandingPage()));
+          emit(SignOutSuccessState());
+        }
+      });
   ////////////////////////////////categoryScreen
   List<CategoryModel> categories = [
     CategoryModel(
@@ -137,134 +486,134 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   ];
 
   Widget buildCategoryItem(context, CategoryModel category) => InkWell(
-        onTap: () {
-          navigateTo(
-              context,
-              CategoriesFeedScreen(
-                categoryName: category.categoryName,
-              ));
-        },
-        child: Container(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(20.0),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0xff37475A).withOpacity(0.2),
-                blurRadius: 20.0,
-                offset: const Offset(0, 10),
-              )
-            ],
+    onTap: () {
+      navigateTo(
+          context,
+          CategoriesFeedScreen(
+            categoryName: category.categoryName,
+          ));
+    },
+    child: Container(
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(20.0),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xff37475A).withOpacity(0.2),
+            blurRadius: 20.0,
+            offset: const Offset(0, 10),
+          )
+        ],
+      ),
+      child: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: [
+          Image(
+            image: AssetImage(
+              category.categoryImage,
+            ),
+            fit: BoxFit.fill,
+            height: 150,
+            width: 150,
           ),
-          child: Stack(
-            alignment: AlignmentDirectional.bottomCenter,
-            children: [
-              Image(
-                image: AssetImage(
-                  category.categoryImage,
+          Container(
+              height: 30,
+              width: 150,
+              color: Colors.black.withOpacity(0.8),
+              child: Center(
+                child: Text(
+                  category.categoryName,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
-                fit: BoxFit.fill,
-                height: 150,
-                width: 150,
-              ),
-              Container(
-                  height: 30,
-                  width: 150,
-                  color: Colors.black.withOpacity(0.8),
-                  child: Center(
-                    child: Text(
-                      category.categoryName,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )),
-            ],
-          ),
-        ),
-      );
+              )),
+        ],
+      ),
+    ),
+  );
 
   // BrandScreen
   Widget buildPopularBrandsItem(BrandModel brand, context) => InkWell(
-        onTap: () {
-          selectedBrandIndex = brand.id;
-          if (brand.id == 0) {
-            brandName = 'redmi';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 1) {
-            brandName = 'Apple';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 2) {
-            brandName = 'lenovo';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 3) {
-            brandName = 'oppo';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 4) {
-            brandName = 'realme';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 5) {
-            brandName = 'Samsung';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 6) {
-            brandName = 'Huawei';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 7) {
-            brandName = 'nokia';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 8) {
-            brandName = 'nokia';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 9) {
-            brandName = 'sony';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 10) {
-            brandName = 'vivo';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 11) {
-            brandName = 'tecno';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 12) {
-            brandName = 'infnix';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 13) {
-            brandName = 'itel';
-            brandList = findByBrand(brandName);
-          }
-          if (brand.id == 14) {
-            brandList = products;
-          }
-          navigateTo(context, BrandScreen());
-          emit(OnTapBrandItemState());
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            color: Colors.blueGrey,
-            child: Image.asset(
-              brand.brandImage,
-              fit: BoxFit.fill,
-            ),
-          ),
+    onTap: () {
+      selectedBrandIndex = brand.id;
+      if (brand.id == 0) {
+        brandName = 'redmi';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 1) {
+        brandName = 'Apple';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 2) {
+        brandName = 'lenovo';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 3) {
+        brandName = 'oppo';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 4) {
+        brandName = 'realme';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 5) {
+        brandName = 'Samsung';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 6) {
+        brandName = 'Huawei';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 7) {
+        brandName = 'nokia';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 8) {
+        brandName = 'nokia';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 9) {
+        brandName = 'sony';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 10) {
+        brandName = 'vivo';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 11) {
+        brandName = 'tecno';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 12) {
+        brandName = 'infnix';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 13) {
+        brandName = 'itel';
+        brandList = findByBrand(brandName);
+      }
+      if (brand.id == 14) {
+        brandList = products;
+      }
+      navigateTo(context, BrandScreen());
+      emit(OnTapBrandItemState());
+    },
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        color: Colors.blueGrey,
+        child: Image.asset(
+          brand.brandImage,
+          fit: BoxFit.fill,
         ),
-      );
+      ),
+    ),
+  );
   List<BrandModel> brands = [
     BrandModel(
       brand: 'redmi',
@@ -411,250 +760,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       ),
     );
   }
-
-  /////////
-  List<Product> popularProducts = [];
-
-  Product findById(String productId) {
-    return products.firstWhere((element) => element.id == productId);
-  }
-
-  List<Product> findByCategory(String categoryName) {
-    List categoryList = products
-        .where((element) => element.productCategoryName
-            .toLowerCase()
-            .contains(categoryName.toLowerCase()))
-        .toList();
-    return categoryList;
-  }
-
-  List<Product> findByBrand(String brandName) {
-    List categoryList = products
-        .where((element) =>
-            element.brand.toLowerCase().contains(brandName.toLowerCase()))
-        .toList();
-    return categoryList;
-  }
-
-  Map<String, CartModel> cartItem = {};
-
-  Map<String, CartModel> get getCartItems {
-    return {...cartItem};
-  }
-
-  double get totalAmount {
-    var total = 0.0;
-    cartItem.forEach((key, value) {
-      total += value.price * value.quantity;
-    });
-    return total;
-  }
-
-  void addProductToCart(
-    final String productId,
-    final String title,
-    final double price,
-    final String imageUrl,
-  ) {
-    if (cartItem.containsKey(productId)) {
-      cartItem.update(
-          productId,
-          (existingCartItem) => CartModel(
-                title: existingCartItem.title,
-                imageUrl: existingCartItem.imageUrl,
-                price: existingCartItem.price,
-                id: existingCartItem.id,
-                quantity: existingCartItem.quantity + 1,
-              ));
-    } else {
-      cartItem.putIfAbsent(
-          productId,
-          () => CartModel(
-                title: title,
-                imageUrl: imageUrl,
-                price: price,
-                id: DateTime.now().toString(),
-                quantity: 1,
-              ));
-    }
-    emit(StoreAppAddToCartSuccessState());
-  }
-
-  void reduceItemByOne(
-    final String productId,
-    final String title,
-    final double price,
-    final String imageUrl,
-  ) {
-    if (cartItem.containsKey(productId)) {
-      cartItem.update(
-          productId,
-          (existingCartItem) => CartModel(
-                title: existingCartItem.title,
-                imageUrl: existingCartItem.imageUrl,
-                price: existingCartItem.price,
-                id: existingCartItem.id,
-                quantity: existingCartItem.quantity - 1,
-              ));
-    }
-    emit(StoreAppReduceCartItemByOneSuccessState());
-  }
-
-  void removeItem(
-    final String productId,
-  ) {
-    cartItem.remove(productId);
-    emit(StoreAppRemoveCartItemSuccessState());
-  }
-
-  void clearCart() {
-    cartItem.clear();
-    emit(StoreAppClearCartSuccessState());
-  }
-
-  /////////////////////////
-  Map<String, WishListModel> wishListItem = {};
-
-  Map<String, WishListModel> get getWishListItem {
-    return {...wishListItem};
-  }
-
-  void addOrRemoveFromWishList(
-    final String productId,
-    final String title,
-    final double price,
-    final String imageUrl,
-  ) {
-    if (wishListItem.containsKey(productId)) {
-      removeItemFromWishList(productId);
-    } else {
-      wishListItem.putIfAbsent(
-          productId,
-          () => WishListModel(
-                title: title,
-                imageUrl: imageUrl,
-                price: price,
-                id: DateTime.now().toString(),
-              ));
-    }
-    emit(StoreAppAddItemToWishListSuccessState());
-  }
-
-  void removeItemFromWishList(
-    final String productId,
-  ) {
-    wishListItem.remove(productId);
-    emit(StoreAppRemoveWishListItemSuccessState());
-  }
-
-  void clearWishList() {
-    wishListItem.clear();
-    emit(StoreAppClearWishListSuccessState());
-  }
-
-  List<Product> searchList = [];
-
-  List<Product> searchQuery(String searchText) {
-    searchList = products
-        .where((element) =>
-            element.title.toLowerCase().contains(searchText.toLowerCase()))
-        .toList();
-    emit(StoreAppSearchQuerySuccessState());
-    return searchList;
-  }
-
-  UserModel userModel;
-
-  void getUserData() {
-    emit(GetUserLoadingStates());
-    FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
-      userModel = UserModel.fromJson(value.data());
-      emit(GetUserSuccessStates());
-    }).catchError((error) {
-      print(error.toString());
-      emit(GetUserErrorStates());
-    });
-  }
-
-  List<Product> products = [];
-
-  void getProduct() async {
-    emit(GetProductLoadingStates());
-    await FirebaseFirestore.instance
-        .collection('products')
-        .get()
-        .then((QuerySnapshot productsSnapshot) {
-      products = [];
-      productsSnapshot.docs.forEach((element) {
-        // print('element.get(productBrand), ${element.get('productBrand')}');
-        products.insert(
-          0,
-          Product(
-              id: element.get('id'),
-              title: element.get('title'),
-              description: element.get('description'),
-              price: double.parse(
-                element.get('price'),
-              ),
-              imageUrl: element.get('imageUrl'),
-              brand: element.get('brand'),
-              productCategoryName: element.get('productCategoryName'),
-              isPopular: true),
-        );
-      });
-      emit(GetProductSuccessStates());
-    }).catchError((error) {
-      emit(GetProductErrorStates());
-    });
-  }
-//////////////////////////// orderScreen
-  /*List<OrderModel> orders = [];
-  void getOrders(context) async {
-    emit(GetOrdersLoadingStates());
-    await FirebaseFirestore.instance
-        .collection('orders')
-        .where('userId', isEqualTo: LoginCubit.get(context).uId)
-        .get()
-        .then((QuerySnapshot ordersSnapshot) {
-      orders.clear();
-      ordersSnapshot.docs.forEach((element) {
-        // print('element.get(productBrand), ${element.get('productBrand')}');
-        orders.insert(
-          0,
-          OrderModel(
-              orderId: element.get('orderId'),
-              title: element.get('title'),
-              price: element.get('price'),
-              imageUrl: element.get('imageUrl'),
-              userId: element.get('userId'),
-              userAddress: element.get('userAddress'),
-              total: element.get('total'),
-              subTotal: element.get('subTotal'),
-              anotherNumber: element.get('anotherNumber'),
-              addressDetails: element.get('addressDetails'),
-              quantity: element.get('quantity'),
-              productId: element.get('productId'),
-              username: element.get('username'),
-              userPhone: element.get('userPhone'),
-          ),
-        );
-      });
-      emit(GetOrdersSuccessStates());
-    }).catchError((error) {
-      emit(GetOrdersErrorStates());
-    });
-  }*/
-
-
-  ///////////////////////////////////
-  void signOut(context) => CacheHelper.removeData(key: 'uId').then((value) {
-        if (value) {
-          FirebaseAuth.instance
-              .signOut()
-              .then((value) => navigateAndFinish(context, LandingPage()));
-          emit(SignOutSuccessState());
-        }
-      });
 /*List<Product> products = [
     Product(
         id: 'Samsung1',

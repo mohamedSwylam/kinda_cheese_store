@@ -109,7 +109,7 @@ class BackLayer extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 12.0),
                           child: CircleAvatar(
                             backgroundImage: NetworkImage(
-                                '${LoginCubit.get(context).profileImage}'),
+                                '${StoreAppCubit.get(context).profileImage}'),
                             radius: 45,
                             backgroundColor: Colors.grey[300],
                           ),

@@ -67,9 +67,51 @@ class CreateOrderErrorState extends StoreAppStates {}
 class OnTapBrandItemState extends StoreAppStates {}
 
 class OnTapBrandItemStatee extends StoreAppStates {}
+
 ////////////get order
 class GetOrdersLoadingStates extends StoreAppStates {}
 
 class GetOrdersSuccessStates extends StoreAppStates {}
 
 class GetOrdersErrorStates extends StoreAppStates {}
+
+class GetCartsLoadingStates extends StoreAppStates {}
+
+class GetCartsSuccessStates extends StoreAppStates {}
+
+class GetCartsErrorStates extends StoreAppStates {
+  final String error;
+
+  GetCartsErrorStates(this.error);
+}
+/////////////////loginScreen
+
+class LoginInitialState extends StoreAppStates {}
+
+class LoginLoadingState extends StoreAppStates {}
+
+class LoginSuccessState extends StoreAppStates {
+  final String uId;
+
+  LoginSuccessState(this.uId);
+}
+
+class LoginErrorState extends StoreAppStates {
+  final String error;
+
+  LoginErrorState(this.error);
+}
+
+class LoginPasswordVisibilityState extends StoreAppStates {}
+
+class LoginState extends StoreAppStates {}
+
+class GetUserLoginLoadingStates extends StoreAppStates {}
+
+class GetUserLoginSuccessStates extends StoreAppStates {}
+
+class GetUserLoginErrorStates extends StoreAppStates {}
+
+class CreateCartItemSuccessState extends StoreAppStates {}
+
+class CreateCartItemErrorState extends StoreAppStates {}

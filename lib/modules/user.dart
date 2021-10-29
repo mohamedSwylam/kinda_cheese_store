@@ -99,7 +99,7 @@ class _UserScreenState extends State<UserScreen> {
                                 padding: const EdgeInsets.only(bottom: 12.0),
                                 child: CircleAvatar(
                                   backgroundImage:
-                                  NetworkImage('${ LoginCubit.get(context).profileImage}'),
+                                  NetworkImage('${ StoreAppCubit.get(context).profileImage}'),
                                   radius: 35,
                                   backgroundColor: Colors.grey[300],
                                 ),
@@ -122,7 +122,7 @@ class _UserScreenState extends State<UserScreen> {
                                   ),
                                   SizedBox(height: 10,),
                                   Text(
-                                    '${ LoginCubit.get(context).name}',
+                                    '${ StoreAppCubit.get(context).name}',
                                     maxLines: 1,
                                     textAlign: TextAlign.end,
                                     overflow: TextOverflow.clip,
@@ -264,7 +264,7 @@ class _UserScreenState extends State<UserScreen> {
                                         Theme.of(context).textTheme.subtitle1,
                                       ),
                                       Text(
-                                        '${ LoginCubit.get(context).email}',
+                                        '${ StoreAppCubit.get(context).email}',
                                         style:
                                         Theme.of(context).textTheme.caption,
                                       ),
@@ -296,7 +296,7 @@ class _UserScreenState extends State<UserScreen> {
                                         Theme.of(context).textTheme.subtitle1,
                                       ),
                                       Text(
-                                        '${ LoginCubit.get(context).phone}',
+                                        '${ StoreAppCubit.get(context).phone}',
                                         style:
                                         Theme.of(context).textTheme.caption,
                                       ),
@@ -328,7 +328,7 @@ class _UserScreenState extends State<UserScreen> {
                                         Theme.of(context).textTheme.subtitle1,
                                       ),
                                       Text(
-                                        '${ LoginCubit.get(context).address}',
+                                        '${ StoreAppCubit.get(context).address}',
                                         style:
                                         Theme.of(context).textTheme.caption,
                                       ),
@@ -360,7 +360,7 @@ class _UserScreenState extends State<UserScreen> {
                                         Theme.of(context).textTheme.subtitle1,
                                       ),
                                       Text(
-                                        '${ LoginCubit.get(context).joinedAt}',
+                                        '${ StoreAppCubit.get(context).joinedAt}',
                                         style:
                                         Theme.of(context).textTheme.caption,
                                       ),

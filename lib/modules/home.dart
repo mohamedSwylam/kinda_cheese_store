@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                         iconSize: 15,
                         icon: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              '${LoginCubit.get(context).profileImage}'),
+                              '${StoreAppCubit.get(context).profileImage}'),
                           backgroundColor: Colors.grey[300],
                           radius: 13,
                         ),
@@ -170,7 +170,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       Container(
                         height: 210,
-                        width: MediaQuery.of(context).size.width * 0.95,
+                        width: MediaQuery.of(context).size.width * 1.0,
                         child: Swiper(
                           itemCount: StoreAppCubit.get(context).brands.length,
                           autoplay: true,

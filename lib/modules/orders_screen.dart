@@ -57,13 +57,13 @@ class OrderScreen extends StatelessWidget {
               child: ListView.separated(
                 physics: BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  var list=LoginCubit.get(context).orders;
+                  var list=StoreAppCubit.get(context).orders;
                   return buildOrderItem(context,list[index]);
                 },
                 separatorBuilder: (context, index) => Container(
                   height: 8,
                 ),
-                itemCount: LoginCubit.get(context).orders.length,
+                itemCount: StoreAppCubit.get(context).orders.length,
               ),
             ),
           );

@@ -249,10 +249,12 @@ SizedBox(height: 10,),
 
                 children: [
 
-                  InkWell(child: Padding(
+                  InkWell(
+                    child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Icon(Icons.more_horiz_rounded,size: 22,),
-                  ),onTap: () async {
+                  ),
+                    onTap: () async {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) => FeedsDialog(

@@ -7,10 +7,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/modules/Login_screen/cubit/cubit.dart';
+import 'package:store_app/modules/order_confirm_dialog.dart';
 import 'package:store_app/modules/product_details.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/shared/constants/constant.dart';
 import 'package:store_app/styles/colors/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
@@ -109,7 +111,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 height: 10,
                               ),
                               Text(
-                                '${LoginCubit.get(context).name}',
+                                '${StoreAppCubit.get(context).name}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.end,
@@ -122,7 +124,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 height: 7,
                               ),
                               Text(
-                                '${LoginCubit.get(context).address}',
+                                '${StoreAppCubit.get(context).address}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.end,
@@ -135,7 +137,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 height: 10,
                               ),
                               Text(
-                                '${LoginCubit.get(context).phone}',
+                                '${StoreAppCubit.get(context).phone}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.end,
@@ -442,26 +444,32 @@ class OrderDetailsScreen extends StatelessWidget {
                               .set({
                             'orderId': orderId.toString(),
                             'productId': productId.toString(),
-                            'userId': LoginCubit.get(context).uId.toString(),
+                            'userId': StoreAppCubit.get(context).uId.toString(),
                             'title': title,
                             'price': price,
                             'subTotal': subTotal,
                             'total':total,
-                            'userPhone': LoginCubit
+                            'userPhone': StoreAppCubit
                                 .get(context)
                                 .phone,
-                            'username': LoginCubit
+                            'username': StoreAppCubit
                                 .get(context)
                                 .name,
                             'quantity': quantity,
-                            'userAddress': LoginCubit
+                            'userAddress': StoreAppCubit
                                 .get(context)
                                 .address,
                             'addressDetails': addressDetailsController.text,
                             'anotherNumber': anotherPhoneController.text,
                             'imageUrl': imageUrl,
                           });
-                          LoginCubit.get(context).getOrders();
+                          StoreAppCubit.get(context).getOrders();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => OrderConfirmDialog(
+                            ),
+                          );
+                          StoreAppCubit.get(context).removeItem(productId);
                         }
                       },
                       shape: RoundedRectangleBorder(
@@ -484,8 +492,8 @@ class OrderDetailsScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.height * 0.06,
                     child: RaisedButton(
-                      onPressed: ()  {
-
+                      onPressed: () {
+                        launch("tel:01098570050");
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),

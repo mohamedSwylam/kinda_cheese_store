@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
+import 'package:store_app/layout/cubit/states.dart';
 import 'package:store_app/layout/store_layout.dart';
 import 'package:store_app/modules/sign_up_screen/sign_up_screen.dart';
 import 'package:store_app/network/local/cache_helper.dart';
@@ -23,7 +24,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginStates>(
+    return BlocConsumer<StoreAppCubit, StoreAppStates>(
       listener: (context, state) {
         if (state is LoginErrorState) {
           showToast(text: state.error, state: ToastStates.ERROR);
@@ -130,12 +131,12 @@ class LoginScreen extends StatelessWidget {
                               }
                               return null;
                             },
-                            isPassword: LoginCubit.get(context).isPasswordShown,
+                            isPassword: StoreAppCubit.get(context).isPasswordShown,
                             suffixPressed: () {
-                              LoginCubit.get(context)
+                              StoreAppCubit.get(context)
                                   .changePasswordVisibility();
                             },
-                            suffix: LoginCubit.get(context).suffix,
+                            suffix: StoreAppCubit.get(context).suffix,
                             context: context,
                             labelText: 'ادخل كلمه المرور'),
                       ),
@@ -176,7 +177,7 @@ class LoginScreen extends StatelessWidget {
                                     )),
                                     onPressed: () {
                                       if (formKey.currentState.validate()) {
-                                        LoginCubit.get(context).userLogin(
+                                        StoreAppCubit.get(context).userLogin(
                                             password: passwordController.text,
                                             email: emailController.text,
                                         );

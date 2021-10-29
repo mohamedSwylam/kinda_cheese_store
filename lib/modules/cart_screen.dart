@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -21,92 +22,92 @@ class CartScreen extends StatelessWidget {
         builder: (context, state) {
           return StoreAppCubit.get(context).getCartItems.isEmpty
               ? Scaffold(
-                  body: EmptyCart(),
-                )
+            body: EmptyCart(),
+          )
               : Scaffold(
-                  appBar: AppBar(
-                    leading: IconButton(
-                      onPressed: () {
-                        showDialogg(context, 'تنظيف العربه',
-                            'هل تريد حقل حذف جميع المنتجات من العربه', () {
-                          StoreAppCubit.get(context).clearCart();
-                        });
-                      },
-                      icon: Icon(
-                        Feather.trash,
-                      ),
-                    ),
-                    backgroundColor: Colors.tealAccent,
-                    elevation: 0,
-                    flexibleSpace: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.tealAccent,
-                            Colors.green[100],
-                          ],
-                        ),
-                      ),
-                    ),
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 11),
-                        child: Text(
-                          'العربه (${StoreAppCubit.get(context).getCartItems.length})',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+            appBar: AppBar(
+              leading: IconButton(
+                onPressed: () {
+                  showDialogg(context, 'تنظيف العربه',
+                      'هل تريد حقل حذف جميع المنتجات من العربه', () {
+                        StoreAppCubit.get(context).clearCart();
+                      });
+                },
+                icon: Icon(
+                  Feather.trash,
+                ),
+              ),
+              backgroundColor: Colors.tealAccent,
+              elevation: 0,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.tealAccent,
+                      Colors.green[100],
                     ],
                   ),
-                  body: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return FullCart(
-                          id: StoreAppCubit.get(context)
-                              .getCartItems
-                              .values
-                              .toList()[index]
-                              .id,
-                          productId: StoreAppCubit.get(context)
-                              .getCartItems
-                              .keys
-                              .toList()[index],
-                          price: StoreAppCubit.get(context)
-                              .getCartItems
-                              .values
-                              .toList()[index]
-                              .price,
-                          title: StoreAppCubit.get(context)
-                              .getCartItems
-                              .values
-                              .toList()[index]
-                              .title,
-                          imageUrl: StoreAppCubit.get(context)
-                              .getCartItems
-                              .values
-                              .toList()[index]
-                              .imageUrl,
-                          quantity: StoreAppCubit.get(context)
-                              .getCartItems
-                              .values
-                              .toList()[index]
-                              .quantity,
-                        );
-                      },
-                      separatorBuilder: (context, index) => Container(
-                        height: 8,
-                      ),
-                      itemCount: StoreAppCubit.get(context).getCartItems.length,
-                    ),
+                ),
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 11),
+                  child: Text(
+                    'العربه (${StoreAppCubit.get(context).getCartItems.length})',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
                   ),
-                 // bottomSheet: bottomSheet(context),
-                );
+                ),
+              ],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: ListView.separated(
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return FullCart(
+                    id: StoreAppCubit.get(context)
+                        .getCartItems
+                        .values
+                        .toList()[index]
+                        .id,
+                    productId: StoreAppCubit.get(context)
+                        .getCartItems
+                        .keys
+                        .toList()[index],
+                    price: StoreAppCubit.get(context)
+                        .getCartItems
+                        .values
+                        .toList()[index]
+                        .price,
+                    title: StoreAppCubit.get(context)
+                        .getCartItems
+                        .values
+                        .toList()[index]
+                        .title,
+                    imageUrl: StoreAppCubit.get(context)
+                        .getCartItems
+                        .values
+                        .toList()[index]
+                        .imageUrl,
+                    quantity: StoreAppCubit.get(context)
+                        .getCartItems
+                        .values
+                        .toList()[index]
+                        .quantity,
+                  );
+                },
+                separatorBuilder: (context, index) => Container(
+                  height: 8,
+                ),
+                itemCount: StoreAppCubit.get(context).getCartItems.length,
+              ),
+            ),
+            // bottomSheet: bottomSheet(context),
+          );
         });
   }
 }

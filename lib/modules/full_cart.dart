@@ -22,11 +22,11 @@ class FullCart extends StatelessWidget {
 
   const FullCart(
       {@required this.id,
-      @required this.productId,
-      @required this.price,
-      @required this.quantity,
-      @required this.title,
-      @required this.imageUrl});
+        @required this.productId,
+        @required this.price,
+        @required this.quantity,
+        @required this.title,
+        @required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +79,9 @@ class FullCart extends StatelessWidget {
                                     children: [
                                       Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             'ج.م',
@@ -120,9 +120,9 @@ class FullCart extends StatelessWidget {
                                     children: [
                                       Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             'ج.م',
@@ -178,16 +178,16 @@ class FullCart extends StatelessWidget {
                                               borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(10),
                                                   bottomLeft:
-                                                      Radius.circular(10)),
+                                                  Radius.circular(10)),
                                             ),
                                             clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
+                                            Clip.antiAliasWithSaveLayer,
                                           ),
                                           onTap: () {
                                             if (quantity > 0) {
                                               StoreAppCubit.get(context)
                                                   .reduceItemByOne(productId,
-                                                      title, price, imageUrl);
+                                                  title, price, imageUrl);
                                             }
                                           },
                                         ),
@@ -196,12 +196,12 @@ class FullCart extends StatelessWidget {
                                           width: 65,
                                           child: Center(
                                               child: Text(
-                                            '${quantity.toString()}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                .copyWith(color: Colors.black),
-                                          )),
+                                                '${quantity.toString()}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1
+                                                    .copyWith(color: Colors.black),
+                                              )),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             border: Border.all(
@@ -210,7 +210,7 @@ class FullCart extends StatelessWidget {
                                             ),
                                           ),
                                           clipBehavior:
-                                              Clip.antiAliasWithSaveLayer,
+                                          Clip.antiAliasWithSaveLayer,
                                         ),
                                         InkWell(
                                           child: Container(
@@ -229,15 +229,15 @@ class FullCart extends StatelessWidget {
                                               borderRadius: BorderRadius.only(
                                                   topRight: Radius.circular(10),
                                                   bottomRight:
-                                                      Radius.circular(10)),
+                                                  Radius.circular(10)),
                                             ),
                                             clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
+                                            Clip.antiAliasWithSaveLayer,
                                           ),
                                           onTap: () {
                                             StoreAppCubit.get(context)
                                                 .addProductToCart(productId,
-                                                    title, price, imageUrl);
+                                                title, price, imageUrl);
                                           },
                                         ),
                                       ],
@@ -332,8 +332,8 @@ class FullCart extends StatelessWidget {
                         onPressed: () {
                           showDialogg(context, 'حذف المنتج من العربه',
                               'هل تريد حقل حذف المنتج من العربه', () {
-                            StoreAppCubit.get(context).removeItem(productId);
-                          });
+                                StoreAppCubit.get(context).removeItem(productId);
+                              });
                         },
                       ),
                     ),
