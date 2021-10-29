@@ -17,18 +17,17 @@ import 'package:uuid/uuid.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   final String productId;
-  final String id;
+  final String cartId;
   final double price;
-  final double subTotal;
   final int quantity;
   final String title;
   final String imageUrl;
    OrderDetailsScreen(
-      {@required this.id,
+      {
         @required this.productId,
+        @required this.cartId,
         @required this.price,
         @required this.quantity,
-        @required this.subTotal,
         @required this.title,
         @required this.imageUrl});
   var uuid = Uuid();
@@ -41,7 +40,7 @@ class OrderDetailsScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var productAttr = StoreAppCubit.get(context).findById(productId);
-        double total= subTotal+10;
+        double total= ((price*quantity))+10;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.tealAccent,
@@ -266,7 +265,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                         ),
                                         SizedBox(width: 10,),
                                         Text(
-                                          '${subTotal.toStringAsFixed(0)}',
+                                          '${(price*quantity).toStringAsFixed(0)}',
                                           style: TextStyle(
                                             fontSize: 20.0,
                                             color: Colors.grey,
@@ -447,7 +446,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             'userId': StoreAppCubit.get(context).uId.toString(),
                             'title': title,
                             'price': price,
-                            'subTotal': subTotal,
+                            'subTotal': (price*quantity),
                             'total':total,
                             'userPhone': StoreAppCubit
                                 .get(context)
@@ -466,10 +465,9 @@ class OrderDetailsScreen extends StatelessWidget {
                           StoreAppCubit.get(context).getOrders();
                           showDialog(
                             context: context,
-                            builder: (BuildContext context) => OrderConfirmDialog(
-                            ),
+                            builder: (BuildContext context) => OrderConfirmDialog(),
                           );
-                          StoreAppCubit.get(context).removeFromCart(productId);
+                           StoreAppCubit.get(context).selectedHome();
                         }
                       },
                       shape: RoundedRectangleBorder(
@@ -478,7 +476,10 @@ class OrderDetailsScreen extends StatelessWidget {
                       ),
                       color: Colors.redAccent,
                       child: Text(
-                        'تاكيد الطلب',
+                        StoreAppCubit.get(context)
+                            .orders.any((element) => element.productId==productId)
+                            ? 'تم تأكيد الطلب'
+                            : 'تأكيد الطلب',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).textSelectionColor,
@@ -501,7 +502,10 @@ class OrderDetailsScreen extends StatelessWidget {
                       ),
                       color: Colors.redAccent,
                       child: Text(
-                        'الاتصال للطلب',
+                        StoreAppCubit.get(context)
+                            .orders.any((element) => element.productId==productId)
+                            ? 'الاستفسار بشأن الطلب'
+                            : 'الاتصال للطلب',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).textSelectionColor,

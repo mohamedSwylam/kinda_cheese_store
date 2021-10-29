@@ -66,6 +66,11 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void selectedHome() {
     selectedIndex = 0;
     emit(StoreAppBottomBarHomeState());
+  }void
+
+  selectedCart() {
+    selectedIndex = 3;
+    emit(StoreAppBottomBarCartState());
   }
 
   bool isDark = false;
@@ -112,6 +117,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         email: email, password: password).then((value){
       getUserData();
       getOrders();
+      getWishList();
+      getCarts();
       print(value.user.email);
       print(value.user.uid);
       emit(LoginSuccessState(value.user.uid));
@@ -218,18 +225,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     return categoryList;
   }
 
-/*  Map<String, CartModel> cartItem = {};
-
-  Map<String, CartModel> get getCartItems {
-    return {...cartItem};
-  }
-  double get totalAmount {
-    var total = 0.0;
-    cartItem.forEach((key, value) {
-      total += value.price * value.quantity;
-    });
-    return total;
-  }*/
  var uuid = Uuid();
   void addItemToCart({
     String productId,
@@ -264,9 +259,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     emit(GetCartsLoadingStates());
     await FirebaseFirestore.instance
         .collection('carts')
+        .where('userId', isEqualTo: uId)
         .get()
         .then((QuerySnapshot cartSnapshot) {
-      carts = [];
+      carts.clear();
       cartSnapshot.docs.forEach((element) {
         // print('element.get(productBrand), ${element.get('productBrand')}');
         carts.insert(
@@ -298,6 +294,64 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveFromCartSuccessStates());
     }).catchError((error) {
       emit(RemoveFromCartErrorStates());
+    });
+  }
+  void addItemByOne({
+    String productId,
+    String title,
+    double price,
+    String imageUrl,
+    String userId,
+    int quantity,
+    cartId
+  }) async {
+    emit(AddCartItemByOneLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('carts')
+        .doc(cartId)
+        .update({
+      'productId': productId.toString(),
+      'userId': uId.toString(),
+      'cartId': cartId.toString(),
+      'title': title,
+      'price': price,
+      'imageUrl': imageUrl,
+      'quantity': quantity,
+    })
+        .then((value) {
+      getCarts();
+      emit(AddCartItemByOneSuccessStates());
+    }).catchError((error) {
+      emit(AddCartItemByOneErrorStates());
+    });
+  }
+  void reduceItemByOne({
+    String productId,
+    String title,
+    double price,
+    String imageUrl,
+    String userId,
+    int quantity,
+    cartId
+  }) async {
+    emit(ReduceCartItemByOneLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('carts')
+        .doc(cartId)
+        .update({
+      'productId': productId.toString(),
+      'userId': uId.toString(),
+      'cartId': cartId.toString(),
+      'title': title,
+      'price': price,
+      'imageUrl': imageUrl,
+      'quantity': quantity,
+    })
+        .then((value) {
+      getCarts();
+      emit(ReduceCartItemByOneSuccessStates());
+    }).catchError((error) {
+      emit(ReduceCartItemByOneErrorStates());
     });
   }
 //////////////////

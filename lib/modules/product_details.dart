@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:store_app/layout/cubit/cubit.dart';
 import 'package:store_app/layout/cubit/states.dart';
+import 'package:store_app/layout/store_layout.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/modules/cart_screen.dart';
 import 'package:store_app/modules/feeds.dart';
@@ -88,10 +89,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   toAnimate: true,
                   position: BadgePosition.topEnd(top: 0, end: 0),
                   badgeContent: Text(
-                    StoreAppCubit.get(context)
-                        .wishList
-                        .length
-                        .toString(),
+                    StoreAppCubit.get(context).wishList.length.toString(),
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                   child: IconButton(
@@ -318,7 +316,9 @@ class ProductDetailsScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 40,)
+                      SizedBox(
+                        height: 40,
+                      )
                     ],
                   ),
                 ),
@@ -335,19 +335,19 @@ class ProductDetailsScreen extends StatelessWidget {
                               MaterialTapTargetSize.shrinkWrap,
                           shape: RoundedRectangleBorder(side: BorderSide.none),
                           color: Colors.redAccent.shade400,
-                          onPressed: StoreAppCubit.get(context)
-                              .carts.any((element) => element.productId==productId)
+                          onPressed: StoreAppCubit.get(context).carts.any(
+                                  (element) => element.productId == productId)
                               ? () {}
                               : () {
                                   StoreAppCubit.get(context).addItemToCart(
-                                     productId:  productId,
+                                      productId: productId,
                                       title: productAttr.title,
                                       price: productAttr.price,
                                       imageUrl: productAttr.imageUrl);
                                 },
                           child: Text(
-                            StoreAppCubit.get(context)
-                                .carts.any((element) => element.productId==productId)
+                            StoreAppCubit.get(context).carts.any(
+                                    (element) => element.productId == productId)
                                 ? 'في العربه '.toUpperCase()
                                 : 'اضف الي العربه'.toUpperCase(),
                             style: TextStyle(fontSize: 16, color: Colors.white),
@@ -364,7 +364,15 @@ class ProductDetailsScreen extends StatelessWidget {
                               MaterialTapTargetSize.shrinkWrap,
                           shape: RoundedRectangleBorder(side: BorderSide.none),
                           color: Theme.of(context).backgroundColor,
-                          onPressed: () {},
+                          onPressed: () {
+                            StoreAppCubit.get(context).addItemToCart(
+                                productId: productId,
+                                title: productAttr.title,
+                                price: productAttr.price,
+                                imageUrl: productAttr.imageUrl);
+                            StoreAppCubit.get(context).selectedCart();
+                            navigateTo(context, StoreLayout());
+                          },
                           child: Row(
                             children: [
                               Text(
@@ -375,7 +383,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                         Theme.of(context).textSelectionColor),
                               ),
                               SizedBox(
-                                width:18,
+                                width: 18,
                               ),
                               Icon(
                                 Icons.payment,
@@ -396,27 +404,28 @@ class ProductDetailsScreen extends StatelessWidget {
                         height: 50,
                         child: InkWell(
                           splashColor: ColorsConsts.favColor,
-                          onTap:  StoreAppCubit.get(context)
-                              .wishList.any((element) => element.productId==productId)
+                          onTap: StoreAppCubit.get(context).wishList.any(
+                                  (element) => element.productId == productId)
                               ? () {}
                               : () {
-                            StoreAppCubit.get(context)
-                            .addToWishList(
-                              productId: productId,
-                               title:  productAttr.title,
-                                price: productAttr.price,
-                               imageUrl:  productAttr.imageUrl ,
-                              userId: StoreAppCubit.get(context).uId,
-                            );
-                          },
+                                  StoreAppCubit.get(context).addToWishList(
+                                    productId: productId,
+                                    title: productAttr.title,
+                                    price: productAttr.price,
+                                    imageUrl: productAttr.imageUrl,
+                                    userId: StoreAppCubit.get(context).uId,
+                                  );
+                                },
                           child: Center(
                             child: Icon(
-                              StoreAppCubit.get(context)
-                                  .wishList.any((element) => element.productId==productId)
+                              StoreAppCubit.get(context).wishList.any(
+                                      (element) =>
+                                          element.productId == productId)
                                   ? Icons.favorite
                                   : Icons.favorite_border,
-                              color: StoreAppCubit.get(context)
-                                      .wishList.any((element) => element.productId==productId)
+                              color: StoreAppCubit.get(context).wishList.any(
+                                      (element) =>
+                                          element.productId == productId)
                                   ? Colors.redAccent
                                   : ColorsConsts.white,
                             ),

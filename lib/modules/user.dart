@@ -157,19 +157,14 @@ class _UserScreenState extends State<UserScreen> {
                               },
                               child: Column(
                                 children: [
-                                  InkWell(
-                                    onTap: () {
-                                      navigateTo(context, WishListScreen());
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(bottom: 12.0),
-                                      child: Container(
-                                        width: 100,
-                                        height: 100,
-                                        decoration: BoxDecoration(
-                                          image:DecorationImage(
-                                            image:   AssetImage('assets/images/wishlist.png')
-                                          ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 12.0),
+                                    child: Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        image:DecorationImage(
+                                          image:   AssetImage('assets/images/wishlist.png')
                                         ),
                                       ),
                                     ),
@@ -187,17 +182,14 @@ class _UserScreenState extends State<UserScreen> {
                               },
                               child: Column(
                                 children: [
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(bottom: 12.0),
-                                      child: Container(
-                                        width: 100,
-                                        height: 100,
-                                        decoration: BoxDecoration(
-                                          image:DecorationImage(
-                                              image:   AssetImage('assets/images/cart.png')
-                                          ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 12.0),
+                                    child: Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        image:DecorationImage(
+                                            image:   AssetImage('assets/images/cart.png')
                                         ),
                                       ),
                                     ),
@@ -210,14 +202,12 @@ class _UserScreenState extends State<UserScreen> {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                navigateTo(context, OrderScreen());
+                              },
                               child: Column(
                                 children: [
-                                  InkWell(
-                                  onTap: () {
-                                    navigateTo(context, OrderScreen());
-                                  },
-                                  child: Padding(
+                                  Padding(
                                     padding: const EdgeInsets.only(bottom: 12.0),
                                     child: Container(
                                       width: 100,
@@ -229,7 +219,6 @@ class _UserScreenState extends State<UserScreen> {
                                       ),
                                     ),
                                   ),
-                                ),
                                   Text(
                                     'طلباتي',
                                     style: Theme.of(context).textTheme.bodyText1,

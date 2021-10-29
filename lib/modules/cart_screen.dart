@@ -13,6 +13,7 @@ import 'package:store_app/modules/order_details_screen.dart';
 import 'package:store_app/modules/product_details.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/styles/colors/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -232,12 +233,17 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                                   Clip.antiAliasWithSaveLayer,
                                 ),
                                 onTap: () {
-                                  /*   if (quantity > 0) {
-                                    StoreAppCubit.get(context)
-                                        .reduceItemByOne(productId,
-                                        title, price, imageUrl);
+                                    if (model.quantity > 0) {
+                                    StoreAppCubit.get(context).reduceItemByOne(
+                                    imageUrl: model.imageUrl,
+                                    price:  model.price,
+                                    title: model.title,
+                                    productId: model.productId,
+                                    quantity: ( model.quantity-1),
+                                    userId:  model.userId,
+                                    cartId: model.cartId,
+                                  );
                                   }
-                                },*/
                                 },
                               ),
                               Container(
@@ -284,9 +290,15 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                                   Clip.antiAliasWithSaveLayer,
                                 ),
                                 onTap: () {
-                                /*  StoreAppCubit.get(context)
-                                      .addProductToCart(productId,
-                                      title, price, imageUrl);*/
+                                  StoreAppCubit.get(context).addItemByOne(
+                                    imageUrl: model.imageUrl,
+                                    price:  model.price,
+                                    title: model.title,
+                                    productId: model.productId,
+                                    quantity: ( model.quantity+1),
+                                    userId:  model.userId,
+                                    cartId: model.cartId,
+                                  );
                                 },
                               ),
                             ],
@@ -313,24 +325,26 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: RaisedButton(
-                  onPressed: () {
-                    /*navigateTo(
+                  onPressed: StoreAppCubit.get(context)
+                      .orders.any((element) => element.productId==model.productId)
+                      ? () {}
+                      : () {
+                    navigateTo(
                         context,
                         OrderDetailsScreen(
-                          price: price,
-                          title: title,
-                          quantity: quantity,
-                          imageUrl: imageUrl,
-                          productId: productId,
-                          subTotal: subTotal,
-                          id: id,
-                        ));*/
+                          price: model.price,
+                          cartId: model.cartId,
+                          title: model.title,
+                          quantity: model.quantity,
+                          imageUrl: model.imageUrl,
+                          productId: model.productId,
+                        ));
                   },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -338,7 +352,10 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                   ),
                   color: Colors.redAccent,
                   child: Text(
-                    'اتمام الطلب',
+                    StoreAppCubit.get(context)
+                        .orders.any((element) => element.productId==model.productId)
+                        ? 'تم تأكيد الطلب'
+                        : 'تأكيد الطلب',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Theme.of(context).textSelectionColor,
@@ -348,8 +365,34 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 15,
               ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: RaisedButton(
+                  onPressed: () {
+                    launch("tel:01098570050");
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(color: Colors.redAccent),
+                  ),
+                  color: Colors.redAccent,
+                  child: Text(
+                    StoreAppCubit.get(context)
+                        .orders.any((element) => element.productId==model.productId)
+                        ? 'للسؤال بشأن الطلب'
+                        : 'الاتصال للطلب',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context).textSelectionColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20,),
             ],
           ),
           margin: const EdgeInsets.only(

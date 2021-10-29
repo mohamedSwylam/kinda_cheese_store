@@ -70,6 +70,7 @@ class OrderConfirmDialog extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: RaisedButton(
                         onPressed:  ()  {
+                          StoreAppCubit.get(context).selectedHome();
                           navigateTo(context, StoreLayout());
                         },
                         shape: RoundedRectangleBorder(

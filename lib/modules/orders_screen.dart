@@ -17,6 +17,8 @@ import 'package:store_app/modules/product_details.dart';
 import 'package:store_app/shared/components/components.dart';
 import 'package:store_app/styles/colors/colors.dart';
 
+import 'empty_order.dart';
+
 class OrderScreen extends StatelessWidget {
 
   @override
@@ -24,7 +26,11 @@ class OrderScreen extends StatelessWidget {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return  Scaffold(
+          return  StoreAppCubit.get(context).orders.isEmpty
+              ? Scaffold(
+            body: EmptyOrder(),
+          )
+              : Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.tealAccent,
               elevation: 0,

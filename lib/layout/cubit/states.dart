@@ -8,6 +8,8 @@ class StoreAppBottomBarSearchState extends StoreAppStates {}
 
 class StoreAppBottomBarHomeState extends StoreAppStates {}
 
+class StoreAppBottomBarCartState extends StoreAppStates {}
+
 class StoreAppChangeThemeModeState extends StoreAppStates {}
 
 class StoreAppAddToCartSuccessState extends StoreAppStates {}
@@ -142,3 +144,15 @@ class RemoveFromCartLoadingStates extends StoreAppStates {}
 class RemoveFromCartSuccessStates extends StoreAppStates {}
 
 class RemoveFromCartErrorStates extends StoreAppStates {}
+
+class AddCartItemByOneLoadingStates extends StoreAppStates {}
+
+class AddCartItemByOneSuccessStates extends StoreAppStates {}
+
+class AddCartItemByOneErrorStates extends StoreAppStates {}
+
+class ReduceCartItemByOneLoadingStates extends StoreAppStates {}
+
+class ReduceCartItemByOneSuccessStates extends StoreAppStates {}
+
+class ReduceCartItemByOneErrorStates extends StoreAppStates {}

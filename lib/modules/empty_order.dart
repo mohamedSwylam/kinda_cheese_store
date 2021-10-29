@@ -3,7 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:store_app/modules/feeds.dart';
 import 'package:store_app/shared/components/components.dart';
 
-class EmptyWishList extends StatelessWidget {
+class EmptyOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
